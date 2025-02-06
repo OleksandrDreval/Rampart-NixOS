@@ -1,0 +1,3 @@
+[submodule "developers-den"]
+	path = developers-den
+	url = https://github.com/OleksandrDreval/NixOS-config.git
