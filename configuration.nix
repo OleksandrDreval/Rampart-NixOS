@@ -10,7 +10,7 @@
       ./hardware-configuration.nix
     ];
 
-  # 1, 2, 3, 4 Bootloader.
+# Bootloader:
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = false;
   boot.loader.efi.efiSysMountPoint = "/boot";
@@ -18,23 +18,21 @@
   boot.initrd.luks.devices."luks-911765a7-6ecb-4c99-88ef-b44c26fd3583".device = "/dev/disk/by-uuid/911765a7-6ecb-4c99-88ef-b44c26fd3583";
 
 
-  # Networking:
-  # 1 Define your hostname. Generic hostname is still recommended.
+# Networking:
+# Define your hostname. Generic hostname is still recommended.
   networking.hostName = "nixos";
 
-  # 2 Enables wireless support via wpa_supplicant.
-  # networking.wireless.enable = true;
-
+# Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;
   networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
 
-  # Configure network proxy if necessary.
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+# Configure network proxy if necessary.
+# networking.proxy.default = "http://user:password@proxy:port/";
+# networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
 
-  # 1 Set your time zone.
-  # 2, 3 Select internationalisation properties.
+# 1 Set your time zone.
+# 2, 3, 4 Select internationalisation properties.
   time.timeZone = "Europe/Kyiv";
   time.hardwareClockInLocalTime = true;
 
@@ -42,31 +40,31 @@
   i18n.extraLocaleSettings = { LC_ALL = "uk_UA.UTF-8"; };
 
 
-  # Enable the X11 windowing system.
-  # 1 You can disable this if you're only using the Wayland session.
-  # 2 Set your keyboard layout if different from "us"
+# Enable the X11 windowing system.
+# 1 You can disable this if you're only using the Wayland session.
+# 2 Set your keyboard layout if different from "us"
   services.xserver.enable = true;
   services.xserver.xkb.options = "layout:us,ua";
 
-  # Enable touchpad support (enabled default in most desktopManager).
+# Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
 
 
-  # 1 Enable the KDE Plasma Desktop Environment.
-  # 2 Enable Plasma
+# 1 Enable the KDE Plasma Desktop Environment.
+# 2 Enable Plasma
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
 
 
-  # Configure console keymap.
+# Configure console keymap.
   console.keyMap = "us";
 
 
-  # Enable CUPS to print documents.
+# Enable CUPS to print documents.
   services.printing.enable = false;
 
-  # Sound:
-  # Enable PipeWire instead of PulseAudio
+# Sound:
+# Enable PipeWire instead of PulseAudio
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -79,72 +77,72 @@
   security.rtkit.enable = true;
 
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+# Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.oleksandr = {
     isNormalUser = true;
     description = "oleksandr";
-    extraGroups = [  "wheel" "video" "audio" "networkmanager" "libvirtd" "kvm" ]; # Correct group order is crucial
+    extraGroups = [  "wheel" "video" "audio" "networkmanager" "libvirtd" "kvm" ];
     packages = with pkgs; [
       telegram-desktop
       discord
     ];
   };
 
+# Limited sudo access
   security.sudo.enable = true;
   security.sudo.extraConfig = ''
     %wheel ALL=(ALL) /usr/bin/systemctl poweroff,/usr/bin/systemctl reboot,/run/current-system/sw/bin/nixos-rebuild,/run/current-system/sw/bin/home-manager
-  ''; # Limited sudo access
+  '';
 
 
-  # Lock the root account
+# Lock the root account
   users.users.root.hashedPassword = pkgs.lib.mkForce "";
 
-  # Core dumps disabled
-  systemd.services.coredump.enable = true;
+# Core dumps disabled
+  systemd.services.coredump.enable = false;
 
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
+# List packages installed in system profile. To search, run:
+# $ nix search wget
   environment.systemPackages = with pkgs; [
+
+    sbctl
 
     kate
 
     pipewire
     wireplumber
 
-  # Virtualization packages
+# Virtualization packages
     libvirt
     pciutils
     virt-manager
     qemu
     kmod
 
-  # Another packages
+# Another packages
     firefox
     chromium
     vim # Or emacs, neovim etc.
     wget
-
-  # vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  # wget
   ];
 
-  # Allow unfree packages
-  # Remove if you don't need any unfree software
-  # Or move to environment.systemPackages if a specific unfree package is needed
+# Allow unfree packages
+# Remove if you don't need any unfree software
+# Or move to environment.systemPackages if a specific unfree package is needed
   nixpkgs.config.allowUnfree = true;
 
 
-  # Virtualization:
+# Virtualization:
   programs.virt-manager.enable = true;
-  # 1 Disable Virtualbox
-  # 3 Enable KVM via kernel modules, not this option
+
+# Enable KVM via kernel modules, not this option
   users.groups.libvirtd.members = ["oleksandr"];
   virtualisation.libvirtd.enable = true;
   virtualisation.spiceUSBRedirection.enable = true;
 
-  # 1 Microcode updates enabled
-  # 3 Double-check IOMMU setting for your AMD CPU. Use appropriate IOMMU setting for AMD. Check your motherboard documentation if needed (e.g., "amd_iommu=pt").
+# Microcode updates enabled
+# Double-check IOMMU setting for your AMD CPU. Use appropriate IOMMU setting for AMD. Check your motherboard documentation if needed (e.g., "amd_iommu=pt").
   hardware.cpu.amd.updateMicrocode = true;
 
   boot.kernelModules = [ "kvm-amd" "kvm-intel" ];
@@ -153,7 +151,6 @@
       "slab_nomerge"
       "amd_iommu=pt"
   ];
-
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
