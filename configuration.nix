@@ -65,16 +65,18 @@
 
 # Sound:
 # Enable PipeWire instead of PulseAudio
+  security.rtkit.enable = true;
+  hardware.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
+    alsa.support32Bit = true;
     pulse.enable = true;
+    jack.enable = true;
     wireplumber.enable = true;
   };
 
   hardware.pulseaudio.enable = false;
-
-  security.rtkit.enable = true;
 
 
 # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -103,6 +105,8 @@
 
 
 # List packages installed in system profile. To search, run:
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
 # $ nix search wget
   environment.systemPackages = with pkgs; [
 
