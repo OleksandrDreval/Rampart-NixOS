@@ -1,0 +1,26 @@
+{
+  # LUKS device UUIDs
+  # Replace with your actual UUIDs from: ls -l /dev/disk/by-uuid/
+  luksSwapUUID = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+  luksRootUUID = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+  
+  # Boot partition UUID
+  bootPartitionUUID = "XXXX-XXXX";
+  
+  # Network configuration
+  hostname = "nixos";
+  
+  # User configuration
+  mainUser = "user";
+  mainUserDescription = "NixOS User";
+  
+  # Localization
+  # See available timezones: timedatectl list-timezones
+  timeZone = "Europe/London";
+  # See available locales: localectl list-locales
+  defaultLocale = "en_US.UTF-8";
+  # See available keymaps: localectl list-keymaps
+  consoleKeyMap = "us";
+  # X11 keyboard layouts (comma-separated, e.g., "us,de,fr")
+  xkbLayout = "us";
+}
