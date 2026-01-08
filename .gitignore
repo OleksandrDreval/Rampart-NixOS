@@ -4,3 +4,17 @@ result-*
 
 # Ignore automatically generated direnv output
 .direnv
+
+# Ignore instructions files
+.github/instructions/*.md
+
+# Sensitive configuration files
+modules/variables.nix
+modules/hardware-configuration.nix
+modules/veracrypt.nix
+
+# Backup files
+*.bak
+
+# Ignore VSCode settings
+.vscode/*
