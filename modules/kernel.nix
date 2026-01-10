@@ -3,7 +3,7 @@
 {
   # Kernel configuration
   boot.kernelPackages = pkgs.linuxPackages_latest;
-
+  
   # Security-focused kernel parameters
   boot.kernelParams = [
     "amd_iommu=force_isolation"
@@ -39,5 +39,21 @@
     "stf_barrier=on"
     "usercopy=strict"
     "vsyscall=none"
+  ];
+
+  # Blacklisted kernel modules for security
+  boot.blacklistedKernelModules = [
+    # Physical Interfaces with DMA attack vectors
+    "bluetooth"    # BlueBorne, KNOB, BLURtooth vulnerabilities
+    "thunderbolt"  # Thunderspy, DMA attacks
+    
+    # Network File Systems with security concerns
+    "cifs"         # SMB/CIFS - EternalBlue, WannaCry, numerous CVEs
+    "nfs"          # Network File System v2 - weak security
+    "nfsv3"        # Network File System v3 - authentication issues
+    "nfsv4"        # Network File System v4 - complex, potential vulnerabilities
+    
+    # Modern but less secure file systems
+    "f2fs"         # Flash-Friendly FS - less battle-tested than ext4
   ];
 }
