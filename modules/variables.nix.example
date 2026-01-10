@@ -14,6 +14,10 @@
   mainUser = "user";
   mainUserDescription = "NixOS User";
   
+  # Boot configuration
+  bootTimeout = 5;  # Bootloader timeout in seconds
+  bootConfigLimit = 5;  # Number of boot configurations to keep (recommended: 3-10)
+  
   # Localization
   # See available timezones: timedatectl list-timezones
   timeZone = "Europe/London";
