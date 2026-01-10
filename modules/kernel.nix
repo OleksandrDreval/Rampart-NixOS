@@ -56,4 +56,9 @@
     # Modern but less secure file systems
     "f2fs"         # Flash-Friendly FS - less battle-tested than ext4
   ];
+
+  # Lock kernel module loading after boot
+  # Prevents loading new modules after system initialization
+  # Only modules in boot.kernelModules can be loaded
+  security.lockKernelModules = true;
 }
