@@ -61,4 +61,8 @@
   # Prevents loading new modules after system initialization
   # Only modules in boot.kernelModules can be loaded
   security.lockKernelModules = true;
+
+  # Prevent replacing the running kernel image via kexec
+  # Blocks kernel replacement attacks and rootkit injection
+  security.protectKernelImage = true;
 }
