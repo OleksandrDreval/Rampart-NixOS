@@ -6,39 +6,39 @@
   
   # Security-focused kernel parameters
   boot.kernelParams = [
-    "amd_iommu=force_isolation"
-    "apparmor=1"
-    "audit=1"
-    "debugfs=off"
-    "efi=disable_early_pci_dma"
-    "ia32_emulation=0"
-    "init_on_alloc=1"
-    "init_on_free=1"
-    "iommu=force"
-    "iommu.passthrough=0"
-    "iommu.strict=1"
-    "kernel.printk=\"3 4 1 3\""
-    "l1tf=full,force"
-    "lockdown=confidentiality:integrity"
-    "mds=full,nosmt"
-    "mitigations=auto,nosmt"
-    "module.sig_enforce=1"
-    "oops=panic"
-    "page_alloc.shuffle=1"
-    "page_poison=1"
-    "pti=on"
-    "quiet"
-    "random.trust_bootloader=off"
-    "random.trust_cpu=off"
-    "randomize_kstack_offset=on"
+    "amd_iommu=force_isolation"           # Force AMD IOMMU isolation to protect devices from DMA attacks
+    "apparmor=1"                          # Enable AppArmor mandatory access control
+    "audit=1"                             # Enable auditing for AppArmor
+    "debugfs=off"                         # Disable debugfs to prevent system information leakage
+    "efi=disable_early_pci_dma"           # Disable early PCI DMA to protect against boot-time attacks
+    "ia32_emulation=0"                    # Disable 32-bit emulation to reduce attack surface
+    "init_on_alloc=1"                     # Initialize memory on allocation to prevent data leaks
+    "init_on_free=1"                      # Initialize memory on free to protect confidentiality
+    "iommu=force"                         # Force enable IOMMU for I/O device isolation
+    "iommu.passthrough=0"                 # Disable IOMMU passthrough mode for additional checks
+    "iommu.strict=1"                      # Enable strict IOMMU mode for enhanced memory access control
+    "kernel.printk=\"3 4 1 3\""           # Configure kernel logging level to reduce information leakage
+    "l1tf=full,force"                     # Full protection against L1 Terminal Fault attacks
+    "lockdown=confidentiality:integrity"  # Kernel lockdown mode to maintain confidentiality and integrity
+    "mds=full,nosmt"                      # Protection against MDS attacks with SMT disabled
+    "mitigations=auto,nosmt"              # Auto-apply vulnerability patches with SMT disabled
+    "module.sig_enforce=1"                # Require kernel module signatures for loading
+    "oops=panic"                          # Panic on critical error to prevent unsafe operation
+    "page_alloc.shuffle=1"                # Randomize page allocation to complicate exploits
+    "page_poison=1"                       # Fill freed memory to prevent data recovery
+    "pti=on"                              # Page Table Isolation for Meltdown protection
+    "quiet"                               # Reduce boot message output
+    "random.trust_bootloader=off"         # Disable trust in bootloader for random number generation
+    "random.trust_cpu=off"                # Disable trust in CPU for random number generation
+    "randomize_kstack_offset=on"          # Randomize kernel stack offset to complicate exploitation
     # Note: "security=apparmor" removed - use security.apparmor.enable in security module instead
-    "slab_nomerge"
-    "slub_debug=FZP"
-    "spec_store_bypass_disable=on"
-    "spectre_v2=on"
-    "stf_barrier=on"
-    "usercopy=strict"
-    "vsyscall=none"
+    "slab_nomerge"                        # Disable slab merging to prevent cross-object leaks
+    "slub_debug=FZP"                      # SLUB debugging to detect memory errors
+    "spec_store_bypass_disable=on"        # Protection against Speculative Store Bypass attacks
+    "spectre_v2=on"                       # Protection against Spectre v2 attacks
+    "stf_barrier=on"                      # Store-to-Load Forwarding barrier for speculative attack protection
+    "usercopy=strict"                     # Strict validation of data copying between kernel and user space
+    "vsyscall=none"                       # Disable vsyscall to eliminate predictable memory addresses
   ];
 
   # Blacklisted kernel modules for security
