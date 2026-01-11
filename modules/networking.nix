@@ -17,8 +17,8 @@ in
   # DNS servers
   networking.nameservers = [
     "1.1.1.1" # Cloudflare
-    "8.8.8.8" # Google Public DNS
     "9.9.9.9" # Quad9
+    "8.8.8.8" # Google Public DNS
   ];
 
   # Wireless support via wpa_supplicant (disabled by default)
