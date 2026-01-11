@@ -12,4 +12,8 @@ in
 
   # LUKS encryption for swap
   boot.initrd.luks.devices."luks-${vars.luksSwapUUID}".device = "/dev/disk/by-uuid/${vars.luksSwapUUID}";
+
+  # DMA attack mitigation during early boot
+  # Blocks Thunderbolt/USB4 access in initrd to protect LUKS keys
+  boot.initrd.luks.mitigateDMAAttacks = true;
 }
