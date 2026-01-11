@@ -15,8 +15,12 @@
   mainUserDescription = "NixOS User";
   
   # Boot configuration
-  bootTimeout = 5;  # Bootloader timeout in seconds
+  bootTimeout = 5;      # Bootloader timeout in seconds
   bootConfigLimit = 5;  # Number of boot configurations to keep (recommended: 3-10)
+  
+  # Sudo configuration
+  sudoPasswdTimeout = 25;    # Password timeout in seconds (time to enter password)
+  sudoTimestampTimeout = 5;  # Timestamp timeout in minutes (sudo cache duration)
   
   # Localization
   # See available timezones: timedatectl list-timezones
