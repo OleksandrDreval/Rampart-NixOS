@@ -8,6 +8,12 @@ in
   networking.hostName = vars.hostname;
   networking.networkmanager.enable = true;
 
+  # MAC address randomization for privacy
+  # stable-ssid: Different MAC for each WiFi network, stable within network
+  # stable: Hashed MAC address, different from hardware MAC
+  networking.networkmanager.wifi.macAddress = "stable-ssid";
+  networking.networkmanager.ethernet.macAddress = "stable";
+
   # Wireless support via wpa_supplicant (disabled by default)
   # networking.wireless.enable = true;
 
