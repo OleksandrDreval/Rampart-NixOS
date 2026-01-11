@@ -14,6 +14,13 @@ in
   networking.networkmanager.wifi.macAddress = "stable-ssid";
   networking.networkmanager.ethernet.macAddress = "stable";
 
+  # DNS servers
+  networking.nameservers = [
+    "1.1.1.1" # Cloudflare
+    "8.8.8.8" # Google Public DNS
+    "9.9.9.9" # Quad9
+  ];
+
   # Wireless support via wpa_supplicant (disabled by default)
   # networking.wireless.enable = true;
 
