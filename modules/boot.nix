@@ -7,7 +7,7 @@ in
   # Bootloader configuration
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = vars.bootConfigLimit;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.efi.canTouchEfiVariables = false;
   boot.loader.timeout = vars.bootTimeout;
 
   # LUKS encryption for swap
