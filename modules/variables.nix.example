@@ -13,6 +13,9 @@
   # User configuration
   mainUser = "user";
   mainUserDescription = "NixOS User";
+  # Generate password hash with: mkpasswd -m sha-512
+  # Or use initialHashedPassword if you want to set password later via passwd (requires mutableUsers = true)
+  mainUserHashedPassword = "$6$rounds=656000$...";  # Replace with your actual password hash
   
   # Boot configuration
   bootTimeout = 5;      # Bootloader timeout in seconds
