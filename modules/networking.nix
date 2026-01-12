@@ -9,10 +9,13 @@ in
   networking.networkmanager.enable = true;
 
   # MAC address randomization for privacy
-  # stable-ssid: Different MAC for each WiFi network, stable within network
-  # stable: Hashed MAC address, different from hardware MAC
-  networking.networkmanager.wifi.macAddress = "stable-ssid";
-  networking.networkmanager.ethernet.macAddress = "stable";
+  # Disable MAC randomization during WiFi network scanning
+  # Prevents scan-time MAC changes from interfering with connection MAC settings
+  networking.networkmanager.wifi.scanRandMacAddress = false;
+
+  # MAC address randomization: Generate new MAC on each connection/reboot for maximum privacy
+  networking.networkmanager.wifi.macAddress = "random";
+  networking.networkmanager.ethernet.macAddress = "random";
 
   # DNS servers
   networking.nameservers = [
