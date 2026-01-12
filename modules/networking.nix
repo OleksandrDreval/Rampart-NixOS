@@ -32,9 +32,33 @@ in
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Firewall configuration
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # networking.firewall.enable = false;
+  # "Zero Trust" approach - block all incoming, allow all outgoing
+  # Safe for laptops that connect to untrusted networks (public WiFi, hotels, airports)
+  networking.firewall = {
+    enable = true;  # Enable firewall protection
+    
+    # Block all incoming connections by default (not a server)
+    # allowedTCPPorts = [ ];  # No open TCP ports
+    # allowedUDPPorts = [ ];  # No open UDP ports
+    
+    # ICMP (ping) configuration
+    allowPing = true;  # Allow ping for network diagnostics (safe, informational only)
+    
+    # Connection tracking and logging
+    logRefusedConnections = true;  # Log blocked connections for security monitoring
+    logRefusedPackets = false;     # Don't log individual packets (reduces noise)
+    
+    # Packet rejection method
+    rejectPackets = true;  # Send REJECT instead of DROP (faster feedback for legitimate traffic)
+    
+    # Outgoing connections - allow all (laptops need to connect to various services)
+    # This is the default behavior, no restriction on outgoing traffic
+  };
+
+  # Additional firewall rules can be added here if needed:
+  # networking.firewall.extraCommands for custom iptables/nftables rules
+  # networking.firewall.allowedTCPPortRanges for port ranges
+  # networking.firewall.interfaces for per-interface rules
 
   # Universal network security parameters
   # "Trust no network" approach - safe for public WiFi, hotels, airports, untrusted networks
