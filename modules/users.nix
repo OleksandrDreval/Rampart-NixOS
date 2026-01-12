@@ -4,10 +4,16 @@ let
   vars = import ./variables.nix;
 in
 {
+  # Immutable users configuration
+  # Users can only be managed through NixOS configuration, not via useradd/passwd commands
+  # This provides security by preventing unauthorized user modifications
+  users.mutableUsers = false;
+
   # Define user accounts
   users.users.${vars.mainUser} = {
     isNormalUser = true;
     description = vars.mainUserDescription;
+    hashedPassword = vars.mainUserHashedPassword;  # Password hash from variables
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       # Add user-specific packages here
