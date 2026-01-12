@@ -37,6 +37,10 @@ in
   networking.firewall = {
     enable = true;  # Enable firewall protection
     
+    # Connection tracking helpers (FTP, SIP, IRC, etc.)
+    # Explicitly disable to prevent security vulnerabilities in old protocol helpers
+    autoLoadConntrackHelpers = false;  # Don't auto-load conntrack helpers (security)
+    
     # Block all incoming connections by default (not a server)
     # allowedTCPPorts = [ ];  # No open TCP ports
     # allowedUDPPorts = [ ];  # No open UDP ports
