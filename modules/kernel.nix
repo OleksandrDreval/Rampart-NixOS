@@ -4,6 +4,40 @@
   # Kernel configuration
   boot.kernelPackages = pkgs.linuxPackages_latest;
   
+  # Pre-load essential modules at boot before lockKernelModules
+  # These modules are needed for system operation and security
+  boot.kernelModules = [
+    # WiFi crypto modules (WPA/WPA2/WPA3 authentication)
+    "ccm"          # Counter with CBC-MAC mode for WPA2-CCMP
+    "ctr"          # Counter mode for AES
+    "gcm"          # Galois/Counter Mode for WPA3
+    "aesni_intel"  # AES-NI hardware acceleration (Intel/AMD)
+    "crypto_simd"  # SIMD crypto operations
+    "cryptd"       # Crypto daemon for async operations
+    
+    # Additional crypto modules for comprehensive support
+    "aes_generic"  # Generic AES implementation (fallback)
+    "sha256"       # SHA-256 hash (required for signatures)
+    "sha512"       # SHA-512 hash (for enhanced security)
+    "hmac"         # HMAC for message authentication
+    "ecb"          # ECB mode (used by some crypto operations)
+    "cbc"          # CBC mode (legacy but still needed)
+    "xts"          # XTS mode (for disk encryption compatibility)
+    
+    # Core network modules
+    "af_packet"    # Packet socket support (required for NetworkManager)
+    "cfg80211"     # Wireless configuration API
+    "mac80211"     # Generic IEEE 802.11 networking stack
+    
+    # Filesystem modules (if using encrypted partitions)
+    "dm_mod"       # Device mapper (for LUKS)
+    "dm_crypt"     # Device mapper crypto target (for LUKS)
+    
+    # Essential system modules
+    "loop"         # Loopback device support
+    "overlay"      # Overlay filesystem (for containers/nix store)
+  ];
+  
   # Security-focused kernel parameters
   boot.kernelParams = [
     "amd_iommu=force_isolation"           # Force AMD IOMMU isolation to protect devices from DMA attacks
@@ -86,9 +120,8 @@
 
   # Lock kernel module loading after boot
   # Prevents loading new modules after system initialization
-  # Only modules in boot.kernelModules can be loaded
-  # DISABLED
-  security.lockKernelModules = false;
+  # Safe to enable: WiFi crypto modules pre-loaded in boot.kernelModules
+  security.lockKernelModules = true;
 
   # Prevent replacing the running kernel image via kexec
   # Blocks kernel replacement attacks and rootkit injection
