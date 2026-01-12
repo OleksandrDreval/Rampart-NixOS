@@ -9,6 +9,10 @@ in
   # This provides security by preventing unauthorized user modifications
   users.mutableUsers = false;
 
+  # Lock root account - prevent direct root login
+  # Root can still be accessed via sudo -i or sudo su
+  users.users.root.hashedPassword = "!";
+
   # Define user accounts
   users.users.${vars.mainUser} = {
     isNormalUser = true;
