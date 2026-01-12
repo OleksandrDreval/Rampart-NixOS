@@ -19,7 +19,7 @@
     "iommu.strict=1"                      # Enable strict IOMMU mode for enhanced memory access control
     "kernel.printk=\"3 4 1 3\""           # Configure kernel logging level to reduce information leakage
     "l1tf=full,force"                     # Full protection against L1 Terminal Fault attacks
-    "lockdown=confidentiality:integrity"  # Kernel lockdown mode to maintain confidentiality and integrity
+    "lockdown=integrity"                  # Kernel lockdown - integrity mode (allows signed modules, crypto operations)
     "mds=full,nosmt"                      # Protection against MDS attacks with SMT disabled
     "mitigations=auto,nosmt"              # Auto-apply vulnerability patches with SMT disabled
     "module.sig_enforce=1"                # Require kernel module signatures for loading
@@ -87,7 +87,8 @@
   # Lock kernel module loading after boot
   # Prevents loading new modules after system initialization
   # Only modules in boot.kernelModules can be loaded
-  security.lockKernelModules = true;
+  # DISABLED
+  security.lockKernelModules = false;
 
   # Prevent replacing the running kernel image via kexec
   # Blocks kernel replacement attacks and rootkit injection
