@@ -19,6 +19,7 @@
       ./modules/users.nix
       ./modules/packages.nix
       ./modules/veracrypt.nix
+      ./modules/ssh.nix
     ];
 
   # This value determines the NixOS release from which the default
