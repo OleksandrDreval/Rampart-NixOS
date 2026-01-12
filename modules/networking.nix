@@ -36,74 +36,83 @@ in
   # networking.firewall.allowedUDPPorts = [ ... ];
   # networking.firewall.enable = false;
 
-  # Network security sysctl parameters
+  # Universal network security parameters
+  # "Trust no network" approach - safe for public WiFi, hotels, airports, untrusted networks
+  # All settings are reasonable, don't break connections, and provide real security
   boot.kernel.sysctl = {
-    # Network security - BPF
-    "net.core.bpf_jit_enable"                     = 0;  # Disable BPF JIT compilation to prevent JIT spraying attacks
-    "net.core.bpf_jit_harden"                     = 2;  # Maximum BPF JIT hardening with additional checks
+    # IPv4 Critical Security
     
-    # IPv4 security - All interfaces
-    "net.ipv4.conf.all.accept_redirects"          = 0;  # Ignore ICMP redirect messages to prevent route hijacking
-    "net.ipv4.conf.all.accept_source_route"       = 0;  # Disable source-routed packets to prevent route spoofing
-    "net.ipv4.conf.all.arp_announce"              = 2;  # Best mode for ARP announce to reduce information leakage
-    "net.ipv4.conf.all.drop_gratuitous_arp"       = 1;  # Drop gratuitous ARP to prevent ARP spoofing
-    "net.ipv4.conf.all.forwarding"                = 0;  # Disable IP forwarding - not a router
-    "net.ipv4.conf.all.log_martians"              = 1;  # Log packets with impossible addresses
-    "net.ipv4.conf.all.rp_filter"                 = 1;  # Enable reverse path filtering to prevent IP spoofing
-    "net.ipv4.conf.all.secure_redirects"          = 0;  # Ignore secure ICMP redirects
-    "net.ipv4.conf.all.send_redirects"            = 0;  # Don't send ICMP redirects to prevent topology disclosure
-    "net.ipv4.conf.all.shared_media"              = 0;  # Disable shared media for security
+    # Source routing and redirects protection (prevents route hijacking and MitM)
+    "net.ipv4.conf.all.accept_source_route"       = 0;  # Block source-routed packets (IP spoofing)
+    "net.ipv4.conf.default.accept_source_route"   = 0;
+    "net.ipv4.conf.all.accept_redirects"          = 0;  # Block ICMP redirects (route hijacking)
+    "net.ipv4.conf.default.accept_redirects"      = 0;
+    "net.ipv4.conf.all.secure_redirects"          = 0;  # Block even "secure" redirects
+    "net.ipv4.conf.default.secure_redirects"      = 0;
+    "net.ipv4.conf.all.send_redirects"            = 0;  # Don't send redirects (info disclosure)
+    "net.ipv4.conf.default.send_redirects"        = 0;
     
-    # IPv4 security - Default interface
-    "net.ipv4.conf.default.accept_redirects"      = 0;  # Ignore ICMP redirect messages on new interfaces
-    "net.ipv4.conf.default.accept_source_route"   = 0;  # Disable source routing on new interfaces
-    "net.ipv4.conf.default.arp_announce"          = 2;  # Best ARP announce mode for new interfaces
-    "net.ipv4.conf.default.arp_ignore"            = 1;  # Reply to ARP only for local addresses
-    "net.ipv4.conf.default.drop_gratuitous_arp"   = 1;  # Drop gratuitous ARP on new interfaces
-    "net.ipv4.conf.default.forwarding"            = 0;  # Disable forwarding on new interfaces
-    "net.ipv4.conf.default.log_martians"          = 1;  # Log martian packets on new interfaces
-    "net.ipv4.conf.default.rp_filter"             = 1;  # Enable reverse path filtering on new interfaces
-    "net.ipv4.conf.default.secure_redirects"      = 0;  # Ignore secure redirects on new interfaces
-    "net.ipv4.conf.default.send_redirects"        = 0;  # Don't send redirects on new interfaces
-    "net.ipv4.conf.default.shared_media"          = 0;  # Disable shared media on new interfaces
+    # IP forwarding (explicitly disable - we're not a router)
+    "net.ipv4.conf.all.forwarding"                = 0;  # No packet forwarding
+    "net.ipv4.conf.default.forwarding"            = 0;
+    "net.ipv4.ip_forward"                         = 0;  # Global forwarding disable
     
-    # IPv4 ICMP security
-    "net.ipv4.icmp_echo_ignore_all"               = 1;  # Ignore all ping requests to make system stealthy
-    "net.ipv4.icmp_echo_ignore_broadcasts"        = 1;  # Ignore broadcast pings to prevent smurf attacks
-    "net.ipv4.icmp_ignore_bogus_error_responses"  = 1;  # Ignore malformed ICMP error messages
-    "net.ipv4.ip_forward"                         = 0;  # Disable IP forwarding globally
+    # ARP protection (critical in public WiFi - prevents ARP spoofing/poisoning)
+    "net.ipv4.conf.all.arp_announce"              = 2;  # Best mode - reply only for local IPs
+    "net.ipv4.conf.default.arp_announce"          = 2;
+    "net.ipv4.conf.all.arp_ignore"                = 1;  # Reply to ARP only for local addresses
+    "net.ipv4.conf.default.arp_ignore"            = 1;
+    "net.ipv4.conf.all.drop_gratuitous_arp"       = 1;  # Drop gratuitous ARP (prevents ARP cache poisoning)
+    "net.ipv4.conf.default.drop_gratuitous_arp"   = 1;
     
-    # IPv4 TCP security
-    "net.ipv4.tcp_dsack"                          = 0;  # Disable D-SACK to reduce information leakage
-    "net.ipv4.tcp_fack"                           = 0;  # Disable Forward Acknowledgment to reduce info leakage
-    "net.ipv4.tcp_rfc1337"                        = 1;  # Protect against TIME-WAIT assassination attacks
-    "net.ipv4.tcp_sack"                           = 0;  # Disable SACK to reduce information leakage
-    "net.ipv4.tcp_syncookies"                     = 1;  # Enable SYN cookies to protect against SYN flood attacks
-    "net.ipv4.tcp_timestamps"                     = 1;  # Enable TCP timestamps for better performance
+    # Reverse path filtering (anti-spoofing)
+    "net.ipv4.conf.all.rp_filter"                 = 1;  # Loose mode (safe for WiFi, asymmetric routing)
+    "net.ipv4.conf.default.rp_filter"             = 1;
     
-    # IPv6 security - All interfaces
-    "net.ipv6.conf.all.accept_ra"                 = 0;  # Ignore Router Advertisements to prevent autoconfiguration
+    # ICMP protection
+    "net.ipv4.icmp_echo_ignore_broadcasts"        = 1;  # Ignore broadcast pings (smurf attack prevention)
+    "net.ipv4.icmp_ignore_bogus_error_responses"  = 1;  # Ignore malformed ICMP errors
+    
+    # Logging (for security monitoring)
+    "net.ipv4.conf.all.log_martians"              = 1;  # Log packets with impossible source addresses
+    "net.ipv4.conf.default.log_martians"          = 1;
+    
+    # TCP security (protection against attacks)
+    "net.ipv4.tcp_syncookies"                     = 1;  # SYN flood protection (critical!)
+    "net.ipv4.tcp_rfc1337"                        = 1;  # TIME-WAIT assassination protection
+    
+    # IPv6 Critical Security
+    
+    # Source routing and redirects protection
+    "net.ipv6.conf.all.accept_source_route"       = 0;  # Block IPv6 source routing
+    "net.ipv6.conf.default.accept_source_route"   = 0;
+    "net.ipv6.conf.all.accept_redirects"          = 0;  # Block ICMPv6 redirects
+    "net.ipv6.conf.default.accept_redirects"      = 0;
+    
+    # Router Advertisement protection (prevents rogue RA attacks in public WiFi)
+    "net.ipv6.conf.all.accept_ra"                 = 0;  # Don't accept Router Advertisements
+    "net.ipv6.conf.default.accept_ra"             = 0;
     "net.ipv6.conf.all.accept_ra_defrtr"          = 0;  # Don't accept default router from RA
+    "net.ipv6.conf.default.accept_ra_defrtr"      = 0;
     "net.ipv6.conf.all.accept_ra_pinfo"           = 0;  # Don't accept prefix info from RA
+    "net.ipv6.conf.default.accept_ra_pinfo"       = 0;
     "net.ipv6.conf.all.accept_ra_rtr_pref"        = 0;  # Ignore router preference from RA
-    "net.ipv6.conf.all.accept_redirects"          = 0;  # Ignore ICMPv6 redirects
-    "net.ipv6.conf.all.accept_source_route"       = 0;  # Disable IPv6 source routing
-    "net.ipv6.conf.all.autoconf"                  = 0;  # Disable SLAAC autoconfiguration
-    "net.ipv6.conf.all.dad_transmits"             = 0;  # Disable Duplicate Address Detection
-    "net.ipv6.conf.all.forwarding"                = 0;  # Disable IPv6 forwarding - not a router
-    "net.ipv6.conf.all.max_addresses"             = 1;  # Limit IPv6 addresses per interface
-    "net.ipv6.conf.all.router_solicitations"      = 0;  # Don't send Router Solicitation messages
+    "net.ipv6.conf.default.accept_ra_rtr_pref"    = 0;
     
-    # IPv6 security - Default interface
-    "net.ipv6.conf.default.accept_ra_defrtr"      = 0;  # Don't accept default router on new interfaces
-    "net.ipv6.conf.default.accept_ra_pinfo"       = 0;  # Don't accept prefix info on new interfaces
-    "net.ipv6.conf.default.accept_ra_rtr_pref"    = 0;  # Ignore router preference on new interfaces
-    "net.ipv6.conf.default.accept_redirects"      = 0;  # Ignore redirects on new interfaces
-    "net.ipv6.conf.default.accept_source_route"   = 0;  # Disable source routing on new interfaces
-    "net.ipv6.conf.default.autoconf"              = 0;  # Disable autoconfiguration on new interfaces
-    "net.ipv6.conf.default.dad_transmits"         = 0;  # Disable DAD on new interfaces
-    "net.ipv6.conf.default.forwarding"            = 0;  # Disable forwarding on new interfaces
-    "net.ipv6.conf.default.max_addresses"         = 1;  # Limit addresses on new interfaces
-    "net.ipv6.conf.default.router_solicitations"  = 0;  # Don't send RS on new interfaces
+    # SLAAC autoconfiguration protection (prevents address auto-assignment attacks)
+    "net.ipv6.conf.all.autoconf"                  = 0;  # Disable SLAAC autoconfiguration
+    "net.ipv6.conf.default.autoconf"              = 0;
+    "net.ipv6.conf.all.dad_transmits"             = 0;  # Disable DAD (reduces network reconnaissance)
+    "net.ipv6.conf.default.dad_transmits"         = 0;
+    "net.ipv6.conf.all.max_addresses"             = 1;  # Limit IPv6 addresses per interface (DoS prevention)
+    "net.ipv6.conf.default.max_addresses"         = 1;
+    
+    # Router Solicitation protection (reduces information disclosure)
+    "net.ipv6.conf.all.router_solicitations"      = 0;  # Don't send RS messages (reduces fingerprinting)
+    "net.ipv6.conf.default.router_solicitations"  = 0;
+    
+    # IPv6 forwarding (explicitly disable)
+    "net.ipv6.conf.all.forwarding"                = 0;  # Not a router
+    "net.ipv6.conf.default.forwarding"            = 0;
   };
 }
