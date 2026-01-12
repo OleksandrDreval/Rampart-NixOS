@@ -28,7 +28,8 @@ in
   # Sudo security configuration
   security.sudo = {
     enable = true;
-    execWheelOnly = true;  # Only wheel group members can use sudo
+    execWheelOnly = true;       # Only wheel group members can use sudo
+    wheelNeedsPassword = true;  # Wheel group users must provide password for sudo
     extraConfig = ''
       Defaults insults                                                  # Fun insults for wrong passwords
       Defaults passwd_timeout=${toString vars.sudoPasswdTimeout}        # Time to enter password (seconds)
