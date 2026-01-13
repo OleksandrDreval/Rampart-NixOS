@@ -126,4 +126,9 @@
   # Prevent replacing the running kernel image via kexec
   # Blocks kernel replacement attacks and rootkit injection
   security.protectKernelImage = true;
+  
+  # Disable unprivileged user namespaces
+  # Prevents container escape attacks and namespace-based exploits
+  # Note: This may break Flatpak and rootless containers
+  security.unprivilegedUsernsClone = false;
 }
