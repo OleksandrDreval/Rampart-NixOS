@@ -21,6 +21,7 @@
       ./modules/veracrypt.nix
       ./modules/nixos-permissions.nix
       ./modules/ssh.nix
+      ./modules/virtualisation.nix
     ];
 
   # This value determines the NixOS release from which the default
