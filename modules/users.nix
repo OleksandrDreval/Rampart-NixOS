@@ -38,6 +38,9 @@ in
       Defaults env_reset                                                # Reset environment to secure baseline
       Defaults secure_path="/run/wrappers/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin"  # Secure PATH
       Defaults !visiblepw                                               # Never allow sudo if password not required
+      # Defaults requiretty                 # Require TTY (prevents some attacks) - COMMENTED: may break systemd services, cron jobs, SSH automation
+      Defaults umask=0077                   # Restrictive umask for sudo commands
+      Defaults !root_sudo                   # Root cannot use sudo (must already be root)
     '';
   };
 }
