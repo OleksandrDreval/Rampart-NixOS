@@ -18,7 +18,7 @@ in
     isNormalUser = true;
     description = vars.mainUserDescription;
     hashedPassword = vars.mainUserHashedPassword;  # Password hash from variables
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
     packages = with pkgs; [
       # Add user-specific packages here
       # thunderbird
