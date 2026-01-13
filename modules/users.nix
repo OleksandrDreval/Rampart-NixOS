@@ -35,6 +35,7 @@ in
       Defaults passwd_timeout=${toString vars.sudoPasswdTimeout}        # Time to enter password (seconds)
       Defaults timestamp_timeout=${toString vars.sudoTimestampTimeout}  # Sudo cache duration (minutes)
       Defaults use_pty                                                  # Use PTY for all sudo commands (prevents TTY hijacking)
+      Defaults env_reset                                                # Reset environment to secure baseline
     '';
   };
 }
