@@ -41,6 +41,7 @@ in
       # Defaults requiretty                 # Require TTY (prevents some attacks) - COMMENTED: may break systemd services, cron jobs, SSH automation
       Defaults umask=0077                   # Restrictive umask for sudo commands
       Defaults !root_sudo                   # Root cannot use sudo (must already be root)
+      Defaults logfile="/var/log/sudo.log"  # Log all sudo usage (basic: command, user, time)
     '';
   };
 }
