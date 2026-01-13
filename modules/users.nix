@@ -13,6 +13,13 @@ in
   # Root can still be accessed via sudo -i or sudo su
   users.users.root.hashedPassword = "!";
 
+  # Prevent root login from any TTY (defense in depth with hashedPassword)
+  environment.etc.securetty.text = ''
+    # /etc/securetty: list of terminals on which root is allowed to login.
+    # Empty file = root cannot login from any TTY
+    # Root must be accessed via: sudo -i or sudo su
+  '';
+
   # Define user accounts
   users.users.${vars.mainUser} = {
     isNormalUser = true;
