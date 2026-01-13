@@ -20,6 +20,19 @@
     };
   };
   
+  # Enable virt-manager GUI for VM management
+  programs.virt-manager.enable = true;
+  
+  # Install additional packages for better VM experience
+  environment.systemPackages = with pkgs; [
+    virt-viewer     # Lightweight VM viewer
+    spice           # SPICE protocol for VM display
+    spice-gtk       # GTK client for SPICE
+    spice-protocol  # SPICE protocol headers
+    win-virtio      # Windows VirtIO drivers ISO
+    win-spice       # Windows SPICE guest tools
+  ];
+  
   # L1 data cache flushing for hypervisor security
   # Protects against L1TF/Foreshadow attacks (data leaks between host and guest)
   security.virtualisation.flushL1DataCache = "cond";
