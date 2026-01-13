@@ -36,6 +36,7 @@ in
       Defaults timestamp_timeout=${toString vars.sudoTimestampTimeout}  # Sudo cache duration (minutes)
       Defaults use_pty                                                  # Use PTY for all sudo commands (prevents TTY hijacking)
       Defaults env_reset                                                # Reset environment to secure baseline
+      Defaults secure_path="/run/wrappers/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin"  # Secure PATH
     '';
   };
 }
