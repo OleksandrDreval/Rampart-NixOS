@@ -19,6 +19,7 @@
       ./modules/users.nix
       ./modules/packages.nix
       ./modules/veracrypt.nix
+      ./modules/nixos-permissions.nix
       ./modules/ssh.nix
     ];
 
