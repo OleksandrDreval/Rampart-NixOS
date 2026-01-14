@@ -7,6 +7,27 @@ in
   # Network configuration
   networking.hostName = vars.hostname;
   networking.networkmanager.enable = true;
+  
+  # Use iwd (Intel Wireless Daemon) instead of wpa_supplicant
+  # iwd benefits: modern codebase, better WPA3 support, faster connections, lower battery usage
+  # Note: If enterprise WiFi (EAP-TTLS) fails, revert to wpa_supplicant:
+  #   networking.networkmanager.wifi.backend = "wpa_supplicant";
+  networking.networkmanager.wifi.backend = "iwd";
+  
+  # iwd privacy settings for MAC address randomization
+  networking.wireless.iwd = {
+    enable = true;
+    settings = {
+      General = {
+        # Randomize MAC per-network (different MAC for each SSID)
+        AddressRandomization = "network";
+      };
+      Settings = {
+        # Always randomize address for maximum privacy
+        AlwaysRandomizeAddress = true;
+      };
+    };
+  };
 
   # MAC address randomization for privacy
   # Disable MAC randomization during WiFi network scanning
