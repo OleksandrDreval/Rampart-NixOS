@@ -7,6 +7,8 @@
   # Enable KVM virtualisation support
   virtualisation.libvirtd = {
     enable = true;
+    onBoot = "ignore";        # Don't auto-start VMs on system boot
+    onShutdown = "shutdown";  # Gracefully shutdown VMs on system shutdown
     
     # QEMU configuration
     qemu = {
