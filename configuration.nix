@@ -14,6 +14,7 @@
       ./modules/boot.nix
     # ./modules/boot-secure.nix
       ./modules/kernel.nix
+      ./modules/memory.nix
       ./modules/networking.nix
       ./modules/localization.nix
       ./modules/desktop.nix
