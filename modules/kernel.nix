@@ -75,7 +75,7 @@
     "spec_store_bypass_disable=on"        # Protection against Speculative Store Bypass attacks
     "spectre_v2=on"                       # Protection against Spectre v2 attacks
     "stf_barrier=on"                      # Store-to-Load Forwarding barrier for speculative attack protection
-    "usercopy=strict"                     # Strict validation of data copying between kernel and user space
+    "hardened_usercopy=on"                # Strict validation of data copying between kernel and user space
     "vsyscall=none"                       # Disable vsyscall to eliminate predictable memory addresses
   ];
 
