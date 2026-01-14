@@ -30,9 +30,9 @@ in
   };
 
   # MAC address randomization for privacy
-  # Disable MAC randomization during WiFi network scanning
-  # Prevents scan-time MAC changes from interfering with connection MAC settings
-  networking.networkmanager.wifi.scanRandMacAddress = false;
+  # Enable MAC randomization during WiFi network scanning to prevent tracking
+  # WiFi routers and trackers can monitor probe requests to track physical location
+  networking.networkmanager.wifi.scanRandMacAddress = true;
 
   # MAC address randomization: Generate new MAC on each connection/reboot for maximum privacy
   networking.networkmanager.wifi.macAddress = "random";
