@@ -63,8 +63,8 @@ in
     autoLoadConntrackHelpers = false;  # Don't auto-load conntrack helpers (security)
     
     # Block all incoming connections by default (not a server)
-    # allowedTCPPorts = [ ];  # No open TCP ports
-    # allowedUDPPorts = [ ];  # No open UDP ports
+    allowedTCPPorts = [ ];  # No open TCP ports
+    allowedUDPPorts = [ ];  # No open UDP ports
     
     # ICMP (ping) configuration
     allowPing = true;  # Allow ping for network diagnostics (safe, informational only)
