@@ -5,18 +5,21 @@ let
   
   # Fetch Lanzaboote from GitHub using pkgs.fetchFromGitHub
   # This is the idiomatic NixOS way - cleaner than builtins.fetchTarball
-  lanzaboote = pkgs.fetchFromGitHub {
+  lanzabooteSource = pkgs.fetchFromGitHub {
     owner = "nix-community";
     repo = "lanzaboote";
     rev = "v1.0.0";  # Latest stable release
     sha256 = "17srvx92f0xymayfislm5d87bjd6n1p80s350my8si737iaa16a4";
     # To update: change rev, then run nixos-rebuild and it will show correct hash
   };
+  
+  # Import Lanzaboote package (returns attrset with nixosModules)
+  lanzaboote = import lanzabooteSource { inherit pkgs; };
 in
 { 
   imports = [
-    # Import Lanzaboote module
-    "${lanzaboote}/nix/modules/lanzaboote.nix"
+    # Import Lanzaboote module (official way)
+    lanzaboote.nixosModules.lanzaboote
   ];
 
   # Disable standard systemd-boot (Lanzaboote replaces it)
@@ -31,7 +34,8 @@ in
     enable = true;
     # Path where Secure Boot keys will be stored
     # Keys are generated with: sudo sbctl create-keys
-    pkiBundle = "/etc/secureboot";
+    # sbctl uses /var/lib/sbctl by default (official recommendation)
+    pkiBundle = "/var/lib/sbctl";
     
     # Configuration limit (like systemd-boot.configurationLimit)
     configurationLimit = vars.bootConfigLimit;
