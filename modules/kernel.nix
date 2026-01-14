@@ -100,7 +100,7 @@
     "kernel.perf_event_max_sample_rate"  = 1;              # Limit perf sampling rate
     "kernel.perf_event_paranoid"         = 3;              # Maximum restrictions for perf events
     "kernel.randomize_va_space"          = 2;              # Full ASLR for all memory regions
-    "kernel.sysrq"                       = 4;              # Enable only SAK (Secure Attention Key)
+    "kernel.sysrq"                       = 0;              # Completely disable SysRq (use hard reset if system hangs)
     "kernel.unprivileged_bpf_disabled"   = 1;              # Disable unprivileged BPF to prevent exploits
     "kernel.yama.ptrace_scope"           = 2;              # Maximum ptrace restrictions - admin only
     
@@ -140,6 +140,7 @@
   
   # Disable unprivileged user namespaces
   # Prevents container escape attacks and namespace-based exploits
-  # Note: This may break Flatpak and rootless containers
+  # Note: This breaks Flatpak, rootless containers (Podman), and some browser sandboxes
+  # If needed, set to true: security.unprivilegedUsernsClone = true;
   security.unprivilegedUsernsClone = false;
 }
