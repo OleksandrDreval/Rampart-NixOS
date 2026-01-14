@@ -144,7 +144,8 @@ in
     "net.ipv6.conf.default.forwarding"            = 0;
     
     # TCP Performance Optimization (modern stack)
-    "net.ipv4.tcp_fastopen"                       = 3;      # Enable TCP Fast Open (client + server)
-    "net.ipv4.tcp_congestion_control"             = "bbr";  # Google BBR congestion control (better throughput)
+    "net.ipv4.tcp_fastopen"                       = 3;       # Enable TCP Fast Open (client + server)
+    "net.ipv4.tcp_congestion_control"             = "bbr";   # Google BBR congestion control (better throughput)
+    "net.core.default_qdisc"                      = "cake";  # CAKE queue discipline (bufferbloat mitigation)
   };
 }
