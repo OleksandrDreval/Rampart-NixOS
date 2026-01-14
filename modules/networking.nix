@@ -142,5 +142,8 @@ in
     # IPv6 forwarding (explicitly disable)
     "net.ipv6.conf.all.forwarding"                = 0;  # Not a router
     "net.ipv6.conf.default.forwarding"            = 0;
+    
+    # TCP Performance Optimization (modern stack)
+    "net.ipv4.tcp_fastopen"                       = 3;  # Enable TCP Fast Open (client + server)
   };
 }
