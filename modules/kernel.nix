@@ -16,13 +16,14 @@
     "cryptd"       # Crypto daemon for async operations
     
     # Additional crypto modules for comprehensive support
-    "aes_generic"  # Generic AES implementation (fallback)
-    "sha256"       # SHA-256 hash (required for signatures)
-    "sha512"       # SHA-512 hash (for enhanced security)
-    "hmac"         # HMAC for message authentication
-    "ecb"          # ECB mode (used by some crypto operations)
-    "cbc"          # CBC mode (legacy but still needed)
-    "xts"          # XTS mode (for disk encryption compatibility)
+    "aes_generic"       # Generic AES implementation (fallback)
+    "sha256"            # SHA-256 hash (required for signatures)
+    "sha512"            # SHA-512 hash (for enhanced security)
+    "hmac"              # HMAC for message authentication
+    "ecb"               # ECB mode (used by some crypto operations)
+    "cbc"               # CBC mode (legacy but still needed)
+    "xts"               # XTS mode (for disk encryption compatibility)
+    "pkcs8_key_parser"  # PKCS#8 key parser (for iwd WPA Enterprise EAP-TLS)
     
     # Core network modules
     "af_packet"    # Packet socket support (required for NetworkManager)
