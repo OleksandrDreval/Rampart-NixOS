@@ -1,8 +1,8 @@
 { config, pkgs, lib, ... }:
 
 {
-  # Kernel configuration
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # Kernel configuration - hardened kernel with additional security patches
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_hardened;
   
   # Pre-load essential modules at boot before lockKernelModules
   # These modules are needed for system operation and security
