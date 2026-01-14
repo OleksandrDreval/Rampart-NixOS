@@ -68,7 +68,6 @@
     "random.trust_bootloader=off"         # Disable trust in bootloader for random number generation
     "random.trust_cpu=off"                # Disable trust in CPU for random number generation
     "randomize_kstack_offset=on"          # Randomize kernel stack offset to complicate exploitation
-    # Note: "security=apparmor" removed - use security.apparmor.enable in security module instead
     "slab_nomerge"                        # Disable slab merging to prevent cross-object leaks
     "slub_debug=FZP"                      # SLUB debugging to detect memory errors
     "spec_rstack_overflow=safe-ret"       # AMD Zen RAS (Return Address Stack) overflow protection
