@@ -100,6 +100,9 @@
     "kernel.sysrq"                       = 4;              # Enable only SAK (Secure Attention Key)
     "kernel.unprivileged_bpf_disabled"   = 1;              # Disable unprivileged BPF to prevent exploits
     "kernel.yama.ptrace_scope"           = 2;              # Maximum ptrace restrictions - admin only
+    
+    # Virtual Memory Security
+    "vm.unprivileged_userfaultfd"        = 0;              # Prevent use-after-free exploits via userfaultfd
   };
 
   # Blacklisted kernel modules for security
