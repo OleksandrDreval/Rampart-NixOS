@@ -139,6 +139,10 @@
   # Blocks kernel replacement attacks and rootkit injection
   security.protectKernelImage = true;
   
+  # Force Page Table Isolation (Meltdown mitigation)
+  # Separates kernel and user page tables to prevent Meltdown attacks
+  security.forcePageTableIsolation = true;
+  
   # Disable unprivileged user namespaces
   # Prevents container escape attacks and namespace-based exploits
   # Note: This breaks Flatpak, rootless containers (Podman), and some browser sandboxes
