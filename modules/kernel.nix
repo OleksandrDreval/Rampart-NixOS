@@ -45,6 +45,8 @@
     "audit=1"                             # Enable auditing for AppArmor
     "debugfs=off"                         # Disable debugfs to prevent system information leakage
     "efi=disable_early_pci_dma"           # Disable early PCI DMA to protect against boot-time attacks
+  # "gather_data_sampling=force"          # Force protection against GDS vulnerability (Intel CPUs)
+  # "intel_iommu=on"                      # Enable Intel IOMMU (for Intel systems, no-op on AMD)
     "ia32_emulation=0"                    # Disable 32-bit emulation to reduce attack surface
     "init_on_alloc=1"                     # Initialize memory on allocation to prevent data leaks
     "init_on_free=1"                      # Initialize memory on free to protect confidentiality
@@ -68,6 +70,7 @@
     # Note: "security=apparmor" removed - use security.apparmor.enable in security module instead
     "slab_nomerge"                        # Disable slab merging to prevent cross-object leaks
     "slub_debug=FZP"                      # SLUB debugging to detect memory errors
+    "spec_rstack_overflow=safe-ret"       # AMD Zen RAS (Return Address Stack) overflow protection
     "spec_store_bypass_disable=on"        # Protection against Speculative Store Bypass attacks
     "spectre_v2=on"                       # Protection against Spectre v2 attacks
     "stf_barrier=on"                      # Store-to-Load Forwarding barrier for speculative attack protection
