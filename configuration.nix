@@ -12,6 +12,7 @@
       
       # System modules
       ./modules/boot.nix
+    # ./modules/boot-secure.nix
       ./modules/kernel.nix
       ./modules/networking.nix
       ./modules/localization.nix
