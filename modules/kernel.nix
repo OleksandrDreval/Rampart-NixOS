@@ -4,6 +4,11 @@
   # Kernel configuration - hardened kernel with additional security patches
   boot.kernelPackages = pkgs.linuxKernel.packages.linux_hardened;
   
+  # Core dumps security
+  systemd.coredump.extraConfig = ''
+    Storage=none
+  '';
+  
   # Pre-load essential modules at boot before lockKernelModules
   # These modules are needed for system operation and security
   boot.kernelModules = [
