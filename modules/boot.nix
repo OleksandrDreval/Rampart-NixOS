@@ -10,6 +10,10 @@ in
   boot.loader.efi.canTouchEfiVariables = false;
   boot.loader.timeout = vars.bootTimeout;
 
+  # Boot verbosity configuration (security: minimize information disclosure)
+  boot.consoleLogLevel = 3;     # Show only errors on console (balance security/debugging)
+  boot.initrd.verbose = false;  # Quiet initrd to minimize information disclosure
+
   # LUKS encryption for swap
   boot.initrd.luks.devices."luks-${vars.luksSwapUUID}".device = "/dev/disk/by-uuid/${vars.luksSwapUUID}";
 
