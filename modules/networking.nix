@@ -115,6 +115,8 @@ in
     "net.ipv4.conf.default.arp_ignore"            = 1;
     "net.ipv4.conf.all.drop_gratuitous_arp"       = 1;  # Drop gratuitous ARP (prevents ARP cache poisoning)
     "net.ipv4.conf.default.drop_gratuitous_arp"   = 1;
+    "net.ipv4.conf.all.arp_filter"                = 1;  # Enable ARP filtering (prevents global ARP table handling)
+    "net.ipv4.conf.default.arp_filter"            = 1;
     
     # Reverse path filtering (anti-spoofing)
     "net.ipv4.conf.all.rp_filter"                 = 1;  # Loose mode (safe for WiFi, asymmetric routing)
