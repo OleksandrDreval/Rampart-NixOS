@@ -61,7 +61,7 @@
     "iommu=force"                         # Force enable IOMMU for I/O device isolation
     "iommu.passthrough=0"                 # Disable IOMMU passthrough mode for additional checks
     "iommu.strict=1"                      # Enable strict IOMMU mode for enhanced memory access control
-    "kernel.printk=\"3 4 1 3\""           # Configure kernel logging level to reduce information leakage
+    "kernel.printk=\"3 3 3 3\""           # Configure kernel logging level to reduce information leakage
     "l1tf=full,force"                     # Full protection against L1 Terminal Fault attacks
     "lockdown=integrity"                  # Kernel lockdown - integrity mode (allows signed modules, crypto operations)
     "mds=full,nosmt"                      # Protection against MDS attacks with SMT disabled
@@ -108,6 +108,7 @@
     "kernel.perf_cpu_time_max_percent"   = 1;              # Limit perf CPU time to 1% to prevent DoS
     "kernel.perf_event_max_sample_rate"  = 1;              # Limit perf sampling rate
     "kernel.perf_event_paranoid"         = 3;              # Maximum restrictions for perf events
+    "kernel.printk"                      = "3 3 3 3";      # Show only errors (level 3) in kernel logs
     "kernel.randomize_va_space"          = 2;              # Full ASLR for all memory regions
     "kernel.sysrq"                       = 0;              # Completely disable SysRq (use hard reset if system hangs)
     "kernel.unprivileged_bpf_disabled"   = 1;              # Disable unprivileged BPF to prevent exploits
