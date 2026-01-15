@@ -22,8 +22,8 @@ in
     lanzaboote.nixosModules.lanzaboote
   ];
 
-  # Disable standard systemd-boot (Lanzaboote replaces it)
-  boot.loader.systemd-boot.enable = lib.mkForce false;
+  boot.loader.systemd-boot.enable = lib.mkForce false;  # Disable standard systemd-boot (Lanzaboote replaces it)
+  boot.loader.systemd-boot.editor = lib.mkForce false;  # Disable boot parameter editing (critical for Secure Boot)
   
   # Basic bootloader settings (from boot.nix)
   boot.loader.efi.canTouchEfiVariables = false;
