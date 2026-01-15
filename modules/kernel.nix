@@ -73,6 +73,7 @@
     "panic=-1"                            # Auto-reboot instantly on kernel panic (DoS mitigation + info disclosure prevention)
     "pti=on"                              # Page Table Isolation for Meltdown protection
     "quiet"                               # Reduce boot message output
+    "udev.log_level=3"                    # udev errors only (minimize boot information disclosure)
     "random.trust_bootloader=off"         # Disable trust in bootloader for random number generation
     "random.trust_cpu=off"                # Disable trust in CPU for random number generation
     "randomize_kstack_offset=on"          # Randomize kernel stack offset to complicate exploitation
