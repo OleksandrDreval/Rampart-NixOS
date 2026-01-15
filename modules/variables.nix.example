@@ -34,4 +34,34 @@
   consoleKeyMap = "us";
   # X11 keyboard layouts (comma-separated, e.g., "us,de,fr")
   xkbLayout = "us";
+  
+  # USBGuard allowed devices
+  # Add your trusted USB devices here
+  # To generate rules for currently connected devices: sudo usbguard generate-policy
+  # To list all connected devices: usbguard list-devices
+  usbguardAllowedDevices = [
+    # System USB controllers (required for USB to work)
+    # These are auto-generated when you run: sudo usbguard generate-policy
+    # Example:
+    # "allow id 1d6b:0002 serial \"0000:00:14.0\" name \"xHCI Host Controller\""
+    
+    # Add your trusted devices below:
+    # Keyboard example:
+    # "allow id 046d:c52b name \"Logitech Keyboard\" with-interface 03:01:01"
+    
+    # Mouse example:
+    # "allow id 046d:c077 name \"Logitech Mouse\" with-interface 03:01:02"
+    
+    # USB flash drive example (specific device):
+    # "allow id 0781:5583 serial \"123456789ABC\" name \"SanDisk USB\" with-interface 08:06:50"
+    
+    # Webcam example:
+    # "allow id 046d:0825 name \"Logitech Webcam\" with-interface { 0e:01:00 0e:02:00 }"
+    
+    # Allow all keyboards (less secure, but convenient):
+    # "allow with-interface 03:01:01"
+    
+    # Allow all mice (less secure, but convenient):
+    # "allow with-interface 03:01:02"
+  ];
 }

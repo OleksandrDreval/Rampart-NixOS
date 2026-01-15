@@ -16,6 +16,7 @@
       ./modules/kernel.nix
       ./modules/memory.nix
     # ./modules/apparmor.nix
+      ./modules/usbguard.nix
       ./modules/networking.nix
       ./modules/localization.nix
       ./modules/desktop.nix
