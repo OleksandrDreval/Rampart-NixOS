@@ -54,6 +54,15 @@
   # NAT network for VMs is configured automatically by libvirtd
   networking.firewall.checkReversePath = false;  # Allow VM network forwarding
   
+  # Allowed network bridges for virtual machines
+  virtualisation.libvirtd.allowedBridges = [ "virbr0" ];  # Only NAT bridge, no bridged networking
+  
+  # Default network configuration for virtual machines
+  virtualisation.defaultNetwork = {
+    enable = true;        # Enable default network
+    forwardMode = "nat";  # Use NAT for internet access (secure for untrusted networks)
+  };
+  
   # Enable nested virtualisation (if needed for testing)
   # boot.extraModprobeConfig = ''
   #   options kvm_amd nested=1
