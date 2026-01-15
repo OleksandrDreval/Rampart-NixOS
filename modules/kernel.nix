@@ -51,6 +51,7 @@
     "audit=1"                             # Enable auditing for AppArmor
     "debugfs=off"                         # Disable debugfs to prevent system information leakage
     "efi=disable_early_pci_dma"           # Disable early PCI DMA to protect against boot-time attacks
+    "efi_pstore.pstore_disable=1"         # Disable EFI persistent storage (prevent crash log leaks)
   # "gather_data_sampling=force"          # Force protection against GDS vulnerability (Intel CPUs)
   # "intel_iommu=on"                      # Enable Intel IOMMU (for Intel systems, no-op on AMD)
     "ia32_emulation=0"                    # Disable 32-bit emulation to reduce attack surface
