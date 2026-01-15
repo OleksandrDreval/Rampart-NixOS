@@ -70,6 +70,7 @@
     "oops=panic"                          # Panic on critical error to prevent unsafe operation
     "page_alloc.shuffle=1"                # Randomize page allocation to complicate exploits
     "page_poison=1"                       # Fill freed memory to prevent data recovery
+    "panic=-1"                            # Auto-reboot instantly on kernel panic (DoS mitigation + info disclosure prevention)
     "pti=on"                              # Page Table Isolation for Meltdown protection
     "quiet"                               # Reduce boot message output
     "random.trust_bootloader=off"         # Disable trust in bootloader for random number generation
@@ -100,6 +101,7 @@
     "kernel.core_pattern"                = "|/bin/false";  # Disable core dumps completely
     "kernel.dmesg_restrict"              = 1;              # Restrict dmesg access to root only
     "kernel.ftrace_enabled"              = 0;              # Disable function tracer to prevent debugging
+    "kernel.panic"                       = -1;             # Auto-reboot instantly on kernel panic
     "kernel.io_uring_disabled"           = 2;              # Completely disable io_uring to prevent exploits
     "kernel.kexec_load_disabled"         = 1;              # Disable kexec to prevent kernel replacement
     "kernel.kptr_restrict"               = 2;              # Hide kernel pointers even from root
