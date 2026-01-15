@@ -42,7 +42,13 @@
     # Essential system modules
     "loop"         # Loopback device support
     "overlay"      # Overlay filesystem (for containers/nix store)
+    
+    # Jitterentropy RNG (compensates for disabled CPU/bootloader RNG)
+    "jitterentropy_rng"  # Software-based RNG using CPU timing jitter
   ];
+  
+  # Jitterentropy userspace daemon for additional entropy
+  services.jitterentropy-rngd.enable = true;
   
   # Security-focused kernel parameters
   boot.kernelParams = [
