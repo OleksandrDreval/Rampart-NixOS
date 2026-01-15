@@ -29,6 +29,10 @@ in
   boot.loader.efi.canTouchEfiVariables = false;
   boot.loader.timeout = vars.bootTimeout;
 
+  # Boot verbosity configuration (security: minimize information disclosure)
+  boot.consoleLogLevel = 3;     # Show only errors on console (balance security/debugging)
+  boot.initrd.verbose = false;  # Quiet initrd to minimize information disclosure
+
   # Enable Lanzaboote for Secure Boot
   boot.lanzaboote = {
     enable = true;
