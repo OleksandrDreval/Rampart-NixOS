@@ -19,6 +19,14 @@ in
     # Empty file = root cannot login from any TTY
     # Root must be accessed via: sudo -i or sudo su
   '';
+  
+  # PAM securetty enforcement (prevents root login on TTY even if hashedPassword is set)
+  security.pam.services.login.rules.auth.securetty = {
+    enable = true;
+    order = 1;              # First authentication check
+    control = "requisite";  # Hard fail if not in securetty list
+    modulePath = "${config.security.pam.package}/lib/security/pam_securetty.so";
+  };
 
   # Define user accounts
   users.users.${vars.mainUser} = {
