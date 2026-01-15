@@ -18,6 +18,7 @@
     # ./modules/apparmor.nix
       ./modules/usbguard.nix
       ./modules/networking.nix
+      ./modules/dns-resolved.nix
       ./modules/localization.nix
       ./modules/desktop.nix
       ./modules/users.nix

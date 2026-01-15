@@ -38,12 +38,14 @@ in
   networking.networkmanager.wifi.macAddress = "random";
   networking.networkmanager.ethernet.macAddress = "random";
 
-  # DNS servers
-  networking.nameservers = [
-    "1.1.1.1" # Cloudflare
-    "9.9.9.9" # Quad9
-    "8.8.8.8" # Google Public DNS
-  ];
+  # DNS servers - managed by dns-resolved.nix or dns-dnsmasq.nix modules
+  # Static DNS configuration is disabled to allow DNS modules to handle resolution
+  # To use static DNS, uncomment below and disable DNS modules in configuration.nix
+  # networking.nameservers = [
+  #   "1.1.1.1" # Cloudflare
+  #   "9.9.9.9" # Quad9
+  #   "8.8.8.8" # Google Public DNS
+  # ];
 
   # Wireless support via wpa_supplicant (disabled by default)
   # networking.wireless.enable = true;
