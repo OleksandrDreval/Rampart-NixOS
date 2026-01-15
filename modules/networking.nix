@@ -13,7 +13,10 @@ in
   # Note: If enterprise WiFi (EAP-TTLS) fails, revert to wpa_supplicant:
   #   networking.networkmanager.wifi.backend = "wpa_supplicant";
   networking.networkmanager.wifi.backend = "iwd";
-  
+
+  # Integrate IPv6 privacy extensions with NetworkManager (prefer temporary addresses)
+  networking.networkmanager.connectionConfig."ipv6.ip6-privacy" = 2;  # prefer temporary IPv6 addresses (RFC3041)
+    
   # iwd privacy settings for MAC address randomization
   networking.wireless.iwd = {
     enable = true;
@@ -28,6 +31,9 @@ in
       };
     };
   };
+
+  # Ensure systemd-networkd follows kernel IPv6 privacy settings
+  systemd.network.config.networkConfig.IPv6PrivacyExtensions = "kernel";  # follow kernel use_tempaddr setting
 
   # MAC address randomization for privacy
   # Enable MAC randomization during WiFi network scanning to prevent tracking
@@ -146,6 +152,9 @@ in
     "net.ipv6.conf.default.accept_source_route"   = 0;
     "net.ipv6.conf.all.accept_redirects"          = 0;  # Block ICMPv6 redirects
     "net.ipv6.conf.default.accept_redirects"      = 0;
+    # IPv6 Privacy Extensions (RFC3041) - prefer temporary addresses to avoid tracking
+    "net.ipv6.conf.all.use_tempaddr"              = 2;  # prefer temporary addresses
+    "net.ipv6.conf.default.use_tempaddr"          = 2;
     
     # Router Advertisement protection (prevents rogue RA attacks in public WiFi)
     "net.ipv6.conf.all.accept_ra"                 = 0;  # Don't accept Router Advertisements
