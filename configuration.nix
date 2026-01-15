@@ -18,7 +18,8 @@
     # ./modules/apparmor.nix
       ./modules/usbguard.nix
       ./modules/networking.nix
-      ./modules/dns-resolved.nix
+      ./modules/dns-resolved.nix       # DNSSEC DNS with systemd-resolved
+    # ./modules/dns-dnsmasq.nix        # Alternative: DNSSEC DNS with dnsmasq (conflicts with resolved)
       ./modules/localization.nix
       ./modules/desktop.nix
       ./modules/users.nix
