@@ -69,7 +69,8 @@ in
     allowedUDPPorts = [ ];  # No open UDP ports
     
     # ICMP (ping) configuration
-    allowPing = true;  # Allow ping for network diagnostics (safe, informational only)
+    # Note: allowPing controls firewall rules, but kernel sysctl blocks all ICMP echo at kernel level
+    allowPing = false;  # Block ping at firewall (also blocked at kernel via icmp_echo_ignore_all)
     
     # Connection tracking and logging
     logRefusedConnections = true;  # Log blocked connections for security monitoring
@@ -123,8 +124,12 @@ in
     "net.ipv4.conf.default.rp_filter"             = 1;
     
     # ICMP protection
+    "net.ipv4.icmp_echo_ignore_all"               = 1;  # Ignore all IPv4 ping requests (stealth mode)
     "net.ipv4.icmp_echo_ignore_broadcasts"        = 1;  # Ignore broadcast pings (smurf attack prevention)
     "net.ipv4.icmp_ignore_bogus_error_responses"  = 1;  # Ignore malformed ICMP errors
+    "net.ipv6.icmp.echo_ignore_all"               = 1;  # Ignore all IPv6 ping requests (stealth mode)
+    "net.ipv6.icmp.echo_ignore_anycast"           = 1;  # Ignore IPv6 anycast pings (prevents enumeration)
+    "net.ipv6.icmp.echo_ignore_multicast"         = 1;  # Ignore IPv6 multicast pings (prevents enumeration)
     
     # Logging (for security monitoring)
     "net.ipv4.conf.all.log_martians"              = 1;  # Log packets with impossible source addresses
