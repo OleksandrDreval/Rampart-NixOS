@@ -92,6 +92,7 @@
     "stf_barrier=on"                      # Store-to-Load Forwarding barrier for speculative attack protection
     "hardened_usercopy=on"                # Strict validation of data copying between kernel and user space
     "vsyscall=none"                       # Disable vsyscall to eliminate predictable memory addresses
+    "extra_latent_entropy"                # Collect extra entropy early in boot (linux_hardened only)
   ];
 
   # Kernel sysctl security parameters
