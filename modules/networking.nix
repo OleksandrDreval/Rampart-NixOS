@@ -147,6 +147,11 @@ in
     # TCP security (protection against attacks)
     "net.ipv4.tcp_syncookies"                     = 1;  # SYN flood protection (critical!)
     "net.ipv4.tcp_rfc1337"                        = 1;  # TIME-WAIT assassination protection
+    # Optional hardening: disable TCP SACK/FACK/DSACK to reduce past DoS exploit surface
+    # Note: may reduce performance in lossy/high-latency networks. Kept as strict hardening.
+    "net.ipv4.tcp_dsack"                          = 0;  # disable Duplicate SACK processing
+    "net.ipv4.tcp_fack"                           = 0;  # disable FACK (forward acknowledgement)
+    "net.ipv4.tcp_sack"                           = 0;  # disable Selective Acknowledgement (SACK)
     
     # IPv6 Critical Security
     
