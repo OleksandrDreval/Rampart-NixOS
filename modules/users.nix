@@ -28,6 +28,16 @@ in
     modulePath = "${config.security.pam.package}/lib/security/pam_securetty.so";
   };
 
+  # Restrict use of `su` to members of the `wheel` group.
+  # - Purpose: prevent unprivileged users from switching to root with `su`.
+  # - Effect: users not in `wheel` will be denied by PAM when invoking `su`.
+  # - Rationale: limits local privilege escalation surface and centralizes
+  #   administrative access to the wheel group (auditable and easy to revoke).
+  security.pam.services.su = {
+    # Enforce that only `wheel` members can use `su` (boolean PAM flag).
+    requireWheel = true;
+  };
+  
   # Define user accounts
   users.users.${vars.mainUser} = {
     isNormalUser = true;
