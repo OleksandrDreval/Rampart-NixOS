@@ -85,6 +85,10 @@ in
   # Configure number of rounds for the Unix shadow password hashing algorithm.
   # Higher values increase the computational cost of offline hash cracking attacks.
   security.pam.services.passwd.rules.password."unix".settings.rounds = toString vars.shadowHashRounds;
+
+  # Add a delay after failed interactive login attempts to slow brute-force attacks.
+  # Value is in microseconds (e.g. 5000000 = 5s) and applies per failed authentication.
+  security.pam.services."system-login".failDelay.delay = toString vars.loginFailDelay;
   
   # Nix daemon access control
   # Limit nix commands to wheel group (sudoers) only
