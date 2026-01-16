@@ -37,7 +37,16 @@ in
     # Enforce that only `wheel` members can use `su` (boolean PAM flag).
     requireWheel = true;
   };
-  
+
+  # Restrict use of `su -l` (login shell) to members of the `wheel` group.
+  # - Note: `su -l` invokes a login shell and may trigger different PAM
+  #   behavior/modules than plain `su`. We treat it explicitly to ensure
+  #   identical access controls for login-shell escalation attempts.
+  # - Effect: `su -l` will also be denied for non-wheel users.
+  security.pam.services."su-l" = {
+    requireWheel = true;
+  };
+
   # Define user accounts
   users.users.${vars.mainUser} = {
     isNormalUser = true;
