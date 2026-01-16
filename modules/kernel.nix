@@ -62,9 +62,6 @@
   # "gather_data_sampling=force"          # Force protection against GDS vulnerability (Intel CPUs)
   # "intel_iommu=on"                      # Enable Intel IOMMU (for Intel systems, no-op on AMD)
     "ia32_emulation=0"                    # Disable 32-bit emulation to reduce attack surface
-    "proc_mem.force_override=ptrace"      # Restrict process memory mapping changes to ptrace workflows
-    "init_on_alloc=1"                     # Initialize memory on allocation to prevent data leaks
-    "init_on_free=1"                      # Initialize memory on free to protect confidentiality
     "iommu=force"                         # Force enable IOMMU for I/O device isolation
     "iommu.passthrough=0"                 # Disable IOMMU passthrough mode for additional checks
     "iommu.strict=1"                      # Enable strict IOMMU mode for enhanced memory access control
@@ -75,23 +72,14 @@
     "mitigations=auto,nosmt"              # Auto-apply vulnerability patches with SMT disabled
     "module.sig_enforce=1"                # Require kernel module signatures for loading
     "oops=panic"                          # Panic on critical error to prevent unsafe operation
-    "page_alloc.shuffle=1"                # Randomize page allocation to complicate exploits
-    "page_poison=1"                       # Fill freed memory to prevent data recovery
     "panic=-1"                            # Auto-reboot instantly on kernel panic (DoS mitigation + info disclosure prevention)
-    "pti=on"                              # Page Table Isolation for Meltdown protection
     "quiet"                               # Reduce boot message output
     "udev.log_level=3"                    # udev errors only (minimize boot information disclosure)
     "random.trust_bootloader=off"         # Disable trust in bootloader for random number generation
     "random.trust_cpu=off"                # Disable trust in CPU for random number generation
-    "randomize_kstack_offset=on"          # Randomize kernel stack offset to complicate exploitation
-    "slab_nomerge"                        # Disable slab merging to prevent cross-object leaks
-    "slub_debug=FZP"                      # SLUB debugging to detect memory errors
-    "spec_rstack_overflow=safe-ret"       # AMD Zen RAS (Return Address Stack) overflow protection
     "spec_store_bypass_disable=on"        # Protection against Speculative Store Bypass attacks
     "spectre_v2=on"                       # Protection against Spectre v2 attacks
     "stf_barrier=on"                      # Store-to-Load Forwarding barrier for speculative attack protection
-    "hardened_usercopy=on"                # Strict validation of data copying between kernel and user space
-    "vsyscall=none"                       # Disable vsyscall to eliminate predictable memory addresses
     "extra_latent_entropy"                # Collect extra entropy early in boot (linux_hardened only)
   ];
 
@@ -118,19 +106,9 @@
     "kernel.perf_event_max_sample_rate"  = 1;              # Limit perf sampling rate
     "kernel.perf_event_paranoid"         = 3;              # Maximum restrictions for perf events
     "kernel.printk"                      = "3 3 3 3";      # Show only errors (level 3) in kernel logs
-    "kernel.randomize_va_space"          = 2;              # Full ASLR for all memory regions
     "kernel.sysrq"                       = 0;              # Completely disable SysRq (use hard reset if system hangs)
     "kernel.unprivileged_bpf_disabled"   = 1;              # Disable unprivileged BPF to prevent exploits
     "kernel.yama.ptrace_scope"           = 2;              # Maximum ptrace restrictions - admin only
-    
-    # Virtual Memory Security
-    "vm.unprivileged_userfaultfd"        = 0;              # Prevent use-after-free exploits via userfaultfd
-    "vm.mmap_rnd_bits"                   = 32;             # ASLR entropy for 64-bit (max randomization)
-    "vm.mmap_rnd_compat_bits"            = 16;             # ASLR entropy for 32-bit compat mode
-    "vm.mmap_min_addr"                   = 65536;          # Deny mmap at low addresses (mitigates NULL-deref and low-mmap exploits)
-    
-    # Stack Protection (legacy but harmless)
-    "kernel.exec-shield"                 = 1;              # Stack execution protection
   };
 
   # Blacklisted kernel modules for security
@@ -157,10 +135,6 @@
   # Prevent replacing the running kernel image via kexec
   # Blocks kernel replacement attacks and rootkit injection
   security.protectKernelImage = true;
-  
-  # Force Page Table Isolation (Meltdown mitigation)
-  # Separates kernel and user page tables to prevent Meltdown attacks
-  security.forcePageTableIsolation = true;
   
   # Disable unprivileged user namespaces
   # Prevents container escape attacks and namespace-based exploits
