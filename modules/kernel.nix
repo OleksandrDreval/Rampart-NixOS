@@ -62,6 +62,7 @@
   # "gather_data_sampling=force"          # Force protection against GDS vulnerability (Intel CPUs)
   # "intel_iommu=on"                      # Enable Intel IOMMU (for Intel systems, no-op on AMD)
     "ia32_emulation=0"                    # Disable 32-bit emulation to reduce attack surface
+    "proc_mem.force_override=ptrace"      # Restrict process memory mapping changes to ptrace workflows
     "init_on_alloc=1"                     # Initialize memory on allocation to prevent data leaks
     "init_on_free=1"                      # Initialize memory on free to protect confidentiality
     "iommu=force"                         # Force enable IOMMU for I/O device isolation
