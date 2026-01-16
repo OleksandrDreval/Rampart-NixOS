@@ -24,6 +24,9 @@
   # Sudo configuration
   sudoPasswdTimeout = 25;    # Password timeout in seconds (time to enter password)
   sudoTimestampTimeout = 5;  # Timestamp timeout in minutes (sudo cache duration)
+  # Shadow password hashing rounds for /etc/shadow (increase brute-force cost)
+  # Example: 65536
+  shadowHashRounds = 65536;
   
   # Localization
   # See available timezones: timedatectl list-timezones

@@ -82,6 +82,10 @@ in
     '';
   };
   
+  # Configure number of rounds for the Unix shadow password hashing algorithm.
+  # Higher values increase the computational cost of offline hash cracking attacks.
+  security.pam.services.passwd.rules.password."unix".settings.rounds = toString vars.shadowHashRounds;
+  
   # Nix daemon access control
   # Limit nix commands to wheel group (sudoers) only
   # Prevents unprivileged users from installing packages or using nix-shell
