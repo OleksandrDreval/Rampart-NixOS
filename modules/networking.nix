@@ -109,6 +109,9 @@ in
     "net.ipv4.conf.default.secure_redirects"      = 0;
     "net.ipv4.conf.all.send_redirects"            = 0;  # Don't send redirects (info disclosure)
     "net.ipv4.conf.default.send_redirects"        = 0;
+    # Shared media redirects - keep disabled for untrusted networks
+    "net.ipv4.conf.all.shared_media"              = 0;  # Disable shared-media redirects
+    "net.ipv4.conf.default.shared_media"          = 0;
     
     # IP forwarding (explicitly disable - we're not a router)
     "net.ipv4.conf.all.forwarding"                = 0;  # No packet forwarding
