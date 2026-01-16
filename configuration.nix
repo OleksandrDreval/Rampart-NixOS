@@ -15,6 +15,7 @@
     # ./modules/boot-secure.nix
       ./modules/kernel.nix
       ./modules/memory.nix
+      ./modules/entropy.nix
     # ./modules/apparmor.nix
       ./modules/usbguard.nix
       ./modules/networking.nix
