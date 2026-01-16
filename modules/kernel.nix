@@ -126,6 +126,7 @@
     "vm.unprivileged_userfaultfd"        = 0;              # Prevent use-after-free exploits via userfaultfd
     "vm.mmap_rnd_bits"                   = 32;             # ASLR entropy for 64-bit (max randomization)
     "vm.mmap_rnd_compat_bits"            = 16;             # ASLR entropy for 32-bit compat mode
+    "vm.mmap_min_addr"                   = 65536;          # Deny mmap at low addresses (mitigates NULL-deref and low-mmap exploits)
     
     # Stack Protection (legacy but harmless)
     "kernel.exec-shield"                 = 1;              # Stack execution protection
