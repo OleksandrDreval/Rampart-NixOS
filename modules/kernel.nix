@@ -122,15 +122,15 @@
   # Lock kernel module loading after boot
   # Prevents loading new modules after system initialization
   # Safe to enable: WiFi crypto modules pre-loaded in boot.kernelModules
-  security.lockKernelModules = true;
+  security.lockKernelModules = lib.mkForce true;
 
   # Prevent replacing the running kernel image via kexec
   # Blocks kernel replacement attacks and rootkit injection
-  security.protectKernelImage = true;
+  security.protectKernelImage = lib.mkForce true;
   
   # Disable unprivileged user namespaces
   # Prevents container escape attacks and namespace-based exploits
   # Note: This breaks Flatpak, rootless containers (Podman), and some browser sandboxes
   # If needed, set to true: security.unprivilegedUsernsClone = true;
-  security.unprivilegedUsernsClone = false;
+  security.unprivilegedUsernsClone = lib.mkForce false;
 }
