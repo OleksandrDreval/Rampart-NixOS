@@ -147,6 +147,11 @@ in
     # TCP security (protection against attacks)
     "net.ipv4.tcp_syncookies"                     = 1;  # SYN flood protection (critical!)
     "net.ipv4.tcp_rfc1337"                        = 1;  # TIME-WAIT assassination protection
+    # Keep TCP timestamps enabled: protects against wrapped sequence numbers
+    # and improves performance (do not disable by default for laptop)
+    "net.ipv4.tcp_timestamps"                     = 1;
+  # "net.ipv4.tcp_timestamps"                     = 0;
+  # "net.ipv4.tcp_tw_reuse"                       = 0;
     # Optional hardening: disable TCP SACK/FACK/DSACK to reduce past DoS exploit surface
     # Note: may reduce performance in lossy/high-latency networks. Kept as strict hardening.
     "net.ipv4.tcp_dsack"                          = 0;  # disable Duplicate SACK processing
