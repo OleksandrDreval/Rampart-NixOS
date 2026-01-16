@@ -43,12 +43,7 @@
     "loop"         # Loopback device support
     "overlay"      # Overlay filesystem (for containers/nix store)
     
-    # Jitterentropy RNG (compensates for disabled CPU/bootloader RNG)
-    "jitterentropy_rng"  # Software-based RNG using CPU timing jitter
   ];
-  
-  # Jitterentropy userspace daemon for additional entropy
-  services.jitterentropy-rngd.enable = true;
   
   # Security-focused kernel parameters
   boot.kernelParams = [
@@ -75,12 +70,9 @@
     "panic=-1"                            # Auto-reboot instantly on kernel panic (DoS mitigation + info disclosure prevention)
     "quiet"                               # Reduce boot message output
     "udev.log_level=3"                    # udev errors only (minimize boot information disclosure)
-    "random.trust_bootloader=off"         # Disable trust in bootloader for random number generation
-    "random.trust_cpu=off"                # Disable trust in CPU for random number generation
     "spec_store_bypass_disable=on"        # Protection against Speculative Store Bypass attacks
     "spectre_v2=on"                       # Protection against Spectre v2 attacks
     "stf_barrier=on"                      # Store-to-Load Forwarding barrier for speculative attack protection
-    "extra_latent_entropy"                # Collect extra entropy early in boot (linux_hardened only)
   ];
 
   # Kernel sysctl security parameters
