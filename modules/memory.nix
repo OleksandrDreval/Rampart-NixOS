@@ -5,7 +5,7 @@
   # GrapheneOS hardened-light provides balance between security and performance
   # Includes zero-on-free, slab canaries, metadata protection, and randomization
   # Performance overhead: approximately 10-15%
-  environment.memoryAllocator.provider = "graphene-hardened-light";
+  environment.memoryAllocator.provider = lib.mkForce "graphene-hardened-light";
 
   # Alternative allocators:
   # "graphene-hardened"  - maximum security, 30-40% performance penalty
@@ -19,7 +19,7 @@
 
   # Force Page Table Isolation (Meltdown mitigation)
   # Separates kernel and user page tables to prevent Meltdown attacks
-  security.forcePageTableIsolation = true;
+  security.forcePageTableIsolation = lib.mkForce true;
 
   # Kernel parameters and sysctls related to memory hardening.
   # These options harden allocation, ASLR, and mapping behaviour.
