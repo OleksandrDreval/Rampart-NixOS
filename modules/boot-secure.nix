@@ -26,12 +26,12 @@ in
   boot.loader.systemd-boot.editor = lib.mkForce false;  # Disable boot parameter editing (critical for Secure Boot)
   
   # Basic bootloader settings (from boot.nix)
-  boot.loader.efi.canTouchEfiVariables = false;
+  boot.loader.efi.canTouchEfiVariables = lib.mkForce false;
   boot.loader.timeout = vars.bootTimeout;
 
   # Boot verbosity configuration (security: minimize information disclosure)
-  boot.consoleLogLevel = 3;     # Show only errors on console (balance security/debugging)
-  boot.initrd.verbose = false;  # Quiet initrd to minimize information disclosure
+  boot.consoleLogLevel = lib.mkForce 3;     # Show only errors on console (balance security/debugging)
+  boot.initrd.verbose = lib.mkForce false;  # Quiet initrd to minimize information disclosure
 
   # Enable Lanzaboote for Secure Boot
   boot.lanzaboote = {
@@ -50,7 +50,7 @@ in
 
   # DMA attack mitigation during early boot
   # Blocks Thunderbolt/USB4 access in initrd to protect LUKS keys
-  boot.initrd.luks.mitigateDMAAttacks = true;
+  boot.initrd.luks.mitigateDMAAttacks = lib.mkForce true;
 
   # Install sbctl for Secure Boot key management
   environment.systemPackages = with pkgs; [
