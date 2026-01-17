@@ -1,0 +1,43 @@
+# dnscrypt-proxy config (example) for systemd-resolved
+listen_addresses = ['127.0.0.1:53']
+
+# Explicit pinned stamps (sdns://...) to avoid MITM. These stamps were
+# taken from the official dnscrypt-resolvers list; example pins only Cloudflare and Quad9.
+server_stamps = [
+  'sdns://AgcAAAAAAAAADjEwNC4xNi4xMzIuMjI5ABJkbnMuY2xvdWRmbGFyZS5jb20KL2Rucy1xdWVyeQ',
+  'sdns://AgMAAAAAAAAACDkuOS45LjExILAZIHRLu3bJqwU-AeB7fgUORz0g95976kNfr-Q8nQvE2RuczExLnF1YWQ5Lm5ldDo0NDMKL2Rucy1xdWVyeQ'
+]
+
+# Upstream providers pinned by server names (kept for readability/fallback)
+server_names = ['cloudflare', 'quad9-doh']
+
+# Require cryptographic and privacy guarantees for upstream resolvers
+require_dnssec = true
+require_nolog = true
+require_tls = true
+ignore_system_dns = true
+
+# Load balancing / failover: try primary first, fall back to the next server
+lb_strategy = 'first'
+
+# Performance and resource limits
+# max_clients: maximum simultaneous client connections served by dnscrypt-proxy
+max_clients = 100
+cache = true
+cache_size = 8192
+
+# Logging and metrics
+log_level = 1
+# Minimal local logging to avoid query retention
+log_file = ''
+
+# Auto-update resolver list and certificates
+autoupdate = true
+update_delay = 86400
+
+# Do not apply local blocklists; rely on provider filtering choices
+# blocklists = []
+
+# Optional cache tuning
+cache = true
+cache_size = 4096
