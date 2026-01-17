@@ -10,7 +10,7 @@ result-*
 
 # Sensitive configuration files
 lie_*.nix
-modules/variables.nix
+modules/includes/variables.nix
 modules/hardware-configuration.nix
 modules/veracrypt.nix
 
