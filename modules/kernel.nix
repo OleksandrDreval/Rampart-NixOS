@@ -11,7 +11,7 @@
   
   # Pre-load essential modules at boot before lockKernelModules
   # These modules are needed for system operation and security
-  boot.kernelModules = [
+  boot.kernelModules = lib.mkMerge [
     # WiFi crypto modules (WPA/WPA2/WPA3 authentication)
     "ccm"          # Counter with CBC-MAC mode for WPA2-CCMP
     "ctr"          # Counter mode for AES
@@ -46,7 +46,7 @@
   ];
   
   # Security-focused kernel parameters
-  boot.kernelParams = [
+  boot.kernelParams = lib.mkMerge [
     "amd_iommu=force_isolation"           # Force AMD IOMMU isolation to protect devices from DMA attacks
     "apparmor=1"                          # Enable AppArmor mandatory access control
     "audit=1"                             # Enable auditing for AppArmor
@@ -76,7 +76,7 @@
   ];
 
   # Kernel sysctl security parameters
-  boot.kernel.sysctl = {
+  boot.kernel.sysctl = lib.mkMerge {
     # Device and filesystem security
     "dev.tty.ldisc_autoload"             = 0;              # Disable automatic TTY line discipline loading
     "fs.binfmt_misc.status"              = 0;              # Disable support for miscellaneous binary formats
