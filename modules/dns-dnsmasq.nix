@@ -79,11 +79,9 @@
     enable = true;
   };
 
-  # dnscrypt-proxy config for dnsmasq
-  environment.etc."dnscrypt-proxy/dnscrypt-proxy-dnsmasq.toml".text = lib.mkForce ''# Minimal dnscrypt-proxy config for dnsmasq
-listen_addresses = ['127.0.0.1:53']
-# Use default server list from dnscrypt-proxy; customize upstreams as needed
-'';
+  # Provide external TOML to avoid formatting issues inside Nix modules.
+  # The file is stored in modules/dnscrypt-configs and referenced by source.
+  environment.etc."dnscrypt-proxy/dnscrypt-proxy-dnsmasq.toml".source = ./includes/dnscrypt-configs/dnscrypt-proxy-dnsmasq.toml;
   
   # Point system DNS to dnsmasq
   networking.nameservers = lib.mkForce [ "127.0.0.1" ];
