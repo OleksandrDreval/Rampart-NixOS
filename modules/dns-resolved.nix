@@ -8,13 +8,14 @@
     enable = lib.mkForce true;
     
     # DNSSEC configuration
-    # "allow-downgrade" = use DNSSEC when available, fallback if domain doesn't support it
-    # This prevents breaking sites without DNSSEC while maintaining security for supported domains
-    dnssec = lib.mkForce "allow-downgrade";
-    
+    # "true" = require DNSSEC validation for all DNS responses. If DNSSEC
+    # validation fails or is unavailable for a zone, resolution will fail.
+    # This enforces cryptographic integrity of DNS replies.
+    dnssec = lib.mkForce "true";
+
     # Alternative DNSSEC modes:
-    # "true"  - Strict DNSSEC validation (fails for domains without DNSSEC) - NOT recommended
-    # "false" - Disabled (least secure) - NOT recommended
+    # "allow-downgrade" - use DNSSEC when available, fall back to plain DNS when not
+    # "false" - Disabled (least secure)
     
     # Fallback DNS servers (used when NetworkManager doesn't provide DNS)
     fallbackDns = lib.mkForce [
