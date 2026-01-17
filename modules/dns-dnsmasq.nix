@@ -24,11 +24,13 @@
       dnssec = true;
       dnssec-check-unsigned = true;  # Reject unsigned responses for signed domains
       
-      # DNSSEC trust anchor (Root KSK 2017)
+      # DNSSEC trust anchors (root KSKs)
       # Source: https://data.iana.org/root-anchors/root-anchors.xml
-      # Current trust anchor is valid until approximately 2027
-      # Update when root key changes (check IANA website)
-      trust-anchor = ".,20326,8,2,E06D44B80B8F1D39A95C0B0D7C65D08458E880409BBC683457104237C7F8EC8D";
+      # Keep both old and new anchors during key rollovers
+      trust-anchor = [
+        ".,20326,8,2,E06D44B80B8F1D39A95C0B0D7C65D08458E880409BBC683457104237C7F8EC8D"  # 2017 KSK
+        ".,38696,8,2,683D2D0ACB8C9B712A1948B27F741219298D0A450D612C483AF444A4C0FB2B16"  # 2024 KSK (new)
+      ];
       
       # Security settings
       bogus-priv = true;     # Don't forward private IP ranges (192.168.x.x, 10.x.x.x) upstream
