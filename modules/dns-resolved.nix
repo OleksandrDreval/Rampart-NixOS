@@ -20,7 +20,6 @@
     fallbackDns = [
       "1.1.1.1"     # Cloudflare (supports DNSSEC)
       "9.9.9.9"     # Quad9 (supports DNSSEC, privacy-focused)
-      "8.8.8.8"     # Google Public DNS (supports DNSSEC)
     ];
     
     # Disable LLMNR (Link-Local Multicast Name Resolution)
