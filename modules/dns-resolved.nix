@@ -79,7 +79,7 @@
   };
 
   # Provide external TOML to avoid formatting issues inside Nix modules.
-  environment.etc."dnscrypt-proxy/dnscrypt-proxy-resolved.toml".source = .//includes/dnscrypt-configs/dnscrypt-proxy-resolved.toml;
+  environment.etc."dnscrypt-proxy/dnscrypt-proxy-resolved.toml".source = ./includes/dnscrypt-configs/dnscrypt-proxy-resolved.toml;
   
   # Let systemd-resolved manage /etc/resolv.conf
   # systemd-resolved creates a stub resolver at 127.0.0.53
