@@ -14,10 +14,8 @@
       bind-interfaces = true;
       
       # Upstream DNS servers with DNSSEC support
-      server = lib.mkForce [
-        "1.1.1.1"  # Cloudflare (supports DNSSEC)
-        "9.9.9.9"  # Quad9 (supports DNSSEC, privacy-focused)
-      ];
+      # Forward queries to local dnscrypt-proxy instance (listening on 127.0.0.1:5353)
+      server = lib.mkForce [ "127.0.0.1#5353" ];
       
       # DNSSEC configuration
       dnssec = true;
@@ -56,6 +54,27 @@
       # ];
     };
   };
+
+  # Run a dnscrypt-proxy instance for dnsmasq (listens on 127.0.0.1:5353)
+  environment.systemPackages = lib.mkForce (lib.mkMerge [ (config.environment.systemPackages or []) ] ++ [ pkgs.dnscrypt-proxy ]);
+
+  services.systemd.services.dnscrypt-proxy-dnsmasq = {
+    description = "dnscrypt-proxy for dnsmasq (DoH/DoT/DNSCrypt forwarder)";
+    wantedBy = [ "network-online.target" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.dnscrypt-proxy}/bin/dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy-dnsmasq.toml";
+      Restart = "on-failure";
+      RestartSec = 5;
+    };
+    install.wantedBy = [ "multi-user.target" ];
+    enable = true;
+  };
+
+  # dnscrypt-proxy config for dnsmasq
+  environment.etc."dnscrypt-proxy/dnscrypt-proxy-dnsmasq.toml".text = lib.mkForce ''# Minimal dnscrypt-proxy config for dnsmasq
+listen_addresses = ['127.0.0.1:5353']
+# Use default server list from dnscrypt-proxy; customize upstreams as needed
+'';
   
   # Point system DNS to dnsmasq
   networking.nameservers = lib.mkForce [ "127.0.0.1" ];
