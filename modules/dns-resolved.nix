@@ -32,10 +32,12 @@
     multicastDns = lib.mkForce "false";
     
     # DNS over TLS configuration
-    # "opportunistic" = try DNS-over-TLS, fallback to plain DNS if unavailable
-    # "true" = require DNS-over-TLS (strict, may break some networks)
-    # "false" = disabled
-    dnsovertls = lib.mkForce "opportunistic";
+    # "true" = require DNS-over-TLS (DoT) for upstream connections; if TLS is
+    # unavailable resolution will fail. This enforces encryption of DNS queries
+    # to upstream servers and prevents downgrade to plaintext DNS.
+    # "opportunistic" - try DoT and fall back to plain DNS if unavailable
+    # "false" - disabled
+    dnsovertls = lib.mkForce "true";
     
     # Enable DNS caching
     cache = lib.mkForce true;
