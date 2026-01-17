@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 let
-  vars = import ./variables.nix;
+  vars = import ./includes/variables.nix;
   
   # Fetch Lanzaboote from GitHub using pkgs.fetchFromGitHub
   # This is the idiomatic NixOS way - cleaner than builtins.fetchTarball
