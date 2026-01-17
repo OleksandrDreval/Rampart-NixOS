@@ -6,7 +6,7 @@
   # Note: This module conflicts with systemd-resolved - enable only one
   
   services.dnsmasq = {
-    enable = true;
+    enable = lib.mkForce true;
     
     settings = {
       # Listen only on localhost (don't expose DNS to local network)
@@ -14,7 +14,7 @@
       bind-interfaces = true;
       
       # Upstream DNS servers with DNSSEC support
-      server = [
+      server = lib.mkForce [
         "1.1.1.1"  # Cloudflare (supports DNSSEC)
         "9.9.9.9"  # Quad9 (supports DNSSEC, privacy-focused)
         "8.8.8.8"  # Google Public DNS (supports DNSSEC)
@@ -33,9 +33,9 @@
       ];
       
       # Security settings
-      bogus-priv = true;     # Don't forward private IP ranges (192.168.x.x, 10.x.x.x) upstream
-      domain-needed = true;  # Don't forward queries without dots (prevents info leakage)
-      no-resolv = true;      # Don't read /etc/resolv.conf for upstream servers
+      bogus-priv = true;             # Don't forward private IP ranges (192.168.x.x, 10.x.x.x) upstream
+      domain-needed = true;          # Don't forward queries without dots (prevents info leakage)
+      no-resolv = lib.mkForce true;  # Don't read /etc/resolv.conf for upstream servers
       
       # Cache settings
       cache-size = 1000;     # DNS cache size (number of entries)
@@ -59,11 +59,11 @@
   };
   
   # Point system DNS to dnsmasq
-  networking.nameservers = [ "127.0.0.1" ];
+  networking.nameservers = lib.mkForce [ "127.0.0.1" ];
   
   # Prevent NetworkManager from overriding DNS
   # This ensures dnsmasq always handles DNS resolution
-  networking.networkmanager.dns = "none";
+  networking.networkmanager.dns = lib.mkForce "none";
   
   # Verification commands:
   # Test DNS resolution through dnsmasq:
