@@ -8,11 +8,11 @@
   programs.firefox.enable = true;
 
   # System-wide packages
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = (config.environment.systemPackages or []) ++ (with pkgs; [
     # Add your packages here
     # vim
     # wget
-  ];
+  ]);
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions
