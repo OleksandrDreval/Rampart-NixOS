@@ -5,39 +5,39 @@
   # Provides secure DNS resolution with cryptographic validation
   
   services.resolved = {
-    enable = true;
+    enable = lib.mkForce true;
     
     # DNSSEC configuration
     # "allow-downgrade" = use DNSSEC when available, fallback if domain doesn't support it
     # This prevents breaking sites without DNSSEC while maintaining security for supported domains
-    dnssec = "allow-downgrade";
+    dnssec = lib.mkForce "allow-downgrade";
     
     # Alternative DNSSEC modes:
     # "true"  - Strict DNSSEC validation (fails for domains without DNSSEC) - NOT recommended
     # "false" - Disabled (least secure) - NOT recommended
     
     # Fallback DNS servers (used when NetworkManager doesn't provide DNS)
-    fallbackDns = [
+    fallbackDns = lib.mkForce [
       "1.1.1.1"     # Cloudflare (supports DNSSEC)
       "9.9.9.9"     # Quad9 (supports DNSSEC, privacy-focused)
     ];
     
     # Disable LLMNR (Link-Local Multicast Name Resolution)
     # Security: LLMNR can be spoofed and used for credential theft
-    llmnr = "false";
+    llmnr = lib.mkForce "false";
     
     # Disable mDNS (Multicast DNS)
     # Security: mDNS exposes hostnames on local network
-    multicastDns = "false";
+    multicastDns = lib.mkForce "false";
     
     # DNS over TLS configuration
     # "opportunistic" = try DNS-over-TLS, fallback to plain DNS if unavailable
     # "true" = require DNS-over-TLS (strict, may break some networks)
     # "false" = disabled
-    dnsovertls = "opportunistic";
+    dnsovertls = lib.mkForce "opportunistic";
     
     # Enable DNS caching
-    cache = true;
+    cache = lib.mkForce true;
     
     # Additional security settings
     extraConfig = ''
