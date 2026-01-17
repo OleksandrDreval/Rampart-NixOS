@@ -78,10 +78,8 @@
     enable = true;
   };
 
-  environment.etc."dnscrypt-proxy/dnscrypt-proxy-resolved.toml".text = lib.mkForce ''# Minimal dnscrypt-proxy config for systemd-resolved
-listen_addresses = ['127.0.0.1:53']
-# Use default server list from dnscrypt-proxy; customize upstreams as needed
-'';
+  # Provide external TOML to avoid formatting issues inside Nix modules.
+  environment.etc."dnscrypt-proxy/dnscrypt-proxy-resolved.toml".source = .//includes/dnscrypt-configs/dnscrypt-proxy-resolved.toml;
   
   # Let systemd-resolved manage /etc/resolv.conf
   # systemd-resolved creates a stub resolver at 127.0.0.53
