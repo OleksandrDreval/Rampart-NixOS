@@ -14,8 +14,8 @@
       bind-interfaces = true;
       
       # Upstream DNS servers with DNSSEC support
-      # Forward queries to local dnscrypt-proxy instance (listening on 127.0.0.1:5353)
-      server = lib.mkForce [ "127.0.0.1#5353" ];
+      # Forward queries to local dnscrypt-proxy instance (listening on 127.0.0.1:53)
+      server = lib.mkForce [ "127.0.0.1#53" ];
       
       # DNSSEC configuration
       dnssec = true;
@@ -55,7 +55,7 @@
     };
   };
 
-  # Run a dnscrypt-proxy instance for dnsmasq (listens on 127.0.0.1:5353)
+  # Run a dnscrypt-proxy instance for dnsmasq (listens on 127.0.0.1:53)
   environment.systemPackages = lib.mkForce (lib.mkMerge [ (config.environment.systemPackages or []) ] ++ [ pkgs.dnscrypt-proxy ]);
 
   services.systemd.services.dnscrypt-proxy-dnsmasq = {
@@ -81,7 +81,7 @@
 
   # dnscrypt-proxy config for dnsmasq
   environment.etc."dnscrypt-proxy/dnscrypt-proxy-dnsmasq.toml".text = lib.mkForce ''# Minimal dnscrypt-proxy config for dnsmasq
-listen_addresses = ['127.0.0.1:5353']
+listen_addresses = ['127.0.0.1:53']
 # Use default server list from dnscrypt-proxy; customize upstreams as needed
 '';
   
