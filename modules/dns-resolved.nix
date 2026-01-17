@@ -18,10 +18,8 @@
     # "false" - Disabled (least secure)
     
     # Fallback DNS servers (used when NetworkManager doesn't provide DNS)
-    fallbackDns = lib.mkForce [
-      "1.1.1.1"     # Cloudflare (supports DNSSEC)
-      "9.9.9.9"     # Quad9 (supports DNSSEC, privacy-focused)
-    ];
+    # Forward to local dnscrypt-proxy instance (listening on 127.0.0.1:53)
+    fallbackDns = lib.mkForce [ "127.0.0.1" ];
     
     # Disable LLMNR (Link-Local Multicast Name Resolution)
     # Security: LLMNR can be spoofed and used for credential theft
@@ -55,6 +53,26 @@
       # DNSDefaultRoute=no
     '';
   };
+
+  # dnscrypt-proxy instance for systemd-resolved (listen on 127.0.0.1:53)
+  environment.systemPackages = lib.mkForce (lib.mkMerge [ (config.environment.systemPackages or []) ] ++ [ pkgs.dnscrypt-proxy ]);
+
+  services.systemd.services.dnscrypt-proxy-resolved = {
+    description = "dnscrypt-proxy for systemd-resolved (DoH/DoT/DNSCrypt forwarder)";
+    wantedBy = [ "network-online.target" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.dnscrypt-proxy}/bin/dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy-resolved.toml";
+      Restart = "on-failure";
+      RestartSec = 5;
+    };
+    install.wantedBy = [ "multi-user.target" ];
+    enable = true;
+  };
+
+  environment.etc."dnscrypt-proxy/dnscrypt-proxy-resolved.toml".text = lib.mkForce ''# Minimal dnscrypt-proxy config for systemd-resolved
+listen_addresses = ['127.0.0.1:53']
+# Use default server list from dnscrypt-proxy; customize upstreams as needed
+'';
   
   # Let systemd-resolved manage /etc/resolv.conf
   # systemd-resolved creates a stub resolver at 127.0.0.53
