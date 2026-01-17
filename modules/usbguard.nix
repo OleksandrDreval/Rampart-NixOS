@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 let
-  vars = import ./variables.nix;
+  vars = import ./includes/variables.nix;
   
   # Generate rules string from allowed devices list
   rulesString = lib.concatStringsSep "\n" (
