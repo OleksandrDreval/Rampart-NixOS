@@ -56,7 +56,7 @@
   };
 
   # Run a dnscrypt-proxy instance for dnsmasq (listens on 127.0.0.1:53)
-  environment.systemPackages = lib.mkForce (lib.mkMerge [ (config.environment.systemPackages or []) ] ++ [ pkgs.dnscrypt-proxy ]);
+  environment.systemPackages = with pkgs; [ dnscrypt-proxy ] ++ (config.environment.systemPackages or []);
 
   services.systemd.services.dnscrypt-proxy-dnsmasq = {
     description = "dnscrypt-proxy for dnsmasq (DoH/DoT/DNSCrypt forwarder)";
