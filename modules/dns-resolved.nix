@@ -64,6 +64,15 @@
       ExecStart = "${pkgs.dnscrypt-proxy}/bin/dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy-resolved.toml";
       Restart = "on-failure";
       RestartSec = 5;
+      NoNewPrivileges = "true";
+      ProtectSystem = "full";
+      ProtectHome = "read-only";
+      PrivateTmp = "true";
+      PrivateDevices = "true";
+      ProtectControlGroups = "true";
+      ProtectKernelTunables = "true";
+      ProtectKernelModules = "true";
+      CapabilityBoundingSet = "CAP_NET_BIND_SERVICE";
     };
     install.wantedBy = [ "multi-user.target" ];
     enable = true;
