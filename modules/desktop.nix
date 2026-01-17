@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  vars = import ./variables.nix;
+  vars = import ./includes/variables.nix;
 in
 {
   # Enable X11 windowing system
