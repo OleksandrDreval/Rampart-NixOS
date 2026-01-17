@@ -55,7 +55,7 @@
   };
 
   # dnscrypt-proxy instance for systemd-resolved (listen on 127.0.0.1:53)
-  environment.systemPackages = lib.mkForce (lib.mkMerge [ (config.environment.systemPackages or []) ] ++ [ pkgs.dnscrypt-proxy ]);
+  environment.systemPackages = with pkgs; [ dnscrypt-proxy ] ++ (config.environment.systemPackages or []);
 
   services.systemd.services.dnscrypt-proxy-resolved = {
     description = "dnscrypt-proxy for systemd-resolved (DoH/DoT/DNSCrypt forwarder)";
