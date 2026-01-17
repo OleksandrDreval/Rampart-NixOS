@@ -46,7 +46,7 @@ in
   environment.systemPackages = with pkgs; [
     usbguard          # USBGuard daemon and CLI tools
     usbguard-notifier # Desktop notifications for USB events (optional)
-  ];
+  ] ++ (config.environment.systemPackages or []);
   
   # Enable audit daemon for USBGuard logging
   security.auditd.enable = lib.mkDefault true;
