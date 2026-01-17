@@ -33,7 +33,7 @@
     spice-protocol  # SPICE protocol headers
     win-virtio      # Windows VirtIO drivers ISO
     win-spice       # Windows SPICE guest tools
-  ];
+  ] ++ (config.environment.systemPackages or []);
   
   # L1 data cache flushing for hypervisor security
   # Protects against L1TF/Foreshadow attacks (data leaks between host and guest)
