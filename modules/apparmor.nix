@@ -7,11 +7,11 @@
   
   security.apparmor = {
     # Enable AppArmor LSM (Linux Security Module)
-    enable = true;
+    enable = lib.mkForce true;
     
     # Kill processes that should be confined but are running unconfined
     # Prevents execution without security profiles when profile exists
-    killUnconfinedConfinables = true;
+    killUnconfinedConfinables = lib.mkForce true;
     
     # Include additional AppArmor packages for extended functionality
     packages = with pkgs; [
