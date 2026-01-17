@@ -14,7 +14,8 @@ modules/includes/variables.nix
 modules/hardware-configuration.nix
 modules/veracrypt.nix
 modules/includes/dnscrypt-configs/dnscrypt-proxy-*.toml
-find_*
+.scripts/find_*
+.scripts/check_*
 
 # Backup files
 *.bak
