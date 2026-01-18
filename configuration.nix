@@ -17,7 +17,7 @@
       ./modules/memory.nix
       ./modules/entropy.nix
     # ./modules/apparmor.nix
-      ./modules/usbguard.nix
+    # ./modules/usbguard.nix
       ./modules/networking.nix
       ./modules/dns-resolved.nix       # DNSSEC DNS with systemd-resolved
     # ./modules/dns-dnsmasq.nix        # Alternative: DNSSEC DNS with dnsmasq (conflicts with resolved)
@@ -25,10 +25,10 @@
       ./modules/desktop.nix
       ./modules/users.nix
       ./modules/packages.nix
-      ./modules/veracrypt.nix
+    # ./modules/veracrypt.nix
       ./modules/nixos-permissions.nix
-      ./modules/ssh.nix
-      ./modules/virtualisation.nix
+    # ./modules/ssh.nix
+    # ./modules/virtualisation.nix
     ];
 
   # This value determines the NixOS release from which the default
