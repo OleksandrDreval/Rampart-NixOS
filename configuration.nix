@@ -10,9 +10,11 @@
       # Hardware configuration
       ./modules/hardware-configuration.nix
       
+      # Boot modules
+      ./modules/boot.nix         # Standard boot configuration
+    # ./modules/boot-secure.nix  # Secure Boot with Lanzaboote
+
       # System modules
-      ./modules/boot.nix
-    # ./modules/boot-secure.nix
       ./modules/kernel.nix
       ./modules/memory.nix
       ./modules/entropy.nix
