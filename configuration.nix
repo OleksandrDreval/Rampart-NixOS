@@ -18,9 +18,15 @@
       ./modules/entropy.nix
     # ./modules/apparmor.nix
     # ./modules/usbguard.nix
+
+      # Networking modules
       ./modules/networking.nix
-      ./modules/dns-resolved.nix       # DNSSEC DNS with systemd-resolved
+
+      # DNS configuration modules
+      ./modules/dns-classic.nix        # Classic static DNS configuration
+    # ./modules/dns-resolved.nix       # DNSSEC DNS with systemd-resolved
     # ./modules/dns-dnsmasq.nix        # Alternative: DNSSEC DNS with dnsmasq (conflicts with resolved)
+
       ./modules/localization.nix
       ./modules/desktop.nix
       ./modules/users.nix
