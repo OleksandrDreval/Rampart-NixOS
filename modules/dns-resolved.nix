@@ -84,6 +84,9 @@
   # Let systemd-resolved manage /etc/resolv.conf
   # systemd-resolved creates a stub resolver at 127.0.0.53
   # Comment out static nameservers in networking.nix to avoid conflicts
+  # Ensure NetworkManager forwards per-connection DNS to systemd-resolved.
+  # This forces integration (recommended when using services.resolved).
+  networking.networkmanager.dns = lib.mkForce "systemd-resolved";
   
   # Verification commands:
   # Check DNSSEC status:
