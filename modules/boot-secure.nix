@@ -35,7 +35,7 @@ in
 
   # Enable Lanzaboote for Secure Boot
   boot.lanzaboote = {
-    enable = true;
+    enable = lib.mkForce true;
     # Path where Secure Boot keys will be stored
     # Keys are generated with: sudo sbctl create-keys
     # sbctl uses /var/lib/sbctl by default (official recommendation)
