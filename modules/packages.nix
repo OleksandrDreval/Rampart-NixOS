@@ -1,8 +1,13 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  # By default, unfree (proprietary/binary-only) packages are disabled.
+  # This provides a conservative system-wide default. Other modules can
+  # override this setting (for example with `lib.mkDefault` or
+  # `lib.mkForce`) if a specific unfree package is required.
+  # Example: to allow binary-only packages globally, set
+  # `nixpkgs.config.allowUnfree = lib.mkDefault true` in a higher-priority module.
+  nixpkgs.config.allowUnfree = lib.mkDefault false;
 
   # Enable Firefox browser
   programs.firefox.enable = true;
