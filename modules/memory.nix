@@ -23,22 +23,25 @@
 
   # Kernel parameters and sysctls related to memory hardening.
   # These options harden allocation, ASLR, and mapping behaviour.
-  boot.kernelParams = lib.mkMerge [
-    "proc_mem.force_override=ptrace"  # Restrict process memory mapping changes to ptrace workflows
-    "init_on_alloc=1"                 # Initialize memory on allocation to prevent data leaks
-    "init_on_free=1"                  # Initialize memory on free to protect confidentiality
-    "slab_nomerge"                    # Disable slab merging to prevent cross-object leaks
-    "slub_debug=FZP"                  # SLUB debugging to detect memory errors
-    "page_alloc.shuffle=1"            # Randomize page allocation to complicate exploits
-    "page_poison=1"                   # Fill freed memory to prevent data recovery
-    "randomize_kstack_offset=on"      # Randomize kernel stack offset to complicate exploitation
-    "spec_rstack_overflow=safe-ret"   # AMD RAS return-address-stack overflow protection
-    "hardened_usercopy=on"            # Strict validation of usercopy operations
-    "vsyscall=none"                   # Disable vsyscall to eliminate predictable memory addresses
-    "pti=on"                          # Force Page Table Isolation (Meltdown mitigation)
-  ];
+  boot.kernelParams = let
+    existing = config.boot.kernelParams or [];
+    toAdd = [
+      "proc_mem.force_override=ptrace"  # Restrict process memory mapping changes to ptrace workflows
+      "init_on_alloc=1"                 # Initialize memory on allocation to prevent data leaks
+      "init_on_free=1"                  # Initialize memory on free to protect confidentiality
+      "slab_nomerge"                    # Disable slab merging to prevent cross-object leaks
+      "slub_debug=FZP"                  # SLUB debugging to detect memory errors
+      "page_alloc.shuffle=1"            # Randomize page allocation to complicate exploits
+      "page_poison=1"                   # Fill freed memory to prevent data recovery
+      "randomize_kstack_offset=on"      # Randomize kernel stack offset to complicate exploitation
+      "spec_rstack_overflow=safe-ret"   # AMD RAS return-address-stack overflow protection
+      "hardened_usercopy=on"            # Strict validation of usercopy operations
+      "vsyscall=none"                   # Disable vsyscall to eliminate predictable memory addresses
+      "pti=on"                          # Force Page Table Isolation (Meltdown mitigation)
+    ];
+  in existing ++ lib.filter (p: !(lib.elem p existing)) toAdd;
 
-  boot.kernel.sysctl = lib.mkMerge {
+  boot.kernel.sysctl = lib.mkMerge [ (config.boot.kernel.sysctl or {}) {
     # Virtual memory and ASLR
     "vm.unprivileged_userfaultfd" = 0;      # Prevent use-after-free via userfaultfd
     "vm.mmap_rnd_bits"            = 32;     # ASLR entropy for 64-bit
@@ -50,5 +53,5 @@
 
     # Stack protection (legacy)
     "kernel.exec-shield"          = 1;      # Stack execution protection
-  };
+  } ];
 }
