@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   vars = import ./includes/variables.nix;
@@ -97,7 +97,7 @@ in
   # Universal network security parameters
   # "Trust no network" approach - safe for public WiFi, hotels, airports, untrusted networks
   # All settings are reasonable, don't break connections, and provide real security
-  boot.kernel.sysctl = {
+  boot.kernel.sysctl = lib.mkMerge [ (config.boot.kernel.sysctl or {}) {
     # IPv4 Critical Security
     
     # Source routing and redirects protection (prevents route hijacking and MitM)
@@ -199,5 +199,5 @@ in
     "net.ipv4.tcp_fastopen"                       = 3;       # Enable TCP Fast Open (client + server)
     "net.ipv4.tcp_congestion_control"             = "bbr";   # Google BBR congestion control (better throughput)
     "net.core.default_qdisc"                      = "cake";  # CAKE queue discipline (bufferbloat mitigation)
-  };
+  } ];
 }
