@@ -11,7 +11,9 @@
   
   # Pre-load essential modules at boot before lockKernelModules
   # These modules are needed for system operation and security
-  boot.kernelModules = lib.mkMerge [
+  boot.kernelModules = let
+    existing = config.boot.kernelModules or [];
+    toAdd = [
     # WiFi crypto modules (WPA/WPA2/WPA3 authentication)
     "ccm"          # Counter with CBC-MAC mode for WPA2-CCMP
     "ctr"          # Counter mode for AES
@@ -42,11 +44,14 @@
     # Essential system modules
     "loop"         # Loopback device support
     "overlay"      # Overlay filesystem (for containers/nix store)
-    
-  ];
+    ];
+    toAddFiltered = lib.filter (p: !(lib.elem p existing)) toAdd;
+  in toAddFiltered ++ existing;
   
   # Security-focused kernel parameters
-  boot.kernelParams = lib.mkMerge [
+  boot.kernelParams = let
+    existing = config.boot.kernelParams or [];
+    toAdd = [
     "amd_iommu=force_isolation"           # Force AMD IOMMU isolation to protect devices from DMA attacks
     "apparmor=1"                          # Enable AppArmor mandatory access control
     "audit=1"                             # Enable auditing for AppArmor
@@ -73,10 +78,12 @@
     "spec_store_bypass_disable=on"        # Protection against Speculative Store Bypass attacks
     "spectre_v2=on"                       # Protection against Spectre v2 attacks
     "stf_barrier=on"                      # Store-to-Load Forwarding barrier for speculative attack protection
-  ];
+    ];
+    toAddFiltered = lib.filter (p: !(lib.elem p existing)) toAdd;
+  in toAddFiltered ++ existing;
 
   # Kernel sysctl security parameters
-  boot.kernel.sysctl = lib.mkMerge {
+  boot.kernel.sysctl = lib.mkMerge [ (config.boot.kernel.sysctl or {}) {
     # Device and filesystem security
     "dev.tty.ldisc_autoload"             = 0;              # Disable automatic TTY line discipline loading
     "fs.binfmt_misc.status"              = 0;              # Disable support for miscellaneous binary formats
@@ -101,7 +108,7 @@
     "kernel.sysrq"                       = 0;              # Completely disable SysRq (use hard reset if system hangs)
     "kernel.unprivileged_bpf_disabled"   = 1;              # Disable unprivileged BPF to prevent exploits
     "kernel.yama.ptrace_scope"           = 2;              # Maximum ptrace restrictions - admin only
-  };
+  } ];
 
   # Blacklisted kernel modules for security
   boot.blacklistedKernelModules = [
