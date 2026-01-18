@@ -33,7 +33,7 @@
       ./modules/desktop.nix            # Desktop environment settings
       ./modules/users.nix              # User accounts and permissions
       ./modules/packages.nix           # Additional system packages
-    # ./modules/veracrypt.nix          # VeraCrypt disk encryption
+      ./modules/veracrypt.nix          # VeraCrypt disk encryption
       ./modules/nixos-permissions.nix  # Secure /etc/nixos/ permissions
     # ./modules/ssh.nix                # SSH server/client configuration 
     # ./modules/virtualisation.nix     # Virtualization settings
