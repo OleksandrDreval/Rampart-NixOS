@@ -25,6 +25,11 @@ let
     SLAB_CANARY=y
     COMPAT_BRK=n
     SHUFFLE_PAGE_ALLOCATOR=y
+    GCC_PLUGINS=y
+    GCC_PLUGIN_LATENT_ENTROPY=y
+    GCC_PLUGIN_STRUCTLEAK_BYREF_ALL=y
+    GCC_PLUGIN_RANDSTRUCT=y
+    GCC_PLUGIN_RANDSTRUCT_PERFORMANCE=n
   '';
   combinedExtraConfig = if userExtras.extraConfig then defaultExtraConfig + "\n" + userExtras.extraConfig else defaultExtraConfig;
 
