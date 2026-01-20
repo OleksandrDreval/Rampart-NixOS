@@ -8,6 +8,7 @@ let
   # Default kernel extra config: enable audit support and syscall auditing
   defaultExtraConfig = ''
     BPF_JIT_ALWAYS_ON=y
+    USERFAULTFD=n
     AUDIT=y
     AUDITSYSCALL=y
     IKCONFIG=n
