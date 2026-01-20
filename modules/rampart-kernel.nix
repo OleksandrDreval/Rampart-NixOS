@@ -34,6 +34,7 @@ let
     CONFIG_STACKPROTECTOR_STRONG=y
     THREAD_INFO_IN_TASK=y
     VMAP_STACK=y
+    CONFIG_STRICT_MODULE_RWX=y
   '';
   combinedExtraConfig = if userExtras.extraConfig then defaultExtraConfig + "\n" + userExtras.extraConfig else defaultExtraConfig;
 
