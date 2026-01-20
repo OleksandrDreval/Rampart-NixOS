@@ -30,6 +30,7 @@ let
     GCC_PLUGIN_STRUCTLEAK_BYREF_ALL=y
     GCC_PLUGIN_RANDSTRUCT=y
     GCC_PLUGIN_RANDSTRUCT_PERFORMANCE=n
+    CONFIG_ARCH_MMAP_RND_BITS=32
   '';
   combinedExtraConfig = if userExtras.extraConfig then defaultExtraConfig + "\n" + userExtras.extraConfig else defaultExtraConfig;
 
