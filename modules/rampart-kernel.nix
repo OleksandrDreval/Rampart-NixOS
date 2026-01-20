@@ -17,6 +17,12 @@ let
     IKHEADERS=n
     KALLSYMS=n
     KALLSYMS_ALL=n
+    SLUB_DEBUG=y
+    SLUB_DEBUG_ON=y
+    SLAB_MERGE_DEFAULT=n
+    SLAB_FREELIST_RANDOM=y
+    SLAB_FREELIST_HARDENED=y
+    SLAB_CANARY=y
   '';
   combinedExtraConfig = if userExtras.extraConfig then defaultExtraConfig + "\n" + userExtras.extraConfig else defaultExtraConfig;
 
