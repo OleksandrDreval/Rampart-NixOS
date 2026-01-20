@@ -17,13 +17,20 @@ in
   # Usage: set `rampartKernel.extraPatches = [ ./patches/foo.patch ];` in configuration.nix
   nixpkgs.config.packageOverrides = pkgs_: let
     extras = userExtras.extraPatches or [];
+    extraCfg = userExtras.extraConfig or "";
+    addExtras = attrs: attrs.overrideAttrs (old: {
+      patches = (old.patches or []) ++ extras;
+      extraConfig = let
+        base = old.extraConfig or "";
+        add = extraCfg;
+      in if base == "" then add else if add == "" then base else base + "\n" + add;
+    });
   in pkgs_.lib.recursiveUpdate pkgs_ {
     linuxKernel = pkgs_.linuxKernel // {
-      # Create an override for the hardened kernel package to append patches and extraConfig
-      kernels = pkgs_.lib.mapAttrs (_: v: v) (pkgs_.linuxKernel.kernels // {
-        # override each available kernel to include extra patches/config when using hardened base
-        # (safe fallback: only applies to kernels that exist in pkgs)
-      });
+      kernels = pkgs_.lib.mapAttrs (name: val:
+        # apply override only if extras or extraCfg provided, otherwise keep original
+        (if (extras != [] || extraCfg != "") then addExtras val else val)
+      ) pkgs_.linuxKernel.kernels;
     };
   };
 
