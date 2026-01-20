@@ -17,7 +17,12 @@ in
   # Usage: set `rampartKernel.extraPatches = [ ./patches/foo.patch ];` in configuration.nix
   nixpkgs.config.packageOverrides = pkgs_: let
     extras = userExtras.extraPatches or [];
-    extraCfg = userExtras.extraConfig or "";
+    # Default kernel extra config: enable audit support and syscall auditing
+    defaultExtraConfig = ''
+      AUDIT=y
+      AUDITSYSCALL=y
+    '';
+    extraCfg = if userExtras.extraConfig then defaultExtraConfig + "\n" + userExtras.extraConfig else defaultExtraConfig;
     addExtras = attrs: attrs.overrideAttrs (old: {
       patches = (old.patches or []) ++ extras;
       extraConfig = let
