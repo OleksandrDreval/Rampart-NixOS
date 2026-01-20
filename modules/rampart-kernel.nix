@@ -23,6 +23,8 @@ let
     SLAB_FREELIST_RANDOM=y
     SLAB_FREELIST_HARDENED=y
     SLAB_CANARY=y
+    COMPAT_BRK=n
+    SHUFFLE_PAGE_ALLOCATOR=y
   '';
   combinedExtraConfig = if userExtras.extraConfig then defaultExtraConfig + "\n" + userExtras.extraConfig else defaultExtraConfig;
 
