@@ -11,6 +11,8 @@ let
     AUDITSYSCALL=y
     IKCONFIG=n
     IKHEADERS=n
+    KALLSYMS=n
+    KALLSYMS_ALL=n
   '';
   combinedExtraConfig = if userExtras.extraConfig then defaultExtraConfig + "\n" + userExtras.extraConfig else defaultExtraConfig;
 
