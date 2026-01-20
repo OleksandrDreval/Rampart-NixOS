@@ -31,6 +31,9 @@ let
     GCC_PLUGIN_RANDSTRUCT=y
     GCC_PLUGIN_RANDSTRUCT_PERFORMANCE=n
     CONFIG_ARCH_MMAP_RND_BITS=32
+    CONFIG_STACKPROTECTOR_STRONG=y
+    THREAD_INFO_IN_TASK=y
+    VMAP_STACK=y
   '';
   combinedExtraConfig = if userExtras.extraConfig then defaultExtraConfig + "\n" + userExtras.extraConfig else defaultExtraConfig;
 
