@@ -106,7 +106,9 @@
     "kernel.perf_event_paranoid"         = 3;              # Maximum restrictions for perf events
     "kernel.printk"                      = "3 3 3 3";      # Show only errors (level 3) in kernel logs
     "kernel.sysrq"                       = 0;              # Completely disable SysRq (use hard reset if system hangs)
-    "kernel.unprivileged_bpf_disabled"   = 1;              # Disable unprivileged BPF to prevent exploits
+    "kernel.unprivileged_bpf_disabled"   = 2;              # Disable unprivileged BPF to prevent exploits (permanent disable)
+    "net.core.bpf_jit_harden"            = 2;              # Harden BPF JIT runtime (higher security)
+    "net.core.bpf_jit_kallsyms"          = 0;              # Disable publishing JIT symbols to kallsyms
     "kernel.yama.ptrace_scope"           = 2;              # Maximum ptrace restrictions - admin only
   } ];
 
