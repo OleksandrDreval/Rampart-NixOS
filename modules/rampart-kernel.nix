@@ -9,6 +9,7 @@ let
   defaultExtraConfig = ''
     BPF_JIT_ALWAYS_ON=y
     USERFAULTFD=n
+    EXPERT=y
     AUDIT=y
     AUDITSYSCALL=y
     IKCONFIG=n
