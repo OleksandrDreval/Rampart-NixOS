@@ -37,7 +37,7 @@
   
   # L1 data cache flushing for hypervisor security
   # Protects against L1TF/Foreshadow attacks (data leaks between host and guest)
-  security.virtualisation.flushL1DataCache = "cond";
+  security.virtualisation.flushL1DataCache = "always";
   
   # "cond" = conditional flushing for predetermined code paths
   # This is a balance between security and performance
