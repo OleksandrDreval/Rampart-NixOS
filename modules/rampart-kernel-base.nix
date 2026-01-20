@@ -4,7 +4,22 @@ let
   # `rampartKernel` in `configuration.nix` allows users to customize this module's behavior
   # For example: `rampartKernel.extraPatches`, `rampartKernel.kernelParams`, `rampartKernel.customKernel`
   userExtras = config.rampartKernel or {};
-  defaultKernelPackage = pkgs.linuxKernel.packages.linux_hardened;
+  extras = userExtras.extraPatches or [];
+  # Default kernel extra config: enable audit support and syscall auditing
+  defaultExtraConfig = ''
+    AUDIT=y
+    AUDITSYSCALL=y
+  '';
+  combinedExtraConfig = if userExtras.extraConfig then defaultExtraConfig + "\n" + userExtras.extraConfig else defaultExtraConfig;
+
+  # Create a default rampart kernel package by overriding linux_hardened with patches and extraConfig
+  defaultKernelPackage = pkgs.linuxKernel.packages.linux_hardened.overrideAttrs (old: {
+    patches = (old.patches or []) ++ extras;
+    extraConfig = let
+      base = old.extraConfig or "";
+      add = combinedExtraConfig;
+    in if base == "" then add else if add == "" then base else base + "\n" + add;
+  });
 in
 
 {
@@ -13,31 +28,7 @@ in
     then (userExtras.customKernel or defaultKernelPackage)
     else defaultKernelPackage;
 
-  # Allow adding extra patches (list of paths) that will be applied during kernel build
-  # Usage: set `rampartKernel.extraPatches = [ ./patches/foo.patch ];` in configuration.nix
-  nixpkgs.config.packageOverrides = pkgs_: let
-    extras = userExtras.extraPatches or [];
-    # Default kernel extra config: enable audit support and syscall auditing
-    defaultExtraConfig = ''
-      AUDIT=y
-      AUDITSYSCALL=y
-    '';
-    extraCfg = if userExtras.extraConfig then defaultExtraConfig + "\n" + userExtras.extraConfig else defaultExtraConfig;
-    addExtras = attrs: attrs.overrideAttrs (old: {
-      patches = (old.patches or []) ++ extras;
-      extraConfig = let
-        base = old.extraConfig or "";
-        add = extraCfg;
-      in if base == "" then add else if add == "" then base else base + "\n" + add;
-    });
-  in pkgs_.lib.recursiveUpdate pkgs_ {
-    linuxKernel = pkgs_.linuxKernel // {
-      kernels = pkgs_.lib.mapAttrs (name: val:
-        # apply override only if extras or extraCfg provided, otherwise keep original
-        (if (extras != [] || extraCfg != "") then addExtras val else val)
-      ) pkgs_.linuxKernel.kernels;
-    };
-  };
+  # Note: extra patches and config are already applied to `defaultKernelPackage` above.
 
   # Provide convenient defaults for core dumps and typical security settings
   systemd.coredump.extraConfig = userExtras.coredumpExtraConfig or ''
