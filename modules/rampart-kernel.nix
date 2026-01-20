@@ -9,6 +9,8 @@ let
   defaultExtraConfig = ''
     AUDIT=y
     AUDITSYSCALL=y
+    IKCONFIG=n
+    IKHEADERS=n
   '';
   combinedExtraConfig = if userExtras.extraConfig then defaultExtraConfig + "\n" + userExtras.extraConfig else defaultExtraConfig;
 
