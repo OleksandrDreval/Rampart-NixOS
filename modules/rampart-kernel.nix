@@ -13,22 +13,31 @@ let
   combinedExtraConfig = if userExtras.extraConfig then defaultExtraConfig + "\n" + userExtras.extraConfig else defaultExtraConfig;
 
   # Create a default rampart kernel package by overriding linux_hardened with patches and extraConfig
-  defaultKernelPackage = pkgs.linuxKernel.packages.linux_hardened.overrideAttrs (old: {
+  # Helper: produce a rampart variant of any kernel package by applying
+  # the configured `extras` patches and `combinedExtraConfig`.
+  makeRampartPackage = pkgsBase: pkgsBase.overrideAttrs (old: {
     patches = (old.patches or []) ++ extras;
     extraConfig = let
       base = old.extraConfig or "";
       add = combinedExtraConfig;
     in if base == "" then add else if add == "" then base else base + "\n" + add;
   });
+
+  # Build our `rampart` kernel package from linux_hardened and expose it via overlay.
+  rampartPackage = makeRampartPackage pkgs.linuxKernel.packages.linux_hardened;
+
+  # Overlay that registers `rampartKernel` in `pkgs` for other imports.
+  overlay = final: prev: {
+    rampartKernel = makeRampartPackage prev.linuxKernel.packages.linux_hardened;
+  };
 in
 
 {
-  # Base: use linux_hardened by default, but allow overrides via config.rampartKernel
-  boot.kernelPackages = if userExtras.overrideKernel or false
-    then (userExtras.customKernel or defaultKernelPackage)
-    else defaultKernelPackage;
+  # Register overlay so `pkgs.rampartKernel` becomes available to other imports.
+  nixpkgs.overlays = (config.nixpkgs.overlays or []) ++ [ overlay ];
 
-  # Note: extra patches and config are already applied to `defaultKernelPackage` above.
+  # Use the built rampart kernel package unconditionally.
+  boot.kernelPackages = rampartPackage;
 
   # Provide convenient defaults for core dumps and typical security settings
   systemd.coredump.extraConfig = userExtras.coredumpExtraConfig or ''
