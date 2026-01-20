@@ -141,5 +141,5 @@
   # Prevents container escape attacks and namespace-based exploits
   # Note: This breaks Flatpak, rootless containers (Podman), and some browser sandboxes
   # If needed, set to true: security.unprivilegedUsernsClone = true;
-  security.unprivilegedUsernsClone = lib.mkForce false;
+  security.unprivilegedUsernsClone = lib.mkDefault false;
 }
