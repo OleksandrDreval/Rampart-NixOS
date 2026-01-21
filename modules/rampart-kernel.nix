@@ -60,7 +60,7 @@ in
 
 {
   # Register overlay so `pkgs.rampartKernel` becomes available to other imports.
-  nixpkgs.overlays = (config.nixpkgs.overlays or []) ++ [ overlay ];
+  nixpkgs.overlays = lib.mkDefault ((config.nixpkgs.overlays or []) ++ [ overlay ]);
 
   # Use the built rampart kernel package unconditionally.
   boot.kernelPackages = rampartPackage;
@@ -74,7 +74,7 @@ in
   # `boot.kernelModules` is used to force-preload modules that must be loaded before
   # `security.lockKernelModules` prevents loading new modules. The list is minimal
   # and targeted at security/support needs (no WiFi-specific entries).
-  boot.kernelModules = let
+  boot.kernelModules = lib.mkDefault (let
     existing = config.boot.kernelModules or [];
     # keep only general-purpose modules (avoid WiFi-specific entries here)
     toAdd = userExtras.kernelModules or [
@@ -102,9 +102,9 @@ in
       "overlay"           # Overlay filesystem (for containers / nix store)
     ];
     toAddFiltered = lib.filter (p: !(lib.elem p existing)) toAdd;
-  in toAddFiltered ++ existing;
+  in toAddFiltered ++ existing);
 
-  boot.kernelParams = let
+  boot.kernelParams = lib.mkDefault (let
     existing = config.boot.kernelParams or [];
     toAdd = userExtras.kernelParams or [
       "amd_iommu=force_isolation"     # Force AMD IOMMU isolation to protect devices from DMA attacks
@@ -133,7 +133,7 @@ in
       "stf_barrier=on"                # Store-to-Load Forwarding barrier for speculative attack protection
     ];
     toAddFiltered = lib.filter (p: !(lib.elem p existing)) toAdd;
-  in toAddFiltered ++ existing;
+  in toAddFiltered ++ existing);
 
   # Blacklist risky kernel modules by default (can be overridden via rampartKernel.blacklistedKernelModules)
   boot.blacklistedKernelModules = userExtras.blacklistedKernelModules or [
@@ -152,7 +152,7 @@ in
   ];
 
   # Merge sysctl defaults with optional overrides (expanded security defaults)
-  boot.kernel.sysctl = lib.mkMerge [ (config.boot.kernel.sysctl or {}) (userExtras.kernelSysctl or {
+  boot.kernel.sysctl = lib.mkDefault (lib.mkMerge [ (userExtras.kernelSysctl or {
     # Device and filesystem security
     "dev.tty.ldisc_autoload"             = 0;              # Disable automatic TTY line discipline loading
     "fs.binfmt_misc.status"              = 0;              # Disable support for miscellaneous binary formats
@@ -179,7 +179,7 @@ in
     "net.core.bpf_jit_harden"            = 2;              # Harden BPF JIT runtime (higher security)
     "net.core.bpf_jit_kallsyms"          = 0;              # Disable publishing JIT symbols to kallsyms
     "kernel.yama.ptrace_scope"           = 2;              # Maximum ptrace restrictions - admin only
-  }) ];
+  }) ]);
 
   # Security defaults
   security.lockKernelModules = lib.mkForce (userExtras.lockKernelModules or true);
