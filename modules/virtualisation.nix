@@ -26,14 +26,14 @@
   programs.virt-manager.enable = true;
   
   # Install additional packages for better VM experience
-  environment.systemPackages = with pkgs; [
-    virt-viewer     # Lightweight VM viewer
-    spice           # SPICE protocol for VM display
-    spice-gtk       # GTK client for SPICE
-    spice-protocol  # SPICE protocol headers
-    win-virtio      # Windows VirtIO drivers ISO
-    win-spice       # Windows SPICE guest tools
-  ] ++ (config.environment.systemPackages or []);
+    environment.systemPackages = lib.mkDefault (with pkgs; [
+      virt-viewer     # Lightweight VM viewer
+      spice           # SPICE protocol for VM display
+      spice-gtk       # GTK client for SPICE
+      spice-protocol  # SPICE protocol headers
+      win-virtio      # Windows VirtIO drivers ISO
+      win-spice       # Windows SPICE guest tools
+    ] ++ (config.environment.systemPackages or []));
   
   # L1 data cache flushing for hypervisor security
   # Protects against L1TF/Foreshadow attacks (data leaks between host and guest)
@@ -57,11 +57,8 @@
   # Allowed network bridges for virtual machines
   virtualisation.libvirtd.allowedBridges = [ "virbr0" ];  # Only NAT bridge, no bridged networking
   
-  # Default network configuration for virtual machines
-  virtualisation.defaultNetwork = {
-    enable = true;        # Enable default network
-    forwardMode = "nat";  # Use NAT for internet access (secure for untrusted networks)
-  };
+  # Default network configuration for virtual machines is managed by libvirtd.
+  # Configure networks via `virtualisation.libvirtd` or `networking` modules as needed.
   
   # Enable nested virtualisation (if needed for testing)
   # boot.extraModprobeConfig = ''
