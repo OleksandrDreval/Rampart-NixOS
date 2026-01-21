@@ -16,37 +16,16 @@ in
   # Protects against BadUSB attacks, unauthorized data copying, and malicious USB devices
   services.usbguard = {
     enable = true;
-    
-    # Policy for new devices (block/reject/apply-policy)
-    # "block" = maximum security, all new devices blocked until explicitly allowed
-    implicitPolicyTarget = "block";
-    
-    # Daemon settings
-    settings = {
-      # Policy for inserted devices
-      InsertedDevicePolicy = "block";  # Block all new USB devices by default
-      
-      # Restore policy when device is restored (e.g., after suspend)
-      RestoreControllerDeviceState = true;
-      
-      # IPC access control
-      IPCAllowedUsers = [ "root" ];
-      IPCAllowedGroups = [ "wheel" ];
-      
-      # Audit logging
-      AuditBackend = "LinuxAudit";
-      AuditFilePath = "/var/log/usbguard/usbguard-audit.log";
-    };
-    
-    # Device authorization rules
+
+    # Device authorization rules (provided as a low-priority default elsewhere if needed)
     rules = rulesString;
   };
   
   # Add USBGuard tools to system packages
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = lib.mkDefault (with pkgs; [
     usbguard          # USBGuard daemon and CLI tools
     usbguard-notifier # Desktop notifications for USB events (optional)
-  ] ++ (config.environment.systemPackages or []);
+  ] ++ (config.environment.systemPackages or []));
   
   # Enable audit daemon for USBGuard logging
   security.auditd.enable = lib.mkDefault true;
