@@ -11,7 +11,7 @@
   
   # Pre-load essential modules at boot before lockKernelModules
   # These modules are needed for system operation and security
-  boot.kernelModules = let
+  boot.kernelModules = lib.mkDefault (let
     existing = config.boot.kernelModules or [];
     toAdd = [
     # WiFi crypto modules (WPA/WPA2/WPA3 authentication)
@@ -46,10 +46,10 @@
     "overlay"      # Overlay filesystem (for containers/nix store)
     ];
     toAddFiltered = lib.filter (p: !(lib.elem p existing)) toAdd;
-  in toAddFiltered ++ existing;
+  in toAddFiltered ++ existing);
   
   # Security-focused kernel parameters
-  boot.kernelParams = let
+  boot.kernelParams = lib.mkDefault (let
     existing = config.boot.kernelParams or [];
     toAdd = [
     "amd_iommu=force_isolation"           # Force AMD IOMMU isolation to protect devices from DMA attacks
@@ -80,10 +80,10 @@
     "stf_barrier=on"                      # Store-to-Load Forwarding barrier for speculative attack protection
     ];
     toAddFiltered = lib.filter (p: !(lib.elem p existing)) toAdd;
-  in toAddFiltered ++ existing;
+  in toAddFiltered ++ existing);
 
   # Kernel sysctl security parameters
-  boot.kernel.sysctl = lib.mkMerge [ (config.boot.kernel.sysctl or {}) {
+  boot.kernel.sysctl = lib.mkDefault (lib.mkMerge [ {
     # Device and filesystem security
     "dev.tty.ldisc_autoload"             = 0;              # Disable automatic TTY line discipline loading
     "fs.binfmt_misc.status"              = 0;              # Disable support for miscellaneous binary formats
@@ -110,7 +110,7 @@
     "net.core.bpf_jit_harden"            = 2;              # Harden BPF JIT runtime (higher security)
     "net.core.bpf_jit_kallsyms"          = 0;              # Disable publishing JIT symbols to kallsyms
     "kernel.yama.ptrace_scope"           = 2;              # Maximum ptrace restrictions - admin only
-  } ];
+  } ]);
 
   # Blacklisted kernel modules for security
   boot.blacklistedKernelModules = [
