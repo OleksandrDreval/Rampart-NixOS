@@ -2,10 +2,10 @@
 
 {
   # System packages required for VeraCrypt support.
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = lib.mkDefault (with pkgs; [
     veracrypt  # VeraCrypt disk encryption tool
     ntfs3g     # NTFS filesystem support
-  ] ++ (config.environment.systemPackages or []);
+  ] ++ (config.environment.systemPackages or []));
 
   # Security: prevent non-root users from using the FUSE `allow_other` mount
   # option. Allowing `allow_other` lets other local users read mounted filesystems,
