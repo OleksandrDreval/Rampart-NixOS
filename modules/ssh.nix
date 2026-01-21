@@ -5,12 +5,10 @@
   # Currently disabled for security - enable only if remote access is needed
   
   services.openssh = {
-    enable = false;  # Set to true to enable SSH server
-    permitRootLogin = "no";  # Disable root login via SSH (always enforced)
-    
+    enable = false;  # Set to true to enable SSH server    
     # Security settings (apply when enabled)
-    # settings = {
-    #   PermitRootLogin = "no";                    # Disable root login via SSH
+    settings = {
+      PermitRootLogin = "no";                      # Disable root login via SSH
     #   PasswordAuthentication = false;            # Only SSH keys, no passwords
     #   KbdInteractiveAuthentication = false;      # Disable keyboard-interactive auth
     #   X11Forwarding = false;                     # Disable X11 forwarding
@@ -23,7 +21,7 @@
     #   DenyUsers = [ ];                           # Specify denied users
     #   AllowGroups = [ ];                         # Specify allowed groups
     #   DenyGroups = [ ];                          # Specify denied groups
-    # };
+    };
     
     # Port configuration (default is 22)
     # ports = [ 22 ];
