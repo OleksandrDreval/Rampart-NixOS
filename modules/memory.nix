@@ -23,7 +23,7 @@
 
   # Kernel parameters and sysctls related to memory hardening.
   # These options harden allocation, ASLR, and mapping behaviour.
-  boot.kernelParams = let
+  boot.kernelParams = lib.mkDefault (let
     existing = config.boot.kernelParams or [];
     toAdd = [
       "proc_mem.force_override=ptrace"  # Restrict process memory mapping changes to ptrace workflows
@@ -39,9 +39,9 @@
       "vsyscall=none"                   # Disable vsyscall to eliminate predictable memory addresses
       "pti=on"                          # Force Page Table Isolation (Meltdown mitigation)
     ];
-  in existing ++ lib.filter (p: !(lib.elem p existing)) toAdd;
+  in lib.filter (p: !(lib.elem p existing)) toAdd ++ existing);
 
-  boot.kernel.sysctl = lib.mkMerge [ (config.boot.kernel.sysctl or {}) {
+  boot.kernel.sysctl = lib.mkDefault (lib.mkMerge [ {
     # Virtual memory and ASLR
     "vm.unprivileged_userfaultfd" = 0;      # Prevent use-after-free via userfaultfd
     "vm.mmap_rnd_bits"            = 32;     # ASLR entropy for 64-bit
@@ -53,5 +53,5 @@
 
     # Stack protection (legacy)
     "kernel.exec-shield"          = 1;      # Stack execution protection
-  } ];
+  } ]);
 }
