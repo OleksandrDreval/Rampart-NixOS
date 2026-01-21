@@ -56,11 +56,11 @@
   };
 
   # Run a dnscrypt-proxy instance for dnsmasq (listens on 127.0.0.1:53)
-  environment.systemPackages = with pkgs; [ dnscrypt-proxy ] ++ (config.environment.systemPackages or []);
+  environment.systemPackages = lib.mkDefault (with pkgs; [ dnscrypt-proxy ] ++ (config.environment.systemPackages or []));
 
-  services.systemd.services.dnscrypt-proxy-dnsmasq = {
+  systemd.services.dnscrypt-proxy-dnsmasq = {
     description = "dnscrypt-proxy for dnsmasq (DoH/DoT/DNSCrypt forwarder)";
-    wantedBy = [ "network-online.target" ];
+    wantedBy = [ "network-online.target" "multi-user.target" ];
     serviceConfig = {
       ExecStart = "${pkgs.dnscrypt-proxy}/bin/dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy-dnsmasq.toml";
       Restart = "on-failure";
@@ -75,8 +75,6 @@
       ProtectKernelModules = "true";
       CapabilityBoundingSet = "CAP_NET_BIND_SERVICE";
     };
-    install.wantedBy = [ "multi-user.target" ];
-    enable = true;
   };
 
   # Provide external TOML to avoid formatting issues inside Nix modules.
