@@ -3,24 +3,22 @@
 let
   vars = import ./includes/variables.nix;
   
-  # Fetch Lanzaboote from GitHub using pkgs.fetchFromGitHub
-  # This is the idiomatic NixOS way - cleaner than builtins.fetchTarball
-  lanzabooteSource = pkgs.fetchFromGitHub {
-    owner = "nix-community";
-    repo = "lanzaboote";
-    rev = "v1.0.0";  # Latest stable release
-    sha256 = "17srvx92f0xymayfislm5d87bjd6n1p80s350my8si737iaa16a4";
-    # To update: change rev, then run nixos-rebuild and it will show correct hash
-  };
-  
-  # Import Lanzaboote package (returns attrset with nixosModules)
-  lanzaboote = import lanzabooteSource { inherit pkgs; };
+  # To obtain a fixed commit SHA for `rev`:
+  # - Remote lookup without cloning:
+  #     git ls-remote https://github.com/nix-community/lanzaboote refs/tags/v1.0.0
+  #   This prints: <SHA>\trefs/tags/v1.0.0 — use the <SHA> as `rev`.
+  #
+  # Import Lanzaboote using builtins.fetchGit (inline to ensure correct evaluation).
 in
 { 
-  imports = [
-    # Import Lanzaboote module (official way)
-    lanzaboote.nixosModules.lanzaboote
-  ];
+  imports = [ (import (builtins.fetchGit {
+    name = "lanzaboote";
+    url = "https://github.com/nix-community/lanzaboote";
+    ref = "refs/tags/v1.0.0";
+    rev = "2fe211d9c0e2320ce23dc995a3f93666ca149d9a";
+  }) {}).nixosModules.lanzaboote ];
+
+  # Lanzaboote provides `nixosModules` directly; no overlay is required here.
 
   boot.loader.systemd-boot.enable = lib.mkForce false;  # Disable standard systemd-boot (Lanzaboote replaces it)
   boot.loader.systemd-boot.editor = lib.mkForce false;  # Disable boot parameter editing (critical for Secure Boot)
