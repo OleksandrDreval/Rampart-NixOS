@@ -35,6 +35,11 @@ let
     THREAD_INFO_IN_TASK=y
     VMAP_STACK=y
     CONFIG_STRICT_MODULE_RWX=y
+    CONFIG_MODULE_SIG=y
+    CONFIG_MODULE_SIG_FORCE=y
+    CONFIG_MODULE_SIG_ALL=y
+    CONFIG_MODULE_SIG_SHA512=y
+    CONFIG_MODULE_SIG_HASH="sha512"
   '';
   combinedExtraConfig = if userExtras.extraConfig then defaultExtraConfig + "\n" + userExtras.extraConfig else defaultExtraConfig;
 
