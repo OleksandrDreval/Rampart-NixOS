@@ -51,7 +51,7 @@ in
   boot.initrd.luks.mitigateDMAAttacks = lib.mkForce true;
 
   # Install sbctl for Secure Boot key management
-  environment.systemPackages = with pkgs; [ sbctl ] ++ (config.environment.systemPackages or []);
+  environment.systemPackages = lib.mkDefault (with pkgs; [ sbctl ] ++ (config.environment.systemPackages or []));
 
   # IMPORTANT SECURITY NOTES:
   # 
