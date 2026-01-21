@@ -1,4 +1,0 @@
-[submodule "linux_hardened/6.12"]
-	path = linux_hardened/6.12
-	url = https://github.com/anthraxx/linux-hardened.git
-	branch = 6.12
