@@ -1,11 +1,13 @@
 { config, pkgs, lib, ... }:
 
+let
+  vars = import ./includes/variables.nix;
+in
 {
-  # System packages required for VeraCrypt support.
-  environment.systemPackages = lib.mkDefault (with pkgs; [
-    veracrypt  # VeraCrypt disk encryption tool
-    ntfs3g     # NTFS filesystem support
-  ] ++ (config.environment.systemPackages or []));
+  # Install VeraCrypt/ntfs3g only for the named user (low priority default).
+  # Using `lib.mkDefault` ensures this does not force-overwrite any explicit
+  # `users.users.<name>.packages` set elsewhere (for example in `users.nix`).
+  users.users.${vars.mainUser}.packages = lib.mkDefault (with pkgs; [ veracrypt ntfs3g ]);
 
   # Security: prevent non-root users from using the FUSE `allow_other` mount
   # option. Allowing `allow_other` lets other local users read mounted filesystems,
