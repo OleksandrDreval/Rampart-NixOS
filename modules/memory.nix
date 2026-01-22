@@ -43,9 +43,7 @@
 
   boot.kernel.sysctl = lib.mkDefault (lib.mkMerge [ {
     # Virtual memory and ASLR
-    "vm.unprivileged_userfaultfd" = 0;      # Prevent use-after-free via userfaultfd
-    "vm.mmap_rnd_bits"            = 32;     # ASLR entropy for 64-bit
-    "vm.mmap_rnd_compat_bits"     = 16;     # ASLR entropy for 32-bit compat
+    "vm.unprivileged_userfaultfd" = 0;      # Prevent use-after-free via userfaultfd    
     "vm.mmap_min_addr"            = 65536;  # Deny mmap at low addresses (mitigates NULL-deref exploits)
 
     # Kernel-level ASLR
