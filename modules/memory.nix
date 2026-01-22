@@ -5,7 +5,7 @@
   # GrapheneOS hardened-light provides balance between security and performance
   # Includes zero-on-free, slab canaries, metadata protection, and randomization
   # Performance overhead: approximately 10-15%
-  environment.memoryAllocator.provider = lib.mkForce "graphene-hardened-light";
+  environment.memoryAllocator.provider = lib.mkDefault "graphene-hardened-light";
 
   # Alternative allocators:
   # "graphene-hardened"  - maximum security, 30-40% performance penalty
