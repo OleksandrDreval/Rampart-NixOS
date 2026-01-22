@@ -22,4 +22,11 @@
     ];
   in lib.filter (p: !(lib.elem p existing)) toAdd ++ existing);
 
+  # ASLR entropy defaults moved from `modules/memory.nix`:
+  # These provide default mmap randomization settings and are low-priority
+  # so other modules can override if necessary.
+  boot.kernel.sysctl = lib.mkDefault (lib.mkMerge [ {
+    "vm.mmap_rnd_bits" = 32;         # ASLR entropy for 64-bit
+    "vm.mmap_rnd_compat_bits" = 16;  # ASLR entropy for 32-bit compat
+  } ]);
 }
