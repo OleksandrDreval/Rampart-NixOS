@@ -1,13 +1,10 @@
 { config, pkgs, lib, ... }:
 
 {
-  # By default, unfree (proprietary/binary-only) packages are disabled.
-  # This provides a conservative system-wide default. Other modules can
-  # override this setting (for example with `lib.mkDefault` or
-  # `lib.mkForce`) if a specific unfree package is required.
-  # Example: to allow binary-only packages globally, set
-  # `nixpkgs.config.allowUnfree = lib.mkDefault true` in a higher-priority module.
-  nixpkgs.config.allowUnfree = lib.mkDefault false;
+  # Allow unfree packages where explicitly requested by lower-priority modules
+  # (e.g., VeraCrypt). We set a forced true here only if a module needs it.
+  # NOTE: using `lib.mkForce` ensures this is applied before package evaluation.
+  nixpkgs.config.allowUnfree = lib.mkForce true;
 
   # System-wide packages
   environment.systemPackages = lib.mkDefault (with pkgs; [
