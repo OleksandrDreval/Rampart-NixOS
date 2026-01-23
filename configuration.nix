@@ -46,6 +46,7 @@ in
       ./modules/desktop.nix            # Desktop environment settings
       ./modules/users.nix              # User accounts and permissions
       ./modules/packages.nix           # Additional system packages
+      ./modules/chromium.nix           # Ungoogled Chromium browser configuration
       ./modules/veracrypt.nix          # VeraCrypt disk encryption
       ./modules/nixos-permissions.nix  # Secure /etc/nixos/ permissions
     # ./modules/ssh.nix                # SSH server/client configuration 
