@@ -4,6 +4,8 @@ let
   vars = import ./includes/variables.nix;
 in
 {
+  # allowUnfree is configured in `modules/packages.nix` so package sets
+  # are evaluated with the correct policy prior to package selection.
   # Install VeraCrypt/ntfs3g only for the named user (low priority default).
   # Using `lib.mkDefault` ensures this does not force-overwrite any explicit
   # `users.users.<name>.packages` set elsewhere (for example in `users.nix`).
