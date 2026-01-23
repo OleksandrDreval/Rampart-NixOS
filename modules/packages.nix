@@ -9,9 +9,6 @@
   # `nixpkgs.config.allowUnfree = lib.mkDefault true` in a higher-priority module.
   nixpkgs.config.allowUnfree = lib.mkDefault false;
 
-  # Enable Firefox browser
-  programs.firefox.enable = true;
-
   # System-wide packages
   environment.systemPackages = lib.mkDefault (with pkgs; [
     # Add your packages here
