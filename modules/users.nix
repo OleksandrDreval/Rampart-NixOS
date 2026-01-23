@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   vars = import ./includes/variables.nix;
@@ -53,10 +53,10 @@ in
     description = vars.mainUserDescription;
     hashedPassword = vars.mainUserHashedPassword;  # Password hash from variables
     extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
-    packages = with pkgs; [
+    packages = lib.mkDefault (with pkgs; [
       # Add user-specific packages here
       # thunderbird
-    ];
+    ]);
   };
 
   # Sudo security configuration
