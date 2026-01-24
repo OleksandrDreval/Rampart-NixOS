@@ -2,96 +2,10 @@
 
 let
   vars = import ./includes/variables.nix;
-in
-{
-  # Network configuration
-  networking.hostName = vars.hostname;
-  networking.networkmanager.enable = true;
-  
-  # Use iwd (Intel Wireless Daemon) instead of wpa_supplicant
-  # iwd benefits: modern codebase, better WPA3 support, faster connections, lower battery usage
-  # Note: If enterprise WiFi (EAP-TTLS) fails, revert to wpa_supplicant:
-  #   networking.networkmanager.wifi.backend = "wpa_supplicant";
-  networking.networkmanager.wifi.backend = "iwd";
 
-  # Integrate IPv6 privacy extensions with NetworkManager (prefer temporary addresses)
-  networking.networkmanager.connectionConfig."ipv6.ip6-privacy" = 2;  # prefer temporary IPv6 addresses (RFC3041)
-    
-  # iwd privacy settings for MAC address randomization
-  networking.wireless.iwd = {
-    enable = true;
-    settings = {
-      General = {
-        # Randomize MAC per-network (different MAC for each SSID)
-        AddressRandomization = "network";
-      };
-      Settings = {
-        # Always randomize address for maximum privacy
-        AlwaysRandomizeAddress = true;
-      };
-    };
-  };
-
-  # Ensure systemd-networkd follows kernel IPv6 privacy settings
-  systemd.network.config.networkConfig.IPv6PrivacyExtensions = "kernel";  # follow kernel use_tempaddr setting
-
-  # MAC address randomization for privacy
-  # Enable MAC randomization during WiFi network scanning to prevent tracking
-  # WiFi routers and trackers can monitor probe requests to track physical location
-  networking.networkmanager.wifi.scanRandMacAddress = true;
-
-  # MAC address randomization: Generate new MAC on each connection/reboot for maximum privacy
-  networking.networkmanager.wifi.macAddress = "random";
-  networking.networkmanager.ethernet.macAddress = "random";
-
-  # DNS servers - moved to modules/dns-classic.nix for static/classic setups.
-  # Use dns-resolved.nix or dns-dnsmasq.nix for managed resolver configurations.
-
-  # Wireless support via wpa_supplicant (disabled by default)
-  # networking.wireless.enable = true;
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Firewall configuration
-  # "Zero Trust" approach - block all incoming, allow all outgoing
-  # Safe for laptops that connect to untrusted networks (public WiFi, hotels, airports)
-  networking.firewall = {
-    enable = true;  # Enable firewall protection
-    
-    # Connection tracking helpers (FTP, SIP, IRC, etc.)
-    # Explicitly disable to prevent security vulnerabilities in old protocol helpers
-    autoLoadConntrackHelpers = false;  # Don't auto-load conntrack helpers (security)
-    
-    # Block all incoming connections by default (not a server)
-    allowedTCPPorts = [ ];  # No open TCP ports
-    allowedUDPPorts = [ ];  # No open UDP ports
-    
-    # ICMP (ping) configuration
-    # Note: allowPing controls firewall rules, but kernel sysctl blocks all ICMP echo at kernel level
-    allowPing = false;  # Block ping at firewall (also blocked at kernel via icmp_echo_ignore_all)
-    
-    # Connection tracking and logging
-    logRefusedConnections = true;  # Log blocked connections for security monitoring
-    logRefusedPackets = false;     # Don't log individual packets (reduces noise)
-    
-    # Packet rejection method
-    rejectPackets = true;  # Send REJECT instead of DROP (faster feedback for legitimate traffic)
-    
-    # Outgoing connections - allow all (laptops need to connect to various services)
-    # This is the default behavior, no restriction on outgoing traffic
-  };
-
-  # Additional firewall rules can be added here if needed:
-  # networking.firewall.extraCommands for custom iptables/nftables rules
-  # networking.firewall.allowedTCPPortRanges for port ranges
-  # networking.firewall.interfaces for per-interface rules
-
-  # Universal network security parameters
-  # "Trust no network" approach - safe for public WiFi, hotels, airports, untrusted networks
-  # All settings are reasonable, don't break connections, and provide real security
-  boot.kernel.sysctl = lib.mkDefault (lib.mkMerge [ {
+  # Rampart exposure for networking-related kernel settings so the finalizer
+  # can aggregate and enforce authoritative defaults.
+  rampartNetworkingSysctl = {
     # IPv4 Critical Security
     
     # Source routing and redirects protection (prevents route hijacking and MitM)
@@ -193,5 +107,98 @@ in
     "net.ipv4.tcp_fastopen"                       = 3;       # Enable TCP Fast Open (client + server)
     "net.ipv4.tcp_congestion_control"             = "bbr";   # Google BBR congestion control (better throughput)
     "net.core.default_qdisc"                      = "cake";  # CAKE queue discipline (bufferbloat mitigation)
-  } ]);
+  };
+in
+
+{
+  # Network configuration
+  networking.hostName = vars.hostname;
+  networking.networkmanager.enable = true;
+  
+  # Use iwd (Intel Wireless Daemon) instead of wpa_supplicant
+  # iwd benefits: modern codebase, better WPA3 support, faster connections, lower battery usage
+  # Note: If enterprise WiFi (EAP-TTLS) fails, revert to wpa_supplicant:
+  #   networking.networkmanager.wifi.backend = "wpa_supplicant";
+  networking.networkmanager.wifi.backend = "iwd";
+
+  # Integrate IPv6 privacy extensions with NetworkManager (prefer temporary addresses)
+  networking.networkmanager.connectionConfig."ipv6.ip6-privacy" = 2;  # prefer temporary IPv6 addresses (RFC3041)
+    
+  # iwd privacy settings for MAC address randomization
+  networking.wireless.iwd = {
+    enable = true;
+    settings = {
+      General = {
+        # Randomize MAC per-network (different MAC for each SSID)
+        AddressRandomization = "network";
+      };
+      Settings = {
+        # Always randomize address for maximum privacy
+        AlwaysRandomizeAddress = true;
+      };
+    };
+  };
+
+  # Ensure systemd-networkd follows kernel IPv6 privacy settings
+  systemd.network.config.networkConfig.IPv6PrivacyExtensions = "kernel";  # follow kernel use_tempaddr setting
+
+  # MAC address randomization for privacy
+  # Enable MAC randomization during WiFi network scanning to prevent tracking
+  # WiFi routers and trackers can monitor probe requests to track physical location
+  networking.networkmanager.wifi.scanRandMacAddress = true;
+
+  # MAC address randomization: Generate new MAC on each connection/reboot for maximum privacy
+  networking.networkmanager.wifi.macAddress = "random";
+  networking.networkmanager.ethernet.macAddress = "random";
+
+  # DNS servers - moved to modules/dns-classic.nix for static/classic setups.
+  # Use dns-resolved.nix or dns-dnsmasq.nix for managed resolver configurations.
+
+  # Wireless support via wpa_supplicant (disabled by default)
+  # networking.wireless.enable = true;
+
+  # Configure network proxy if necessary
+  # networking.proxy.default = "http://user:password@proxy:port/";
+  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+
+  # Firewall configuration
+  # "Zero Trust" approach - block all incoming, allow all outgoing
+  # Safe for laptops that connect to untrusted networks (public WiFi, hotels, airports)
+  networking.firewall = {
+    enable = true;  # Enable firewall protection
+    
+    # Connection tracking helpers (FTP, SIP, IRC, etc.)
+    # Explicitly disable to prevent security vulnerabilities in old protocol helpers
+    autoLoadConntrackHelpers = false;  # Don't auto-load conntrack helpers (security)
+    
+    # Block all incoming connections by default (not a server)
+    allowedTCPPorts = [ ];  # No open TCP ports
+    allowedUDPPorts = [ ];  # No open UDP ports
+    
+    # ICMP (ping) configuration
+    # Note: allowPing controls firewall rules, but kernel sysctl blocks all ICMP echo at kernel level
+    allowPing = false;  # Block ping at firewall (also blocked at kernel via icmp_echo_ignore_all)
+    
+    # Connection tracking and logging
+    logRefusedConnections = true;  # Log blocked connections for security monitoring
+    logRefusedPackets = false;     # Don't log individual packets (reduces noise)
+    
+    # Packet rejection method
+    rejectPackets = true;  # Send REJECT instead of DROP (faster feedback for legitimate traffic)
+    
+    # Outgoing connections - allow all (laptops need to connect to various services)
+    # This is the default behavior, no restriction on outgoing traffic
+  };
+
+  # Additional firewall rules can be added here if needed:
+  # networking.firewall.extraCommands for custom iptables/nftables rules
+  # networking.firewall.allowedTCPPortRanges for port ranges
+  # networking.firewall.interfaces for per-interface rules
+
+  # Export rampart networking sysctl values for finalizer
+  config = {
+    rampart = {
+      networkingSysctl = rampartNetworkingSysctl;
+    };
+  };
 }
