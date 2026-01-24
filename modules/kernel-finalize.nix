@@ -5,33 +5,28 @@ let
 
   rampartAttrs = config.rampart or {};
 
-  # Collect all rampart*KernelModules lists
-  rampartModuleLists = lib.filter (p: p != null)
-    (lib.mapAttrs (name: val: if lib.stringMatch ".*KernelModules$" name then val else null) rampartAttrs);
-  allModuleLists = lib.concatMap (x: x) (lib.attrValues rampartModuleLists);
+  # Collect all rampart*KernelModules lists (only keep list-typed values)
+  rampartModuleLists = lib.filter lib.isList (lib.attrValues (lib.filterAttrs (name: val: (builtins.match ".*KernelModules$" name) != null) rampartAttrs));
+  allModuleLists = lib.concatMap (x: x) rampartModuleLists;
 
-  # base + collected + existing boot.kernelModules
+  # base + collected modules (other modules should export to `rampart.*`)
   baseModules = config.rampart.kernelBaseModules or [];
-  otherModules = config.boot.kernelModules or [];
-  mergedModules = unique (baseModules ++ allModuleLists ++ otherModules);
+  mergedModules = unique (baseModules ++ allModuleLists);
 
-  # Collect all rampart*KernelParams lists
-  rampartParamLists = lib.filter (p: p != null)
-    (lib.mapAttrs (name: val: if lib.stringMatch ".*KernelParams$" name then val else null) rampartAttrs);
-  allParamLists = lib.concatMap (x: x) (lib.attrValues rampartParamLists);
+  # Collect all rampart*KernelParams lists (only keep list-typed values)
+  rampartParamLists = lib.filter lib.isList (lib.attrValues (lib.filterAttrs (name: val: (builtins.match ".*KernelParams$" name) != null) rampartAttrs));
+  allParamLists = lib.concatMap (x: x) rampartParamLists;
 
   baseParams = config.rampart.kernelBaseParams or [];
-  otherParams = config.boot.kernelParams or [];
-  mergedParams = unique (baseParams ++ allParamLists ++ otherParams);
+  mergedParams = unique (baseParams ++ allParamLists);
 
   # Collect all rampart*Sysctl attrsets and merge them, forcing base keys
-  rampartSysctlAttrs = lib.filter (p: p != null)
-    (lib.mapAttrs (name: val: if lib.stringMatch ".*Sysctl$" name then val else null) rampartAttrs);
-  otherSysctls = lib.mkMerge (lib.attrValues rampartSysctlAttrs);
+  rampartSysctlAttrs = lib.filter lib.isAttrs (lib.attrValues (lib.filterAttrs (name: val: (builtins.match ".*Sysctl$" name) != null) rampartAttrs));
+  otherSysctls = lib.mkMerge rampartSysctlAttrs;
 
   baseSysctl = config.rampart.kernelBaseSysctl or {};
   forcedBaseSysctl = lib.mapAttrs (_: v: lib.mkForce v) baseSysctl;
-  mergedSysctl = lib.mkMerge [ forcedBaseSysctl otherSysctls (config.boot.kernel.sysctl or {}) ];
+  mergedSysctl = lib.mkMerge [ forcedBaseSysctl otherSysctls ];
 in
 
 {
