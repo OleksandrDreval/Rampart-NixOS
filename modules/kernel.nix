@@ -84,14 +84,8 @@
 
   # Kernel sysctl security parameters
   boot.kernel.sysctl = lib.mkDefault (lib.mkMerge [ {
-    # Device and filesystem security
+    # TTY security
     "dev.tty.ldisc_autoload"             = 0;              # Disable automatic TTY line discipline loading
-    "fs.binfmt_misc.status"              = 0;              # Disable support for miscellaneous binary formats
-    "fs.protected_fifos"                 = 2;              # Maximum protection for FIFOs in sticky directories
-    "fs.protected_hardlinks"             = 1;              # Restrict hardlink creation to file owners
-    "fs.protected_regular"               = 2;              # Maximum protection for regular files in sticky directories
-    "fs.protected_symlinks"              = 1;              # Restrict symlink following to prevent race conditions
-    "fs.suid_dumpable"                   = 0;              # Disable core dumps for SUID processes
     
     # Kernel security
     "kernel.core_pattern"                = "|/bin/false";  # Disable core dumps completely
@@ -107,8 +101,12 @@
     "kernel.printk"                      = "3 3 3 3";      # Show only errors (level 3) in kernel logs
     "kernel.sysrq"                       = 0;              # Completely disable SysRq (use hard reset if system hangs)
     "kernel.unprivileged_bpf_disabled"   = 2;              # Disable unprivileged BPF to prevent exploits (permanent disable)
+
+    # Networking security
     "net.core.bpf_jit_harden"            = 2;              # Harden BPF JIT runtime (higher security)
     "net.core.bpf_jit_kallsyms"          = 0;              # Disable publishing JIT symbols to kallsyms
+    
+    # ptrace restrictions
     "kernel.yama.ptrace_scope"           = 2;              # Maximum ptrace restrictions - admin only
   } ]);
 
