@@ -107,14 +107,12 @@ in
     Storage=none
   '';
 
-  # Provide the base values on the config under `rampart.*` so the finalizer
-  # module can aggregate additions from other modules and then lock the result.
-  config = {
-    rampart = {
-      kernelBaseModules = rampartBaseKernelModules;
-      kernelBaseParams  = rampartBaseKernelParams;
-      kernelBaseSysctl  = rampartBaseSysctl;
-    };
+  # Provide the base values under `rampart.*` so the finalizer module can
+  # aggregate additions from other modules and then lock the result.
+  rampart = {
+    kernelBaseModules = rampartBaseKernelModules;
+    kernelBaseParams  = rampartBaseKernelParams;
+    kernelBaseSysctl  = rampartBaseSysctl;
   };
 
   # Blacklisted kernel modules for security (authoritative & forced here)
