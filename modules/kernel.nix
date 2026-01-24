@@ -1,19 +1,10 @@
 { config, pkgs, lib, ... }:
 
-{
-  # Kernel configuration - hardened kernel with additional security patches
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_hardened;
-  
-  # Core dumps security
-  systemd.coredump.extraConfig = ''
-    Storage=none
-  '';
-  
-  # Pre-load essential modules at boot before lockKernelModules
-  # These modules are needed for system operation and security
-  boot.kernelModules = lib.mkDefault (let
-    existing = config.boot.kernelModules or [];
-    toAdd = [
+let
+  # Base kernel modules which must always be present. Other modules may add
+  # additional entries, but these are considered authoritative and will be
+  # preserved by the finalizer.
+  rampartBaseKernelModules = [
     # WiFi crypto modules (WPA/WPA2/WPA3 authentication)
     "ccm"          # Counter with CBC-MAC mode for WPA2-CCMP
     "ctr"          # Counter mode for AES
@@ -44,14 +35,10 @@
     # Essential system modules
     "loop"         # Loopback device support
     "overlay"      # Overlay filesystem (for containers/nix store)
-    ];
-    toAddFiltered = lib.filter (p: !(lib.elem p existing)) toAdd;
-  in toAddFiltered ++ existing);
-  
-  # Security-focused kernel parameters
-  boot.kernelParams = lib.mkDefault (let
-    existing = config.boot.kernelParams or [];
-    toAdd = [
+  ];
+
+  # Base kernel params which must always be present on the kernel command line.
+  rampartBaseKernelParams = [
     "amd_iommu=force_isolation"           # Force AMD IOMMU isolation to protect devices from DMA attacks
     "apparmor=1"                          # Enable AppArmor mandatory access control
     "audit=1"                             # Enable auditing for AppArmor
@@ -78,12 +65,12 @@
     "spec_store_bypass_disable=on"        # Protection against Speculative Store Bypass attacks
     "spectre_v2=on"                       # Protection against Spectre v2 attacks
     "stf_barrier=on"                      # Store-to-Load Forwarding barrier for speculative attack protection
-    ];
-    toAddFiltered = lib.filter (p: !(lib.elem p existing)) toAdd;
-  in toAddFiltered ++ existing);
+  ];
 
-  # Kernel sysctl security parameters
-  boot.kernel.sysctl = lib.mkDefault (lib.mkMerge [ {
+  # Base sysctl keys that must be enforced for filesystem/tty/core-dump hardening.
+  # These keys represent Rampart's authoritative defaults; other modules may
+  # add keys, but these base keys must not be weakened.
+  rampartBaseSysctl = {
     # TTY security
     "dev.tty.ldisc_autoload"             = 0;              # Disable automatic TTY line discipline loading
     
@@ -108,10 +95,31 @@
     
     # ptrace restrictions
     "kernel.yama.ptrace_scope"           = 2;              # Maximum ptrace restrictions - admin only
-  } ]);
+  };
+in
 
-  # Blacklisted kernel modules for security
-  boot.blacklistedKernelModules = [
+{
+  # Kernel configuration - hardened kernel with additional security patches
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_hardened;
+
+  # Core dumps security
+  systemd.coredump.extraConfig = ''
+    Storage=none
+  '';
+
+  # Provide the base values on the config under `rampart.*` so the finalizer
+  # module can aggregate additions from other modules and then lock the result.
+  config = {
+    rampart = {
+      kernelBaseModules = rampartBaseKernelModules;
+      kernelBaseParams  = rampartBaseKernelParams;
+      kernelBaseSysctl  = rampartBaseSysctl;
+    };
+  };
+
+  # Blacklisted kernel modules for security (authoritative & forced here)
+  # This list is authoritative and must not be weakened by other modules.
+  boot.blacklistedKernelModules = lib.mkForce [
     # Physical Interfaces with DMA attack vectors
     "bluetooth"    # BlueBorne, KNOB, BLURtooth vulnerabilities
     "thunderbolt"  # Thunderspy, DMA attacks
