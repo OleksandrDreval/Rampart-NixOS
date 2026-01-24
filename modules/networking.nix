@@ -196,9 +196,7 @@ in
   # networking.firewall.interfaces for per-interface rules
 
   # Export rampart networking sysctl values for finalizer
-  config = {
-    rampart = {
-      networkingSysctl = rampartNetworkingSysctl;
-    };
+  rampart = {
+    networkingSysctl = rampartNetworkingSysctl;
   };
 }
