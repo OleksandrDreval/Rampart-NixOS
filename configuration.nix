@@ -52,6 +52,9 @@ in
       ./modules/nixos-permissions.nix  # Secure /etc/nixos/ permissions
     # ./modules/ssh.nix                # SSH server/client configuration 
     # ./modules/virtualisation.nix     # Virtualization settings
+    
+      # Finalizer for kernel arrays/sysctl - must be last so it sees additions
+      ./modules/kernel-finalize.nix
     ];
 
   # This value determines the NixOS release from which the default
