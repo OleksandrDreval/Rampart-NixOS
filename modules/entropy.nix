@@ -28,11 +28,9 @@ in
   services.jitterentropy-rngd.enable = lib.mkForce true;
 
   # Export rampart attributes for finalizer aggregation
-  config = {
-    rampart = {
-      entropyKernelModules = rampartEntropyKernelModules;
-      entropyKernelParams  = rampartEntropyKernelParams;
-      entropySysctl        = rampartEntropySysctl;
-    };
+  rampart = {
+    entropyKernelModules = rampartEntropyKernelModules;
+    entropyKernelParams  = rampartEntropyKernelParams;
+    entropySysctl        = rampartEntropySysctl;
   };
 }
