@@ -53,10 +53,8 @@ in
   security.forcePageTableIsolation = lib.mkForce true;
 
   # Expose rampart attributes for final aggregation by kernel-finalize.nix
-  config = {
-    rampart = {
-      rampartMemoryKernelParams = rampartMemoryKernelParams;
-      rampartMemorySysctl = rampartMemorySysctl;
-    };
+  rampart = {
+    rampartMemoryKernelParams = rampartMemoryKernelParams;
+    rampartMemorySysctl = rampartMemorySysctl;
   };
 }
