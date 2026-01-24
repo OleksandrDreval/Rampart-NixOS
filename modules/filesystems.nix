@@ -27,9 +27,7 @@ in
   programs.fuse.userAllowOther = lib.mkForce false;
 
   # Expose rampart attributes for final aggregation
-  config = {
-    rampart = {
-      rampartFilesystemsSysctl = rampartFilesystemsSysctl;
-    };
+  rampart = {
+    rampartFilesystemsSysctl = rampartFilesystemsSysctl;
   };
 }
