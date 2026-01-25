@@ -1,6 +1,8 @@
 { config, pkgs, lib, ... }:
 
 let
+  vars = import ./includes/variables.nix;
+
   # Rampart memory-specific kernel params and sysctl entries. These will be
   # aggregated by `kernel-finalize.nix` together with other `rampart*` values.
   rampartMemoryKernelParams = [
@@ -51,6 +53,9 @@ in
   # Force Page Table Isolation (Meltdown mitigation)
   # Separates kernel and user page tables to prevent Meltdown attacks
   security.forcePageTableIsolation = lib.mkForce true;
+
+  # Swap devices (from hardware-configuration.nix)
+  swapDevices = [ { device = "/dev/mapper/luks-${vars.luksSwapUUID}"; } ];
 
   # Expose rampart attributes for final aggregation by kernel-finalize.nix
   rampart = {
