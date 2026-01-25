@@ -2,7 +2,10 @@
 
 let
   vars = import ./includes/variables.nix;
-  
+
+  # Rampart filesystems-specific kernel modules. Aggregated by kernel-finalize.
+  rampartFilesystemsKernelModules = [ "fuse" ];
+
   # Rampart filesystems-specific sysctl entries. Aggregated by kernel-finalize.
   rampartFilesystemsSysctl = {
     "fs.binfmt_misc.status"   = 0;  # Disable support for miscellaneous binary formats
@@ -50,5 +53,8 @@ in
   # Expose rampart attributes for final aggregation
   rampart = {
     rampartFilesystemsSysctl = rampartFilesystemsSysctl;
+    # Ensure the FUSE kernel module is requested by rampart so the
+    # kernel-finalize aggregation will include it in `boot.kernelModules`.
+    rampartFilesystemsKernelModules = rampartFilesystemsKernelModules;
   };
 }
