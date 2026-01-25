@@ -105,6 +105,9 @@ in
   # Kernel configuration - hardened kernel with additional security patches
   boot.kernelPackages = pkgs.linuxKernel.packages.linux_hardened;
 
+  # Initrd/kernel module hints detected from hardware config (migrated from hardware-configuration.nix)
+  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
+
   # Core dumps security
   systemd.coredump.extraConfig = ''
     Storage=none
