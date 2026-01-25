@@ -54,9 +54,6 @@ in
   # Separates kernel and user page tables to prevent Meltdown attacks
   security.forcePageTableIsolation = lib.mkForce true;
 
-  # Swap devices (from hardware-configuration.nix)
-  swapDevices = [ { device = "/dev/mapper/luks-${vars.luksSwapUUID}"; } ];
-
   # Expose rampart attributes for final aggregation by kernel-finalize.nix
   rampart = {
     rampartMemoryKernelParams = rampartMemoryKernelParams;
