@@ -28,11 +28,14 @@ in
   # include necessary kernel modules and initrd helpers for NTFS/FUSE/etc.
   boot.supportedFilesystems = lib.mkForce [ "ntfs" ];
 
-  # LUKS device mappings carried from hardware-configuration.nix
+  # LUKS device mappings
   boot.initrd.luks.devices."luks-${vars.luksRootUUID}".device = "/dev/disk/by-uuid/${vars.luksRootUUID}";
 
   # LUKS encryption for swap
   boot.initrd.luks.devices."luks-${vars.luksSwapUUID}".device = "/dev/disk/by-uuid/${vars.luksSwapUUID}";
+
+  # Swap devices
+  swapDevices = [ { device = "/dev/mapper/luks-${vars.luksSwapUUID}"; } ];
 
   # Filesystem mount points (migrated from hardware-configuration.nix)
   fileSystems."/" = {
