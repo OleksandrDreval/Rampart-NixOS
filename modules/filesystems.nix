@@ -19,8 +19,14 @@ in
   # This module centralises fs-related sysctl hardening and provides
   # a conservative default to install `ntfs3g` for NTFS support.
 
-  # Provide ntfs support via ntfs3g as a conservative default in system packages.
-  environment.systemPackages = lib.mkDefault (with pkgs; [ ntfs3g ] ++ (config.environment.systemPackages or []));
+  # NOTE: NTFS support was previously attempted by forcing `ntfs3g` and
+  # requesting the `fuse` kernel module. Those attempts are removed in
+  # favor of declaring `boot.supportedFilesystems` below which is the
+  # canonical place to request filesystem support for boot/initrd.
+
+  # Declare supported filesystems for boot/initrd. This allows NixOS to
+  # include necessary kernel modules and initrd helpers for NTFS/FUSE/etc.
+  boot.supportedFilesystems = lib.mkForce [ "ntfs" ];
 
   # Filesystem mount points (migrated from hardware-configuration.nix)
   fileSystems."/" = {
