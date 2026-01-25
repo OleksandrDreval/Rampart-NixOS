@@ -20,9 +20,6 @@ in
 {
   imports =
     [
-      # Hardware configuration
-      ./modules/hardware-configuration.nix
-      
       # Boot modules
       ./modules/boot.nix               # Standard boot configuration
     # ./modules/boot-secure.nix        # Secure Boot with Lanzaboote
