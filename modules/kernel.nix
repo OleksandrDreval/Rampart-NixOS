@@ -35,6 +35,9 @@ let
     # Essential system modules
     "loop"         # Loopback device support
     "overlay"      # Overlay filesystem (for containers/nix store)
+
+    "kvm-amd"      # AMD KVM support (hardware virtualisation)
+  # "kvm-intel"    # Intel KVM support (hardware virtualisation)
   ];
 
   # Base kernel params which must always be present on the kernel command line.
