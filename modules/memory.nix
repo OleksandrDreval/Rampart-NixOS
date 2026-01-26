@@ -22,8 +22,9 @@ let
 
   rampartMemorySysctl = {
     # Virtual memory and ASLR
-    "vm.unprivileged_userfaultfd" = 0;      # Prevent use-after-free via userfaultfd
-    "vm.mmap_min_addr"            = 65536;  # Deny mmap at low addresses (mitigates NULL-deref exploits)
+    "vm.unprivileged_userfaultfd" = 0;        # Prevent use-after-free via userfaultfd
+    "vm.mmap_min_addr"            = 65536;    # Deny mmap at low addresses (mitigates NULL-deref exploits)
+    "vm.max_map_count"            = 1048576;  # Increase max memory mappings for complex applications
 
     # Kernel-level ASLR
     "kernel.randomize_va_space"   = 2;      # Full ASLR for all memory regions
