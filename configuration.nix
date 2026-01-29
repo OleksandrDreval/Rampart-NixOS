@@ -29,7 +29,7 @@ in
       ./modules/hardware-configuration.nix
 
       # Rampart option declarations - must be connected higher than used
-    # ./modules/rampart-options.nix    # Rampart option declarations
+      ./modules/rampart-options.nix    # Rampart option declarations
 
       # Boot modules
       ./modules/boot.nix               # Standard boot configuration
