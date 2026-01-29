@@ -9,12 +9,17 @@
 # abort evaluation with a clear error message if violated.
 
 let
+  # DNS configuration guards
   usingResolved = config.services.resolved.enable or false;
   usingDnsmasq  = config.services.dnsmasq.enable or false;
   usingClassic  = ((config.networking.nameservers or []) != []) && !(usingResolved || usingDnsmasq);
+
+  # Bootloader configuration guards
   usingSystemdBoot = config.boot.loader.systemd-boot.enable or false;
   usingLanzaboote  = config.boot.lanzaboote.enable or false;
-  checkDns = if (!(usingResolved && usingDnsmasq) && !(usingResolved && usingClassic) && !(usingDnsmasq && usingClassic)) then true else builtins.error "Only one of dns-resolved, dns-dnsmasq or dns-classic may be enabled";
+
+  # Guard evaluations
+  checkDns  = if (!(usingResolved && usingDnsmasq) && !(usingResolved && usingClassic) && !(usingDnsmasq && usingClassic)) then true else builtins.error "Only one of dns-resolved, dns-dnsmasq or dns-classic may be enabled";
   checkBoot = if (!(usingSystemdBoot && usingLanzaboote)) then true else builtins.error "Enable either systemd-boot or boot-secure (lanzaboote), not both";
 in
 {
