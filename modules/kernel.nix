@@ -125,8 +125,9 @@ in
   # This list is authoritative and must not be weakened by other modules.
   boot.blacklistedKernelModules = lib.mkForce [
     # Physical Interfaces with DMA attack vectors
-    "bluetooth"    # BlueBorne, KNOB, BLURtooth vulnerabilities
-    "thunderbolt"  # Thunderspy, DMA attacks
+    "bluetooth"      # BlueBorne, KNOB, BLURtooth vulnerabilities
+    "thunderbolt"    # Thunderspy, DMA attacks
+    "firewire-core"  # FireWire/IEEE 1394 - DMA attacks via SBP-2
     
     # Network File Systems with security concerns
     "cifs"         # SMB/CIFS - EternalBlue, WannaCry, numerous CVEs
