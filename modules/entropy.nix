@@ -24,9 +24,6 @@ let
 in
 
 {
-  # Userspace daemon to seed the kernel RNG from jitterentropy
-  services.jitterentropy-rngd.enable = lib.mkForce true;
-
   # Export rampart attributes for finalizer aggregation
   rampart = {
     entropyKernelModules = rampartEntropyKernelModules;
