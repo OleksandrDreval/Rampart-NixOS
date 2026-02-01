@@ -69,6 +69,10 @@ let
     "spectre_v2=on"                       # Protection against Spectre v2 attacks
     "stf_barrier=on"                      # Store-to-Load Forwarding barrier for speculative attack protection
     "tsx=off"                             # Disable TSX to mitigate TSX Asynchronous Abort vulnerabilities
+    
+    # Resource Control (Cgroups)
+    "cgroup_no_v1=all"
+    "systemd.unified_cgroup_hierarchy=1"
 
     # Enable AMD SEV/SEV-ES/SEV-SNP support for virtual machines
     "kvm_amd.sev=1"                       # Enable SEV support
