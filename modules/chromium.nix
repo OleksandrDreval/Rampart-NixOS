@@ -10,6 +10,9 @@ in
   # `users.users.<name>.packages` set elsewhere.
   users.users.${vars.mainUser}.packages = lib.mkDefault (with pkgs; [ ungoogled-chromium ]);
 
+  # Allow user namespaces for sandboxing
+  security.allowUserNamespaces = lib.mkForce true;
+
   # Optional future settings (disabled by default):
   # - wrapProgram to unset LD_PRELOAD for this binary
   # - additional sandboxing or apparmor rules
