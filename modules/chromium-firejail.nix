@@ -19,7 +19,6 @@ in
         profile = "${pkgs.firejail}/etc/firejail/chromium.profile";
         extraArgs = [
           "--blacklist=/etc/ld-nix.so.preload"
-          "--blacklist=/etc/ld.so.preload"
         ];
       };
     };
