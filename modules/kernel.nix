@@ -186,6 +186,28 @@ in
     "hfsplus"        # Apple FS+
     "udf"            # Optical disc format (DVD/ISO)
     "squashfs"       # Compressed read-only FS (required for Snap)
+
+    # Legacy/Rare video drivers
+    "aty128fb"       # ATI Rage128
+    "atyfb"          # ATI Mach64
+    "cirrusfb"       # Cirrus Logic
+    "cyber2000fb"    # CyberPro 2000/5000
+    "cyblafb"        # Trident CyberBlade
+    "gx1fb"          # Geode GX1
+    "hgafb"          # Hercules Graphics Adapter
+    "kyrofb"         # STMicroelectronics Kyro
+    "lxfb"           # AMD Geode LX
+    "matroxfb_base"  # Matrox G-series
+    "neofb"          # NeoMagic MagicGraph
+    "pm2fb"          # Permedia 2
+    "s1d13xxxfb"     # Epson S1D13xxx
+    "savagefb"       # S3 Savage
+    "sisfb"          # SiS 300/630/730
+    "sstfb"          # 3dfx Voodoo Graphics
+    "tdfxfb"         # 3dfx Banshee/Voodoo3+
+    "tridentfb"      # Trident Blade/Image
+    "vt8623fb"       # VIA CLE266
+    "udlfb"          # DisplayLink USB 2.0
   ];
 
   # Lock kernel module loading after boot
