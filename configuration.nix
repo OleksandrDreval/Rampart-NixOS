@@ -38,7 +38,7 @@ in
 
       # System modules
     # ./modules/kernel.nix             # Kernel parameters, modules and sysctl settings
-    # ./modules/memory.nix             # Anything related to system memory (RAM)
+      ./modules/memory.nix             # Anything related to system memory (RAM)
       ./modules/entropy.nix            # Entropy / RNG configuration
       ./modules/filesystems.nix        # Filesystem-related sysctl and ntfs support
     # ./modules/apparmor.nix           # AppArmor MAC configuration
