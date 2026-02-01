@@ -53,8 +53,8 @@ in
     # ./modules/dns-dnsmasq.nix        # Alternative: DNSSEC DNS with dnsmasq (conflicts with classic and resolved)
 
       # Application modules
-    # ./modules/chromium.nix           # Ungoogled Chromium browser configuration (conflicts with chromium-firejail)
-      ./modules/chromium-firejail.nix  # Ungoogled Chromium with Firejail sandboxing (configuration conflicts with regular chromium module)
+    # ./modules/chromium.nix           # Ungoogled Chromium browser configuration (conflicts with chromium-firejail and it will also not work with the memory.nix module if the hardened allocator is enabled in it)
+      ./modules/chromium-firejail.nix  # Ungoogled Chromium with Firejail sandboxing (configuration conflicts with regular chromium.nix module)
       ./modules/veracrypt.nix          # VeraCrypt disk encryption
 
       ./modules/localization.nix       # Localization settings
