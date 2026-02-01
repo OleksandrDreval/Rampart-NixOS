@@ -22,6 +22,7 @@ let
   checkDns  = if (!(usingResolved && usingDnsmasq) && !(usingResolved && usingClassic) && !(usingDnsmasq && usingClassic)) then true else builtins.error "Only one of dns-resolved, dns-dnsmasq or dns-classic may be enabled";
   checkBoot = if (!(usingSystemdBoot && usingLanzaboote)) then true else builtins.error "Enable either systemd-boot or boot-secure (lanzaboote), not both";
 in
+
 {
   imports =
     [
@@ -51,11 +52,14 @@ in
     # ./modules/dns-resolved.nix       # DNSSEC DNS with systemd-resolved (conflicts with classic and dnsmasq)
     # ./modules/dns-dnsmasq.nix        # Alternative: DNSSEC DNS with dnsmasq (conflicts with classic and resolved)
 
+      # Application modules
+    # ./modules/chromium.nix           # Ungoogled Chromium browser configuration
+      ./modules/chromium-firejail.nix  # Ungoogled Chromium with Firejail sandboxing
+
       ./modules/localization.nix       # Localization settings
       ./modules/desktop.nix            # Desktop environment settings
       ./modules/users.nix              # User accounts and permissions
       ./modules/packages.nix           # Additional system packages
-      ./modules/chromium.nix           # Ungoogled Chromium browser configuration
       ./modules/veracrypt.nix          # VeraCrypt disk encryption
       ./modules/nixos-permissions.nix  # Secure /etc/nixos/ permissions
     # ./modules/ssh.nix                # SSH server/client configuration 
@@ -72,5 +76,4 @@ in
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.11"; # Did you read the comment?
-
 }
