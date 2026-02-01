@@ -115,6 +115,8 @@ let
     
     # ptrace restrictions
     "kernel.yama.ptrace_scope"           = 2;              # Maximum ptrace restrictions - admin only
+
+    "kernel.unprivileged_userns_clone"   =1;               # Enable unprivileged user namespaces (required for rootless containers and some sandboxes)
   };
 in
 
