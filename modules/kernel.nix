@@ -148,6 +148,27 @@ in
     "thunderbolt"    # Thunderspy, DMA attacks
     "firewire-core"  # FireWire/IEEE 1394 - DMA attacks via SBP-2
     
+    # Obscure networking protocols
+    "dccp"           # Datagram Congestion Control Protocol
+    "sctp"           # Stream Control Transmission Protocol
+    "rds"            # Reliable Datagram Sockets
+    "tipc"           # Transparent Inter-Process Communication
+    "n-hdlc"         # High-level Data Link Control
+    "ax25"           # Amateur X.25
+    "netrom"         # NetRom
+    "x25"            # X.25
+    "rose"           # Amateur Radio X.25 PLP
+    "decnet"         # DECnet Phase IV
+    "econet"         # Acorn Econet
+    "af_802154"      # IEEE 802.15.4 (Zigbee)
+    "ipx"            # Novell IPX
+    "appletalk"      # AppleTalk
+    "psnap"          # Subnetwork Access Protocol
+    "p8023"          # Novell raw IEEE 802.3
+    "p8022"          # IEEE 802.2
+    "can"            # Controller Area Network (automotive buses)
+    "atm"            # Asynchronous Transfer Mode
+
     # Network File Systems with security concerns
     "cifs"         # SMB/CIFS - EternalBlue, WannaCry, numerous CVEs
     "nfs"          # Network File System v2 - weak security
