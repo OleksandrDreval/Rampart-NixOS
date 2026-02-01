@@ -68,6 +68,7 @@ let
     "spec_store_bypass_disable=on"        # Protection against Speculative Store Bypass attacks
     "spectre_v2=on"                       # Protection against Spectre v2 attacks
     "stf_barrier=on"                      # Store-to-Load Forwarding barrier for speculative attack protection
+    "tsx=off"                             # Disable TSX to mitigate TSX Asynchronous Abort vulnerabilities
 
     # Enable AMD SEV/SEV-ES/SEV-SNP support for virtual machines
     "kvm_amd.sev=1"                       # Enable SEV support
