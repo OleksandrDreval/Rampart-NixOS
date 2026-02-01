@@ -10,6 +10,21 @@ in
   # `users.users.<name>.packages` set elsewhere.
   users.users.${vars.mainUser}.packages = lib.mkDefault (with pkgs; [ ungoogled-chromium ]);
 
+  # Firejail-based wrapper for Chromium that hides system preload files
+  programs.firejail = {
+    enable = true;
+    wrappedBinaries = {
+      chromium = {
+        executable = "${pkgs.ungoogled-chromium}/bin/chromium";
+        profile = "${pkgs.firejail}/etc/firejail/chromium.profile";
+        extraArgs = [
+          "--blacklist=/etc/ld-nix.so.preload"
+          "--blacklist=/etc/ld.so.preload"
+        ];
+      };
+    };
+  };
+
   # Ensure unprivileged namespaces available for sandboxing
   security.unprivilegedUsernsClone = lib.mkForce true;
 
