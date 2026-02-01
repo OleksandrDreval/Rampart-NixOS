@@ -170,13 +170,22 @@ in
     "atm"            # Asynchronous Transfer Mode
 
     # Network File Systems with security concerns
-    "cifs"         # SMB/CIFS - EternalBlue, WannaCry, numerous CVEs
-    "nfs"          # Network File System v2 - weak security
-    "nfsv3"        # Network File System v3 - authentication issues
-    "nfsv4"        # Network File System v4 - complex, potential vulnerabilities
+    "cifs"           # SMB/CIFS - EternalBlue, WannaCry, numerous CVEs
+    "nfs"            # Network File System v2 - weak security
+    "nfsv3"          # Network File System v3 - authentication issues
+    "nfsv4"          # Network File System v4 - complex, potential vulnerabilities
+    "ksmbd"          # Kernel SMB server
+    "gfs2"           # Global File System 2
     
-    # Modern but less secure file systems
-    "f2fs"         # Flash-Friendly FS - less battle-tested than ext4
+    # Rare/Legacy/Insecure File Systems
+    "f2fs"           # Flash-Friendly FS - less battle-tested than ext4
+    "cramfs"         # Compressed ROM FS
+    "freevxfs"       # Veritas FS
+    "jffs2"          # Journalling Flash FS
+    "hfs"            # Old Apple FS
+    "hfsplus"        # Apple FS+
+    "udf"            # Optical disc format (DVD/ISO)
+    "squashfs"       # Compressed read-only FS (required for Snap)
   ];
 
   # Lock kernel module loading after boot
