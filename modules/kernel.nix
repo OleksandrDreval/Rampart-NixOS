@@ -187,6 +187,9 @@ in
     "udf"            # Optical disc format (DVD/ISO)
     "squashfs"       # Compressed read-only FS (required for Snap)
 
+    # Test drivers
+    "vivid"          # Virtual Video Test Driver (common source of LPE vulnerabilities)
+
     # Legacy/Rare video drivers
     "aty128fb"       # ATI Rage128
     "atyfb"          # ATI Mach64
