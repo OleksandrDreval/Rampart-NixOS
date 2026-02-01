@@ -53,8 +53,8 @@ in
     # ./modules/dns-dnsmasq.nix        # Alternative: DNSSEC DNS with dnsmasq (conflicts with classic and resolved)
 
       # Application modules
-    # ./modules/chromium.nix           # Ungoogled Chromium browser configuration
-      ./modules/chromium-firejail.nix  # Ungoogled Chromium with Firejail sandboxing
+    # ./modules/chromium.nix           # Ungoogled Chromium browser configuration (conflicts with chromium-firejail)
+      ./modules/chromium-firejail.nix  # Ungoogled Chromium with Firejail sandboxing (configuration conflicts with regular chromium module)
 
       ./modules/localization.nix       # Localization settings
       ./modules/desktop.nix            # Desktop environment settings
