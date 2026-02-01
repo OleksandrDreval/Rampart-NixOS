@@ -68,6 +68,11 @@ let
     "spec_store_bypass_disable=on"        # Protection against Speculative Store Bypass attacks
     "spectre_v2=on"                       # Protection against Spectre v2 attacks
     "stf_barrier=on"                      # Store-to-Load Forwarding barrier for speculative attack protection
+
+    # Enable AMD SEV/SEV-ES/SEV-SNP support for virtual machines
+    "kvm_amd.sev=1"                       # Enable SEV support
+    "kvm_amd.sev_es=1"                    # Enable SEV-ES support
+    "kvm_amd.sev_snp=1"                   # Enable SEV-SNP support
   ];
 
   # Base sysctl keys that must be enforced for filesystem/tty/core-dump hardening.
