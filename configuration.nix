@@ -55,12 +55,12 @@ in
       # Application modules
     # ./modules/chromium.nix           # Ungoogled Chromium browser configuration (conflicts with chromium-firejail)
       ./modules/chromium-firejail.nix  # Ungoogled Chromium with Firejail sandboxing (configuration conflicts with regular chromium module)
+      ./modules/veracrypt.nix          # VeraCrypt disk encryption
 
       ./modules/localization.nix       # Localization settings
       ./modules/desktop.nix            # Desktop environment settings
       ./modules/users.nix              # User accounts and permissions
       ./modules/packages.nix           # Additional system packages
-      ./modules/veracrypt.nix          # VeraCrypt disk encryption
       ./modules/nixos-permissions.nix  # Secure /etc/nixos/ permissions
     # ./modules/ssh.nix                # SSH server/client configuration 
     # ./modules/virtualisation.nix     # Virtualization settings
