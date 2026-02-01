@@ -42,33 +42,40 @@ let
 
   # Base kernel params which must always be present on the kernel command line.
   rampartBaseKernelParams = [
-    "amd_iommu=force_isolation"           # Force AMD IOMMU isolation to protect devices from DMA attacks
-    "apparmor=1"                          # Enable AppArmor mandatory access control
-    "audit=1"                             # Enable auditing for AppArmor
-    "debugfs=off"                         # Disable debugfs to prevent system information leakage
-    "efi=disable_early_pci_dma"           # Disable early PCI DMA to protect against boot-time attacks
-    "efi_pstore.pstore_disable=1"         # Disable EFI persistent storage (prevent crash log leaks)
-    "erst_disable"                        # Disable Error Record Serialization Table (prevent error log leaks)
+    # CPU Vulnerability Mitigations
   # "gather_data_sampling=force"          # Force protection against GDS vulnerability (Intel CPUs)
-  # "intel_iommu=on"                      # Enable Intel IOMMU (for Intel systems, no-op on AMD)
-    "ia32_emulation=0"                    # Disable 32-bit emulation to reduce attack surface
-    "iommu=force"                         # Force enable IOMMU for I/O device isolation
-    "iommu.passthrough=0"                 # Disable IOMMU passthrough mode for additional checks
-    "iommu.strict=1"                      # Enable strict IOMMU mode for enhanced memory access control
-    "kernel.printk=\"3 3 3 3\""           # Configure kernel logging level to reduce information leakage
     "l1tf=full,force"                     # Full protection against L1 Terminal Fault attacks
-    "lockdown=integrity"                  # Kernel lockdown - integrity mode (allows signed modules, crypto operations)
     "mds=full,nosmt"                      # Protection against MDS attacks with SMT disabled
     "mitigations=auto,nosmt"              # Auto-apply vulnerability patches with SMT disabled
-    "module.sig_enforce=1"                # Require kernel module signatures for loading
-    "oops=panic"                          # Panic on critical error to prevent unsafe operation
-    "panic=-1"                            # Auto-reboot instantly on kernel panic (DoS mitigation + info disclosure prevention)
-    "quiet"                               # Reduce boot message output
-    "udev.log_level=3"                    # udev errors only (minimize boot information disclosure)
     "spec_store_bypass_disable=on"        # Protection against Speculative Store Bypass attacks
     "spectre_v2=on"                       # Protection against Spectre v2 attacks
     "stf_barrier=on"                      # Store-to-Load Forwarding barrier for speculative attack protection
     "tsx=off"                             # Disable TSX to mitigate TSX Asynchronous Abort vulnerabilities
+
+    # IOMMU & DMA Protection
+    "amd_iommu=force_isolation"           # Force AMD IOMMU isolation to protect devices from DMA attacks
+    "efi=disable_early_pci_dma"           # Disable early PCI DMA to protect against boot-time attacks
+    "iommu=force"                         # Force enable IOMMU for I/O device isolation
+    "iommu.passthrough=0"                 # Disable IOMMU passthrough mode for additional checks
+    "iommu.strict=1"                      # Enable strict IOMMU mode for enhanced memory access control
+  # "intel_iommu=on"                      # Enable Intel IOMMU (for Intel systems, no-op on AMD)
+
+    # Kernel Hardening & Lockdown
+    "apparmor=1"                          # Enable AppArmor mandatory access control
+    "audit=1"                             # Enable auditing for AppArmor
+    "debugfs=off"                         # Disable debugfs to prevent system information leakage
+    "ia32_emulation=0"                    # Disable 32-bit emulation to reduce attack surface
+    "lockdown=integrity"                  # Kernel lockdown - integrity mode (allows signed modules, crypto operations)
+    "module.sig_enforce=1"                # Require kernel module signatures for loading
+    "oops=panic"                          # Panic on critical error to prevent unsafe operation
+    "panic=-1"                            # Auto-reboot instantly on kernel panic (DoS mitigation + info disclosure prevention)
+
+    # Boot Logging & Information Disclosure
+    "efi_pstore.pstore_disable=1"         # Disable EFI persistent storage (prevent crash log leaks)
+    "erst_disable"                        # Disable Error Record Serialization Table (prevent error log leaks)
+    "kernel.printk=\"3 3 3 3\""           # Configure kernel logging level to reduce information leakage
+    "quiet"                               # Reduce boot message output
+    "udev.log_level=3"                    # udev errors only (minimize boot information disclosure)
     
     # Resource Control (Cgroups)
     "cgroup_no_v1=all"
