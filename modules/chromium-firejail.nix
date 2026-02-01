@@ -30,4 +30,7 @@ in
 
   # Allow user namespaces for sandboxing
   security.allowUserNamespaces = lib.mkForce true;
+  
+  # Disable Chromium's SUID sandbox since Firejail provides its own sandboxing
+  security.chromiumSuidSandbox.enable = lib.mkForce false;
 }
