@@ -64,7 +64,44 @@ in
     # Define access rules for doas
     # Rules are evaluated in order - more specific rules should come after general ones
     extraRules = [
-
+      # Rule 1: General wheel group access with password and credential caching
+      #
+      # This is the main rule that allows wheel group members to execute any
+      # command as root, similar to sudo's behavior for wheel group.
+      {
+        groups = [ "wheel" ];
+        
+        # Allow running any command (null = no restriction)
+        cmd = null;
+        
+        # Require password authentication for security
+        noPass = false;
+        
+        # Enable credential persistence (similar to sudo's timestamp_timeout)
+        # After successful authentication, don't ask for password again for ~5 minutes
+        # This provides convenience while maintaining security
+        persist = true;
+        
+        # Keep only essential environment variables for security
+        # SSH_AUTH_SOCK is kept by default for SSH agent forwarding
+        # We explicitly define a minimal set of safe variables
+        keepEnv = false;
+        
+        # Explicitly set/keep specific environment variables
+        # This provides a more secure environment than keepEnv = true
+        setEnv = [
+          "SSH_AUTH_SOCK"    # Keep SSH agent socket for SSH operations
+          "DISPLAY"          # Keep X11 display for GUI applications
+          "WAYLAND_DISPLAY"  # Keep Wayland display for GUI applications
+          "XAUTHORITY"       # Keep X11 authority for GUI applications
+          "TERM"             # Keep terminal type for proper display
+          "LANG"             # Keep language settings
+          "LC_ALL"           # Keep locale settings
+        ];
+        
+        # Log all successful executions to syslog for auditing
+        noLog = false;
+      }
     ];
 
     extraConfig = ''
