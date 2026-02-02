@@ -82,6 +82,11 @@ in
       # Reduces attack surface and prevents confusion
       Defaults !root_sudo
 
+      # Require TTY for sudo execution (prevents some attack vectors)
+      # WARNING: This can break systemd services, cron jobs, and SSH automation
+      # Uncomment only if you understand the implications:
+      # Defaults requiretty
+
       # Log all sudo usage to dedicated file
       # Format: timestamp, user, command, working directory
       Defaults logfile="/var/log/sudo.log"
