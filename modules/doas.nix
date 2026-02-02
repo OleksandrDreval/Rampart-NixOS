@@ -153,8 +153,32 @@ in
       # }
     ];
 
+    # Additional raw configuration appended to /etc/doas.conf
+    # Use this for advanced configurations not covered by extraRules
+    # Note: This cannot override the default rule allowing passwordless root access
     extraConfig = ''
-
+      # Additional Doas Configuration
+      #
+      # This section is for raw doas.conf directives that don't fit into
+      # the structured extraRules format.
+      #
+      # Syntax: permit|deny [options] identity [as target] [cmd command [args ...]]
+      #
+      # Options:
+      #   nopass       - Don't require password
+      #   persist      - Cache credentials
+      #   keepenv      - Keep environment variables
+      #   setenv {...} - Set specific environment variables
+      #   nolog        - Don't log to syslog
+      #
+      # Examples:
+      # permit nopass root as root
+      # permit persist :wheel
+      # deny :wheel cmd /usr/bin/dangerous-command
+      # permit nopass alice cmd /usr/local/bin/backup.sh
+      
+      # Currently no additional configuration needed
+      # All rules are defined in extraRules above for better maintainability
     '';
   };
 
