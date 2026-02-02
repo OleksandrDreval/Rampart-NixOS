@@ -119,8 +119,47 @@ in
       # Log all sudo usage to dedicated file
       # Format: timestamp, user, command, working directory
       Defaults logfile="${vars.sudoLogFile}"
-
-      # User Experience
+      
+      # Log input and output of sudo commands (I/O logging)
+      # WARNING: This can generate large logs and may capture sensitive data
+      # Uncomment only if you need detailed command auditing:
+      # Defaults log_input
+      # Defaults log_output
+      # Defaults iolog_dir=/var/log/sudo-io
+      # Defaults iolog_file=%{seq}
+      
+      # Send logs to syslog as well (for centralized logging)
+      Defaults syslog=auth
+      Defaults syslog_goodpri=info
+      Defaults syslog_badpri=alert
+      
+      # Log hostname in sudo log (useful for multi-system management)
+      Defaults log_host
+      
+      # Log year in timestamps (useful for long-term log analysis)
+      Defaults log_year
+      
+      # Send email on security violations (requires mail system)
+      # Uncomment and configure if you have mail setup:
+      # Defaults mail_badpass
+      # Defaults mail_no_user
+      # Defaults mail_no_host
+      # Defaults mail_no_perms
+      # Defaults mailto="root"
+      
+      # Additional Security Restrictions
+      
+      # Prevent privilege escalation via LD_PRELOAD and similar
+      Defaults ignore_dot
+      
+      # Don't allow sudo with relative paths
+      # Uncomment for stricter security (may break some scripts):
+      # Defaults requirepass
+      
+      # Restrict characters allowed in environment variables
+      Defaults env_check+=TERMCAP
+      
+      # User Experience (Desktop Optimized)
 
       # Display humorous insults for incorrect password attempts
       # Provides feedback without revealing whether username is valid
