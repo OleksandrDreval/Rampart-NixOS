@@ -47,7 +47,7 @@ in
       # Networking modules
       ./modules/networking.nix         # General networking configuration
 
-      # DNS configuration modules
+      # DNS configuration modules (choose ONE)
       ./modules/dns-classic.nix        # Classic static DNS configuration (conflicts with resolved and dnsmasq)
     # ./modules/dns-resolved.nix       # DNSSEC DNS with systemd-resolved (conflicts with classic and dnsmasq)
     # ./modules/dns-dnsmasq.nix        # Alternative: DNSSEC DNS with dnsmasq (conflicts with classic and resolved)
