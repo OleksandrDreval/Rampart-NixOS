@@ -59,28 +59,17 @@ in
     ]);
   };
 
-  # Sudo security configuration
-  security.sudo = {
-    enable = true;
-    execWheelOnly = true;       # Only wheel group members can use sudo
-    wheelNeedsPassword = true;  # Wheel group users must provide password for sudo
-    extraConfig = ''
-      Defaults insults                                                  # Fun insults for wrong passwords
-      Defaults passwd_timeout=${toString vars.sudoPasswdTimeout}        # Time to enter password (seconds)
-      Defaults timestamp_timeout=${toString vars.sudoTimestampTimeout}  # Sudo cache duration (minutes)
-      Defaults use_pty                                                  # Use PTY for all sudo commands (prevents TTY hijacking)
-      Defaults env_reset                                                # Reset environment to secure baseline
-      Defaults secure_path="/run/wrappers/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin"  # Secure PATH
-      Defaults !visiblepw                                               # Never allow sudo if password not required
+  # Sudo Configuration
 
-    # Defaults requiretty                   # Require TTY (prevents some attacks) - COMMENTED: may break systemd services, cron jobs, SSH automation
-
-      Defaults umask=0077                   # Restrictive umask for sudo commands
-      Defaults !root_sudo                   # Root cannot use sudo (must already be root)
-      Defaults logfile="/var/log/sudo.log"  # Log all sudo usage (basic: command, user, time)
-      Defaults !pwfeedback                  # No password feedback (security)
-    '';
-  };
+  # Sudo security settings have been moved to a separate module: modules/sudo.nix
+  # This provides better organization and maintainability of privilege escalation controls.
+  # See modules/sudo.nix for:
+  # - Wheel-only sudo execution
+  # - Password requirements
+  # - Timeout controls
+  # - PTY enforcement
+  # - Environment hardening
+  # - Audit logging
   
   # Configure number of rounds for the Unix shadow password hashing algorithm.
   # Higher values increase the computational cost of offline hash cracking attacks.
