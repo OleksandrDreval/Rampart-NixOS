@@ -60,6 +60,9 @@ in
       ./modules/localization.nix       # Localization settings
       ./modules/desktop.nix            # Desktop environment settings
       ./modules/users.nix              # User accounts and permissions
+
+      ./modules/sudo.nix               # Sudo security configuration
+      
       ./modules/packages.nix           # Additional system packages
       ./modules/nixos-permissions.nix  # Secure /etc/nixos/ permissions
     # ./modules/ssh.nix                # SSH server/client configuration 
