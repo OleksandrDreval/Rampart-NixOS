@@ -189,4 +189,10 @@ in
   environment.shellAliases = {
     sudo = "doas";  # Redirect sudo to doas for convenience
   };
+
+  # Optional: Add helpful message when users type sudo
+  # Uncomment if you want to educate users about the doas transition
+  # programs.bash.shellAliases = {
+  #   sudo = "echo 'Use doas instead of sudo' && doas";
+  # };
 }
