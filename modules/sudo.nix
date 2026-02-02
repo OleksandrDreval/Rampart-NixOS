@@ -77,10 +77,14 @@ in
       # Restrictive umask for files created by sudo commands
       # Creates files with 600 (rw-------) permissions by default
       Defaults umask=0077
-      
+
       # Prevent root from using sudo (root is already superuser)
       # Reduces attack surface and prevents confusion
       Defaults !root_sudo
+
+      # Log all sudo usage to dedicated file
+      # Format: timestamp, user, command, working directory
+      Defaults logfile="/var/log/sudo.log"
     '';
 
     # Define specific sudo rules (optional)
