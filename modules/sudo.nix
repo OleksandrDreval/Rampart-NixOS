@@ -8,6 +8,30 @@ in
   # Sudo Security Configuration Module
   # This module configures sudo with enhanced security settings to minimize
   # privilege escalation risks and provide proper auditing of administrative actions.
+  #
+  # Key Security Features:
+  # - Wheel-only execution: Only members of the wheel group can use sudo
+  # - Password requirement: All sudo operations require password authentication
+  # - PTY enforcement: Prevents TTY hijacking attacks
+  # - Environment reset: Prevents environment-based privilege escalation
+  # - Secure PATH: Limits command execution to trusted locations
+  # - Logging: Tracks all sudo usage for audit purposes
+  # - Timeout controls: Limits password entry and credential caching time
+  #
+  # Related NixOS Options:
+  # - security.sudo.enable: Enable sudo command
+  # - security.sudo.execWheelOnly: Restrict sudo to wheel group members
+  # - security.sudo.wheelNeedsPassword: Require password for wheel group
+  # - security.sudo.extraConfig: Additional sudoers configuration
+  # - security.sudo.extraRules: Define specific sudo rules
+  # - security.sudo.defaultOptions: Options for default rules
+  # - security.sudo.package: The sudo package to use
+  # - security.sudo.configFile: Complete sudoers file content
+  #
+  # References:
+  # - NixOS Manual: https://nixos.org/manual/nixos/stable/options.html#opt-security.sudo.enable
+  # - Sudo Manual: https://www.sudo.ws/man/sudoers.man.html
+  # - CVE-2021-3156: Heap-based buffer overflow (mitigated by execWheelOnly)
 
   # Enable sudo command for privilege escalation
   security.sudo = {
