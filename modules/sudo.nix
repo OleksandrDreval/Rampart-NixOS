@@ -143,4 +143,13 @@ in
     # Uncomment to enable:
     # enable = false;  # Disable traditional sudo first
   };
+
+  # Alternative: Enable sudo-rs (Rust implementation of sudo)
+  # Provides memory safety and eliminates entire classes of vulnerabilities
+  # Trade-off: May have fewer features than traditional sudo
+  # security.sudo-rs = {
+  #   enable = true;
+  #   execWheelOnly = true;
+  #   wheelNeedsPassword = true;
+  # };
 }
