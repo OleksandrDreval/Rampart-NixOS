@@ -85,6 +85,10 @@ in
       # Log all sudo usage to dedicated file
       # Format: timestamp, user, command, working directory
       Defaults logfile="/var/log/sudo.log"
+
+      # Display humorous insults for incorrect password attempts
+      # Provides feedback without revealing whether username is valid
+      Defaults insults
     '';
 
     # Define specific sudo rules (optional)
