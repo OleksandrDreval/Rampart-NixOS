@@ -195,4 +195,98 @@ in
   # programs.bash.shellAliases = {
   #   sudo = "echo 'Use doas instead of sudo' && doas";
   # };
+
+  # Important Security Notes
+  #
+  # 1. DISABLE SUDO WHEN USING DOAS
+  #    If you enable this module, you should disable sudo in modules/sudo.nix
+  #    to avoid confusion and potential security issues:
+  #    security.sudo.enable = false;
+  #
+  # 2. ROOT ACCESS
+  #    Ensure root account is locked (configured in modules/users.nix):
+  #    users.users.root.hashedPassword = "!";
+  #
+  # 3. WHEEL GROUP
+  #    Only trusted users should be in the wheel group:
+  #    users.users.username.extraGroups = [ "wheel" ];
+  #
+  # 4. TESTING
+  #    Before disabling sudo completely, test doas thoroughly:
+  #    - Test basic privilege escalation: doas whoami
+  #    - Test interactive shell: doas -s
+  #    - Test specific commands: doas systemctl status
+  #    - Test environment preservation: doas -u username env
+  #
+  # 5. PERSISTENCE TIMEOUT
+  #    The persist option keeps credentials cached. Default is 5 minutes.
+  #    This is similar to sudo's timestamp_timeout but less configurable.
+  #    If you need stricter security, set persist = false in the rules.
+  #
+  # 6. ENVIRONMENT VARIABLES
+  #    Doas is more restrictive with environment variables than sudo by default.
+  #    Only variables listed in setEnv are passed through.
+  #    Review and adjust setEnv based on your security requirements.
+  #
+  # 7. COMMAND PATHS
+  #    Always use absolute paths in cmd for security:
+  #    cmd = "/run/current-system/sw/bin/systemctl";  # Good
+  #    cmd = "systemctl";                             # Bad (relative path)
+  #
+  # 8. RULE ORDERING
+  #    Rules are processed in order. More specific rules should come after
+  #    general rules. Use lib.mkBefore or lib.mkAfter to control ordering
+  #    when merging configurations from multiple modules.
+  #
+  # 9. LOGGING
+  #    All doas executions are logged to syslog (journald in NixOS).
+  #    View logs with: journalctl -t doas
+  #
+  # 10. COMPATIBILITY
+  #     Some scripts may expect sudo-specific features that doas doesn't have:
+  #     - No SUDO_USER, SUDO_GID, SUDO_COMMAND environment variables
+  #     - No -E flag to preserve all environment (use setEnv instead)
+  #     - No visudo equivalent (edit /etc/doas.conf directly in NixOS config)
+  #
+  # Migration from Sudo to Doas
+  #
+  # Step 1: Enable this module in configuration.nix
+  #         imports = [ ./modules/doas.nix ];
+  #
+  # Step 2: Test doas while keeping sudo enabled
+  #         $ doas whoami
+  #         $ doas -s
+  #         $ doas systemctl status
+  #
+  # Step 3: If everything works, disable sudo in modules/sudo.nix
+  #         security.sudo.enable = false;
+  #
+  # Step 4: Rebuild and test
+  #         sudo nixos-rebuild switch  # Last time using sudo!
+  #
+  # Step 5: Verify sudo is gone
+  #         $ which sudo  # Should return nothing or error
+  #         $ doas whoami # Should work
+  #
+  # Step 6: Update documentation and inform users
+  #
+  # Rollback plan:
+  # If you need to rollback to sudo, you can boot into a previous generation
+  # or re-enable sudo by setting security.sudo.enable = true and
+  # security.doas.enable = false.
+  #
+  # Related Modules
+  #
+  # This module should be used instead of, not alongside, modules/sudo.nix
+  #
+  # Related security configurations in other modules:
+  # - modules/users.nix: Root account lockdown, wheel group management
+  # - modules/nixos-permissions.nix: Secure /etc/nixos/ permissions
+  #
+  # For complete privilege escalation protection with doas:
+  # 1. Root is locked and only accessible via doas (users.nix)
+  # 2. Only trusted users are in wheel group (users.nix)
+  # 3. Strong password policies are enforced (users.nix)
+  # 4. Doas rules are properly configured (this module)
+  # 5. All doas operations are logged and monitored
 }
