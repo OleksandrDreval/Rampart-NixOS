@@ -78,6 +78,10 @@ in
       # Security best practice to prevent revealing password length
       Defaults !pwfeedback
       
+      # Maximum number of authentication attempts before failing
+      # Protects against brute-force attacks on sudo password
+      Defaults passwd_tries=${toString vars.sudoPasswdTries}
+
       # Security Hardening
 
       # Use PTY (pseudo-terminal) for all sudo commands
