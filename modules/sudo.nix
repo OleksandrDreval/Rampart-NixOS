@@ -164,6 +164,25 @@ in
       # Display humorous insults for incorrect password attempts
       # Provides feedback without revealing whether username is valid
       Defaults insults
+      
+      # Badpass message - shown after incorrect password
+      # Disabled for cleaner UX on desktop
+      Defaults !badpass_message
+      
+      # Custom sudo prompt (optional - uncomment to use)
+      # More user-friendly prompt for desktop users:
+      Defaults passprompt="[sudo] password for %u@%h: "
+      
+      # Preserve group ownership on files created via sudo
+      # Better for desktop file management
+      Defaults !setenv
+      
+      # Allow path with spaces (common on desktop systems)
+      # Improves compatibility with user directories
+      Defaults exempt_group=wheel
+      
+      # Custom insult file (optional - uncomment to use)
+      # Defaults insults=/path/to/insults.txt
     '';
 
     # Define specific sudo rules (optional)
