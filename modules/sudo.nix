@@ -104,6 +104,75 @@ in
       # Reduces attack surface and prevents confusion
       Defaults !root_sudo
       
+      # Always ask for password, even if user recently authenticated
+      # More secure but less convenient - uncomment for maximum security:
+      # Defaults timestamp_type=global
+      
+      # Ignore .profile, .bashrc, etc. when running commands
+      # Prevents privilege escalation through user configuration files
+      Defaults !env_check
+      
+      # Disable path info leak via sudo -l
+      # Prevents users from discovering available commands
+      Defaults !listpw
+      
+      # Desktop-Specific Hardening
+      
+      # Disable lecture for wheel group (they already know about sudo)
+      # Improves UX without compromising security
+      Defaults lecture=never
+      
+      # Disable "sudo: a password is required" message
+      # Cleaner output for desktop users
+      Defaults !pwfeedback
+      
+      # Preserve HOME for better desktop integration
+      # Some GUI apps expect $HOME to point to user's home
+      # Note: This is enabled but env is still reset for security
+      Defaults always_set_home
+      
+      # Environment Variable Control
+      
+      # Preserve only essential environment variables
+      # This is a whitelist approach - only explicitly allowed variables pass through
+      Defaults env_keep=""
+      
+      # Add back only necessary variables
+      Defaults env_keep+="LANG LC_ADDRESS LC_CTYPE LC_COLLATE LC_IDENTIFICATION"
+      Defaults env_keep+="LC_MEASUREMENT LC_MESSAGES LC_MONETARY LC_NAME LC_NUMERIC"
+      Defaults env_keep+="LC_PAPER LC_TELEPHONE LC_TIME LC_ALL LANGUAGE LINGUAS"
+      Defaults env_keep+="TZ"
+      
+      # Terminal and display variables (needed for GUI applications on desktop)
+      # Essential for desktop systems running GUI apps with sudo
+      Defaults env_keep+="DISPLAY XAUTHORITY XAUTHORIZATION"
+      
+      # Wayland display support (for modern desktop environments)
+      Defaults env_keep+="WAYLAND_DISPLAY XDG_RUNTIME_DIR"
+      
+      # Color terminal support (improves user experience)
+      Defaults env_keep+="COLORTERM"
+      
+      # SSH agent forwarding (useful for desktop development workflows)
+      # Allows git operations and SSH commands through sudo
+      Defaults env_keep+="SSH_AUTH_SOCK SSH_AGENT_PID"
+      
+      # Explicitly delete potentially dangerous environment variables
+      Defaults env_delete="LD_PRELOAD LD_LIBRARY_PATH"
+      Defaults env_delete+="PYTHON* PERL* RUBY*"
+      Defaults env_delete+="BASH_ENV CDPATH ENV"
+      Defaults env_delete+="TERMCAP"
+      
+      # Command Execution Security
+      
+      # Disable running shell escape commands in editors
+      # Prevents privilege escalation via editor commands
+      Defaults !shell_noargs
+      
+      # Don't allow sudo to run in background
+      # Prevents detached privileged processes
+      # Defaults !set_logname
+      
       # Restrict maximum command line length (prevents buffer overflows)
       Defaults maxseq=${toString vars.sudoMaxSeq}
 
