@@ -64,6 +64,7 @@ in
       # Privilege escalation modules (choose ONE)
       ./modules/sudo.nix               # Sudo security configuration (traditional, feature-rich)
     # ./modules/doas.nix               # Doas security configuration (OpenBSD alternative: simpler, smaller attack surface)
+    # ./modules/run0.nix               # Run0 security configuration (systemd-native: no SUID, modern Linux architecture)
 
       ./modules/packages.nix           # Additional system packages
       ./modules/nixos-permissions.nix  # Secure /etc/nixos/ permissions
