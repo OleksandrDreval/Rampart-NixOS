@@ -48,7 +48,12 @@ in
 
     # Advanced sudo configuration (appended to /etc/sudoers)
     extraConfig = ''
-
+      # Timeout for password entry (seconds) - user must enter password within this time
+      Defaults passwd_timeout=${toString vars.sudoPasswdTimeout}
+      
+      # Credential cache duration (minutes) - how long sudo remembers successful authentication
+      # After this period, password must be re-entered
+      Defaults timestamp_timeout=${toString vars.sudoTimestampTimeout}
     '';
 
     # Define specific sudo rules (optional)
