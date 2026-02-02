@@ -132,6 +132,7 @@ in
     #     ];
     #   }
     # ];
+    
     extraRules = [ ];
 
     # Default options for all sudo rules
@@ -152,4 +153,22 @@ in
   #   execWheelOnly = true;
   #   wheelNeedsPassword = true;
   # };
+
+  # Related Security Configurations
+
+  # Note: This module only handles sudo configuration.
+  # Related security settings are in other modules:
+  #
+  # users.nix:
+  # - Root account lockdown (hashedPassword = "!")
+  # - TTY restrictions for root login
+  # - PAM securetty enforcement
+  # - Wheel group requirement for su command
+  # - User account management
+  #
+  # For complete privilege escalation protection, ensure:
+  # 1. Root is locked and only accessible via sudo
+  # 2. Only trusted users are in wheel group
+  # 3. Strong password policies are enforced
+  # 4. PAM configurations restrict su command
 }
