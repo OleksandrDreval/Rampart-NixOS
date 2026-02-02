@@ -107,6 +107,31 @@ in
     '';
 
     # Define specific sudo rules (optional)
+    # More specific rules should come after general ones
+    # Examples:
+    # extraRules = [
+    #   # Allow backup group to run specific script without password
+    #   {
+    #     groups = [ "backup" ];
+    #     commands = [
+    #       {
+    #         command = "/usr/local/bin/backup.sh";
+    #         options = [ "NOPASSWD" ];
+    #       }
+    #     ];
+    #   }
+    #   
+    #   # Allow monitoring user to restart specific service
+    #   {
+    #     users = [ "monitor" ];
+    #     commands = [
+    #       {
+    #         command = "/run/current-system/sw/bin/systemctl restart monitoring.service";
+    #         options = [ "NOPASSWD" ];
+    #       }
+    #     ];
+    #   }
+    # ];
     extraRules = [ ];
   };
 }
