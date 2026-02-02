@@ -71,4 +71,12 @@ in
 
     '';
   };
+
+  # Environment Configuration for Doas
+  
+  # Create doas alias for users familiar with sudo command
+  # This provides a smoother transition from sudo to doas
+  environment.shellAliases = {
+    sudo = "doas";  # Redirect sudo to doas for convenience
+  };
 }
