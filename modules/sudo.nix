@@ -54,9 +54,13 @@ in
       # Credential cache duration (minutes) - how long sudo remembers successful authentication
       # After this period, password must be re-entered
       Defaults timestamp_timeout=${toString vars.sudoTimestampTimeout}
-      
+
       # Never allow sudo if password is not required (security enforcement)
       Defaults !visiblepw
+      
+      # Disable password feedback (no asterisks when typing password)
+      # Security best practice to prevent revealing password length
+      Defaults !pwfeedback
     '';
 
     # Define specific sudo rules (optional)
