@@ -102,6 +102,55 @@ in
         # Log all successful executions to syslog for auditing
         noLog = false;
       }
+
+      # Example Rule 2: Allow specific command without password (COMMENTED)
+      #
+      # Uncomment and modify this rule to allow specific commands without password
+      # This is useful for automated tasks or specific user workflows
+      # 
+      # {
+      #   users = [ "backup" ];
+      #   cmd = "/run/current-system/sw/bin/rsync";
+      #   args = null;  # null = allow any arguments
+      #   noPass = true;
+      #   runAs = "root";
+      #   setEnv = [ "SSH_AUTH_SOCK" ];
+      # }
+
+      # Example Rule 3: Allow system monitoring without password (COMMENTED)
+      #
+      # Allow specific users to run system monitoring commands without password
+      # 
+      # {
+      #   groups = [ "monitoring" ];
+      #   cmd = "/run/current-system/sw/bin/systemctl";
+      #   args = [ "status" ];  # Only allow 'systemctl status'
+      #   noPass = true;
+      #   runAs = "root";
+      # }
+
+      # Example Rule 4: Allow network restart for admins (COMMENTED)
+      #
+      # {
+      #   groups = [ "netadmin" ];
+      #   cmd = "/run/current-system/sw/bin/systemctl";
+      #   args = [ "restart" "NetworkManager.service" ];
+      #   noPass = false;  # Still require password for safety
+      #   runAs = "root";
+      #   persist = true;
+      # }
+
+      # Example Rule 5: Allow specific script execution (COMMENTED)
+      #
+      # {
+      #   users = [ "developer" ];
+      #   cmd = "/home/developer/scripts/deploy.sh";
+      #   args = [];  # Empty list = command must be run with NO arguments
+      #   noPass = false;
+      #   runAs = "www-data";
+      #   keepEnv = false;
+      #   setEnv = [ "-SSH_AUTH_SOCK" "DEPLOY_ENV=production" ];
+      # }
     ];
 
     extraConfig = ''
