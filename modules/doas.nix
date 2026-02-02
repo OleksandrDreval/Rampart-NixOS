@@ -57,6 +57,10 @@ in
   security.doas = {
     enable = true;
 
+    # Require password for all wheel group members
+    # Set to false only if you understand the security implications
+    wheelNeedsPassword = true;
+
     # Define access rules for doas
     # Rules are evaluated in order - more specific rules should come after general ones
     extraRules = [
