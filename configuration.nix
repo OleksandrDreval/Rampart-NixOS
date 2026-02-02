@@ -32,7 +32,7 @@ in
       # Rampart option declarations - must be connected higher than used
       ./modules/rampart-options.nix    # Rampart option declarations
 
-      # Boot modules
+      # Boot modules (choose ONE)
       ./modules/boot.nix               # Standard boot configuration
     # ./modules/boot-secure.nix        # Secure Boot with Lanzaboote
 
