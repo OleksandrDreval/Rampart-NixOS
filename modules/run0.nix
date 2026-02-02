@@ -88,4 +88,20 @@
     # Useful for smooth transition from sudo to run0
     enableSudoAlias = true;
   };
+
+  # Polkit Configuration for run0
+  #
+  # run0 uses polkit for authentication and authorization decisions.
+  # By default, members of the wheel group are allowed to gain root privileges.
+  # Additional polkit rules can be configured here for fine-grained control.
+  #
+  # Example: Allow specific users to run certain commands without password
+  # security.polkit.extraConfig = ''
+  #   polkit.addRule(function(action, subject) {
+  #     if (action.id == "org.freedesktop.systemd1.manage-units" &&
+  #         subject.user == "backup") {
+  #       return polkit.Result.YES;
+  #     }
+  #   });
+  # '';
 }
