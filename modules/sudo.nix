@@ -115,7 +115,7 @@ in
 
       # Log all sudo usage to dedicated file
       # Format: timestamp, user, command, working directory
-      Defaults logfile="/var/log/sudo.log"
+      Defaults logfile="${vars.sudoLogFile}"
 
       # User Experience
 
