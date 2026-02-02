@@ -24,6 +24,7 @@
   # Sudo configuration
   sudoPasswdTimeout = 25;    # Password timeout in seconds (time to enter password)
   sudoTimestampTimeout = 5;  # Timestamp timeout in minutes (sudo cache duration)
+  sudoPasswdTries = 3;       # Maximum number of authentication attempts before failing (recommended: 3)
   # Login failure delay (microseconds) applied after a failed login attempt
   # Example default shown here is 5 seconds (5000000 μs)
   loginFailDelay = 5000000;  # microseconds (5s)
