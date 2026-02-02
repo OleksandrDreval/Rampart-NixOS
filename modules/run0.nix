@@ -77,6 +77,9 @@
   # Enable run0 as privilege escalation mechanism
   # This is a systemd-based alternative to sudo that doesn't use SUID binaries
   security.run0 = {
-
+    # Require password authentication for wheel group members
+    # When true: users must authenticate with their password
+    # When false: passwordless privilege escalation (NOT RECOMMENDED for security)
+    wheelNeedsPassword = true;
   };
 }
