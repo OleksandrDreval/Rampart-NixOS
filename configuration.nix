@@ -61,8 +61,10 @@ in
       ./modules/desktop.nix            # Desktop environment settings
       ./modules/users.nix              # User accounts and permissions
 
-      ./modules/sudo.nix               # Sudo security configuration
-      
+      # Privilege escalation modules (choose ONE)
+      ./modules/sudo.nix               # Sudo security configuration (traditional, feature-rich)
+    # ./modules/doas.nix               # Doas security configuration (OpenBSD alternative: simpler, smaller attack surface)
+
       ./modules/packages.nix           # Additional system packages
       ./modules/nixos-permissions.nix  # Secure /etc/nixos/ permissions
     # ./modules/ssh.nix                # SSH server/client configuration 
