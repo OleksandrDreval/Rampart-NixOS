@@ -9,6 +9,14 @@ in
   # This module configures sudo with enhanced security settings to minimize
   # privilege escalation risks and provide proper auditing of administrative actions.
   #
+  # ALTERNATIVE: Consider using modules/doas.nix instead
+  # Doas is a simpler, more secure alternative to sudo from OpenBSD with:
+  # - Smaller codebase (~4K lines vs sudo's ~132K lines)
+  # - Smaller attack surface
+  # - Simpler configuration (easier to audit)
+  # - Better security defaults
+  # See modules/doas.nix for more information.
+  #
   # Key Security Features:
   # - Wheel-only execution: Only members of the wheel group can use sudo
   # - Password requirement: All sudo operations require password authentication
@@ -132,7 +140,7 @@ in
     #     ];
     #   }
     # ];
-    
+
     extraRules = [ ];
 
     # Default options for all sudo rules
