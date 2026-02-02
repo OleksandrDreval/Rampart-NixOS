@@ -69,6 +69,10 @@ in
       # Reset environment variables to secure baseline
       # Prevents environment-based privilege escalation attacks
       Defaults env_reset
+
+      # Define secure PATH for sudo commands
+      # Limits command execution to trusted system directories
+      Defaults secure_path="/run/wrappers/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin"
     '';
 
     # Define specific sudo rules (optional)
