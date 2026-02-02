@@ -104,6 +104,9 @@ in
       # Reduces attack surface and prevents confusion
       Defaults !root_sudo
       
+      # Restrict maximum command line length (prevents buffer overflows)
+      Defaults maxseq=${toString vars.sudoMaxSeq}
+
       # TTY Requirement (COMMENTED - may break automation)
 
       # Require TTY for sudo execution (prevents some attack vectors)

@@ -27,6 +27,7 @@
   sudoPasswdTries = 3;       # Maximum number of authentication attempts before failing (recommended: 3)
   sudoSecurePath = "/run/wrappers/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin";  # Secure PATH for sudo commands
   sudoLogFile = "/var/log/sudo.log";  # Log file for sudo usage
+  sudoMaxSeq = 1000;                  # Maximum command line length (prevents buffer overflows)
   # Login failure delay (microseconds) applied after a failed login attempt
   # Example default shown here is 5 seconds (5000000 μs)
   loginFailDelay = 5000000;  # microseconds (5s)
