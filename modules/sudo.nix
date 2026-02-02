@@ -57,10 +57,14 @@ in
 
       # Never allow sudo if password is not required (security enforcement)
       Defaults !visiblepw
-      
+
       # Disable password feedback (no asterisks when typing password)
       # Security best practice to prevent revealing password length
       Defaults !pwfeedback
+
+      # Use PTY (pseudo-terminal) for all sudo commands
+      # Prevents TTY hijacking attacks and ensures proper signal handling
+      Defaults use_pty
     '';
 
     # Define specific sudo rules (optional)
