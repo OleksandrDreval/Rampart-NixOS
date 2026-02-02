@@ -65,6 +65,10 @@ in
       # Use PTY (pseudo-terminal) for all sudo commands
       # Prevents TTY hijacking attacks and ensures proper signal handling
       Defaults use_pty
+
+      # Reset environment variables to secure baseline
+      # Prevents environment-based privilege escalation attacks
+      Defaults env_reset
     '';
 
     # Define specific sudo rules (optional)
