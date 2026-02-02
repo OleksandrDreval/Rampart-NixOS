@@ -133,5 +133,14 @@ in
     #   }
     # ];
     extraRules = [ ];
+
+    # Default options for all sudo rules
+    # These are applied to the default rules granting wheel group permissions
+    # defaultOptions = [ "SETENV" "NOPASSWD" ];  # Example: allow environment passing
+
+    # Alternative: Use sudo-rs (Rust implementation) instead of traditional sudo
+    # Provides memory safety but may have fewer features
+    # Uncomment to enable:
+    # enable = false;  # Disable traditional sudo first
   };
 }
