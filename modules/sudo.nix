@@ -94,7 +94,7 @@ in
       
       # Define secure PATH for sudo commands
       # Limits command execution to trusted system directories
-      Defaults secure_path="/run/wrappers/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin"
+      Defaults secure_path="${vars.sudoSecurePath}"
       
       # Restrictive umask for files created by sudo commands
       # Creates files with 600 (rw-------) permissions by default
