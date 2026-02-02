@@ -81,5 +81,11 @@
     # When true: users must authenticate with their password
     # When false: passwordless privilege escalation (NOT RECOMMENDED for security)
     wheelNeedsPassword = true;
+
+    # Create 'sudo' alias that points to 'run0'
+    # This provides compatibility for users and scripts expecting 'sudo' command
+    # Users can type 'sudo' and it will execute 'run0' instead
+    # Useful for smooth transition from sudo to run0
+    enableSudoAlias = true;
   };
 }
