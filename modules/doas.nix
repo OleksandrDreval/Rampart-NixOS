@@ -1,0 +1,70 @@
+{ config, pkgs, lib, ... }:
+
+let
+  vars = import ./includes/variables.nix;
+in
+
+{
+  # Doas Security Configuration Module
+  #
+  # This module configures doas as a more secure and simpler alternative to sudo.
+  # Doas (from OpenBSD) is a minimalist privilege escalation tool with a smaller
+  # codebase and attack surface compared to sudo.
+  #
+  # Key Security Features:
+  # - Minimal codebase: ~4000 lines vs sudo's ~132,000 lines (smaller attack surface)
+  # - Simpler configuration: /etc/doas.conf is much easier to audit than sudoers
+  # - Wheel-only execution: Only members of the wheel group can use doas
+  # - Password requirement: All doas operations require password authentication
+  # - Environment control: Explicit control over which environment variables are kept
+  # - Session persistence: Optional credential caching to reduce password prompts
+  # - Logging: All executions logged to syslog for auditing
+  # - No complex features: Focuses on doing one thing well (privilege escalation)
+  #
+  # Advantages over sudo:
+  # - Smaller attack surface due to minimal codebase
+  # - Simpler configuration syntax (easier to audit and maintain)
+  # - Better defaults (more secure out of the box)
+  # - Designed with security as primary goal (OpenBSD heritage)
+  # - Less vulnerable to complex attack vectors
+  #
+  # Related NixOS Options:
+  # - security.doas.enable: Enable doas command
+  # - security.doas.wheelNeedsPassword: Require password for wheel group
+  # - security.doas.extraRules: Define specific doas rules
+  # - security.doas.extraConfig: Additional doas.conf configuration
+  # - security.doas.package: The doas package to use
+  #
+  # Rule Options (per extraRules entry):
+  # - users: List of usernames/UIDs this rule applies to
+  # - groups: List of group names/GIDs this rule applies to
+  # - cmd: Specific command allowed (null = all commands)
+  # - args: Required arguments for the command ([] = no args allowed)
+  # - runAs: User/group to run as (null = any user)
+  # - noPass: Allow execution without password (default: false)
+  # - persist: Cache credentials for a time period (default: false)
+  # - keepEnv: Keep environment variables (default: false)
+  # - setEnv: List of environment variables to keep/set/remove
+  # - noLog: Don't log successful executions (default: false)
+  #
+  # References:
+  # - NixOS Manual: https://nixos.org/manual/nixos/stable/options.html#opt-security.doas.enable
+  # - doas(1) man page: https://man.openbsd.org/doas
+  # - doas.conf(5) man page: https://man.openbsd.org/doas.conf
+  # - Original doas: https://github.com/Duncaen/OpenDoas
+
+  # Enable doas as privilege escalation mechanism
+  security.doas = {
+    enable = true;
+
+    # Define access rules for doas
+    # Rules are evaluated in order - more specific rules should come after general ones
+    extraRules = [
+
+    ];
+
+    extraConfig = ''
+
+    '';
+  };
+}
