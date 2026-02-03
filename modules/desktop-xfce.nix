@@ -7,6 +7,22 @@ in
 {
   # XFCE Desktop Environment Module
   # Lightweight, fast, and traditional desktop environment
+  #
+  # Features:
+  # - Lightweight and fast
+  # - Traditional desktop layout
+  # - Highly customizable
+  # - GTK 3 based
+  # - Modular architecture
+  # - Low resource usage
+  # - Experimental Wayland support (via labwc compositor)
+  #
+  # Official Documentation:
+  # - https://docs.xfce.org/
+  # - https://wiki.xfce.org/
+  #
+  # NixOS Manual:
+  # - https://nixos.org/manual/nixos/stable/options.html#opt-services.xserver.desktopManager.xfce.enable
 
   # Enable X11 windowing system (required for XFCE)
   services.xserver.enable = true;
