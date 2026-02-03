@@ -23,4 +23,7 @@ in
     # Wayland support (experimental for LXQt)
     wayland.enable = true;
   };
+
+  # Enable Xwayland for compatibility
+  programs.xwayland.enable = true;
 }
