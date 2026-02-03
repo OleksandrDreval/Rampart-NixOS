@@ -133,4 +133,36 @@ in
     # KDE portal is automatically added by plasma6
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
+
+  # Enable touchpad support (usually enabled by default)
+  # services.xserver.libinput.enable = true;
+  
+  # Wayland-specific tweaks
+  
+  # Disable screen tearing for Wayland
+  # (Usually not needed on Wayland, but can be enabled if issues occur)
+  # services.xserver.videoDrivers = [ "modesetting" ];
+  
+  # Performance optimizations for Wayland
+  # services.xserver.displayManager.sddm.settings = {
+  #   General = {
+  #     DisplayServer = "wayland";
+  #     GreeterEnvironment = "QT_WAYLAND_SHELL_INTEGRATION=layer-shell";
+  #   };
+  # };
+
+  # Notes:
+  # - Plasma 6 is the latest version and is Qt 6 based
+  # - Wayland is the default and recommended session
+  # - X11 session is still available via Xwayland if needed
+  # - To switch to X11 session, select "Plasma (X11)" in SDDM
+  # - SDDM can also run on Wayland for a full Wayland stack
+  #
+  # Troubleshooting:
+  # - If you experience issues with Wayland, you can temporarily use X11
+  # - Check logs: journalctl -xe
+  # - Check Plasma logs: ~/.local/share/sddm/
+  # - For NVIDIA users, ensure you have the latest drivers and enable:
+  #   services.xserver.videoDrivers = [ "nvidia" ];
+  #   hardware.nvidia.modesetting.enable = true;
 }
