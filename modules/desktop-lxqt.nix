@@ -76,4 +76,16 @@ in
     ];
     config.common.default = "*";
   };
+
+  # Environment variables
+  environment.sessionVariables = {
+    # Qt Wayland support
+    QT_QPA_PLATFORM = "wayland;xcb";  # Wayland first, X11 fallback
+    
+    # Firefox Wayland support
+    MOZ_ENABLE_WAYLAND = "1";
+    
+    # Electron apps Wayland support
+    NIXOS_OZONE_WL = "1";
+  };
 }
