@@ -42,8 +42,8 @@
   defaultLocale = "en_US.UTF-8";
   # See available keymaps: localectl list-keymaps
   consoleKeyMap = "us";
-  # X11 keyboard layouts (comma-separated, e.g., "us,de,fr")
-  xkbLayout = "us";
+  # Keyboard layouts for Wayland/X11 (comma-separated, e.g., "us,de,fr")
+  keyboardLayout = "us";
   
   # USBGuard allowed devices
   # Add your trusted USB devices here
