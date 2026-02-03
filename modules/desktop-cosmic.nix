@@ -39,4 +39,10 @@ in
     enable = true;
     wayland = true;  # COSMIC requires Wayland
   };
+
+  # Configure keyboard layout
+  services.xserver.xkb = {
+    layout = vars.keyboardLayout;
+    variant = "";
+  };
 }
