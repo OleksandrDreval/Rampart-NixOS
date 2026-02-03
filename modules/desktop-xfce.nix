@@ -160,4 +160,24 @@ in
     # GTK Wayland backend
     GDK_BACKEND = "wayland,x11";  # Wayland first, X11 fallback
   };
+
+  # Power management (xfce4-power-manager)
+  # Already included in XFCE, but you can configure it here
+  # services.xserver.displayManager.lightdm.greeters.gtk.indicators = [
+  #   "~host" "~spacer" "~clock" "~spacer" "~session" "~power"
+  # ];
+
+  # Notes:
+  # - XFCE is a traditional X11 desktop environment
+  # - Wayland support is experimental via labwc compositor
+  # - If Wayland causes issues, set enableWaylandSession = false
+  # - XFCE is known for being lightweight and fast
+  # - Great for older hardware or users who prefer traditional UI
+  # - Highly customizable through its settings manager
+  #
+  # Troubleshooting:
+  # - If Wayland session doesn't work, use X11 session
+  # - Check logs: journalctl -xe
+  # - XFCE logs: ~/.xsession-errors
+  # - For display issues, try: services.xserver.videoDrivers = [ "modesetting" ];
 }
