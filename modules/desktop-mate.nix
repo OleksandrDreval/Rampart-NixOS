@@ -78,4 +78,44 @@ in
     # JACK support (optional)
     # jack.enable = true;
   };
+
+  # MATE-specific packages
+  environment.systemPackages = with pkgs; [
+    # MATE applications (many are already included)
+    # mate.caja                    # File manager
+    # mate.pluma                   # Text editor
+    # mate.atril                   # Document viewer
+    # mate.eom                     # Image viewer
+    # mate.mate-terminal           # Terminal emulator
+    # mate.mate-calc               # Calculator
+    # mate.mate-screenshot         # Screenshot tool
+    # mate.mate-system-monitor     # System monitor
+    # mate.mate-power-manager      # Power management
+    # mate.mate-control-center     # Control center
+    
+    # Additional panel applets (optional)
+    # mate.mate-applets            # Collection of applets
+    # mate.mate-sensors-applet     # Hardware sensors
+    # mate.mate-netbook            # Netbook enhancements
+    
+    # Archive manager
+    # mate.engrampa                # Archive manager (MATE)
+    # gnome.file-roller            # Alternative archive manager
+    
+    # Additional useful applications
+    # vlc                          # Media player
+    # gparted                      # Partition editor
+    # gnome.gnome-disk-utility     # Disk utility
+  ];
+
+  # Add extra panel applets (optional)
+  # services.xserver.desktopManager.mate.extraPanelApplets = with pkgs.mate; [
+  #   mate-applets
+  #   mate-sensors-applet
+  # ];
+
+  # Exclude unwanted MATE packages (optional)
+  # environment.mate.excludePackages = with pkgs.mate; [
+  #   mate-terminal  # If you prefer another terminal
+  # ];
 }
