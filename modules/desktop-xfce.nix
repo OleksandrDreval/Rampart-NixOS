@@ -64,4 +64,14 @@ in
     layout = vars.keyboardLayout;
     variant = "";
   };
+
+  # Enable Thunar file manager with additional features
+  programs.thunar = {
+    enable = true;
+    plugins = with pkgs.xfce; [
+      thunar-archive-plugin    # Archive support
+      thunar-volman           # Volume management
+      thunar-media-tags-plugin # Media tags
+    ];
+  };
 }
