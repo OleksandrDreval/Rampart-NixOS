@@ -53,4 +53,39 @@ in
     layout = vars.keyboardLayout;
     variant = "";
   };
+
+  # Environment variables for Wayland
+  environment.sessionVariables = {
+    # Force Qt applications to use Wayland
+    QT_QPA_PLATFORM = "wayland;xcb";  # Wayland first, X11 fallback
+    
+    # Enable Wayland for Qt 5 applications
+    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+    
+    # Firefox Wayland support
+    MOZ_ENABLE_WAYLAND = "1";
+    
+    # Electron apps Wayland support
+    NIXOS_OZONE_WL = "1";
+  };
+
+  # Additional KDE packages (optional)
+  environment.systemPackages = with pkgs; [
+    # KDE applications
+    # kdePackages.kate           # Advanced text editor
+    # kdePackages.konsole        # Terminal emulator
+    # kdePackages.dolphin        # File manager
+    # kdePackages.gwenview       # Image viewer
+    # kdePackages.okular         # Document viewer
+    # kdePackages.spectacle      # Screenshot utility
+    # kdePackages.kdenlive       # Video editor
+    # kdePackages.krita          # Digital painting
+    # kdePackages.ark            # Archive manager
+    # kdePackages.kcalc          # Calculator
+    
+    # System tools
+    # libsForQt5.kio-admin       # Admin file access (Qt5)
+    # kdePackages.kio-admin      # Admin file access (Qt6)
+    # kdePackages.plasma-browser-integration  # Browser integration
+  ];
 }
