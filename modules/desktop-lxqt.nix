@@ -92,6 +92,17 @@ in
   # Power management
   services.upower.enable = true;
 
+  # Enable NetworkManager (usually preferred)
+  # networking.networkmanager.enable = true;
+
+  # Bluetooth support (optional)
+  # hardware.bluetooth.enable = true;
+  # services.blueman.enable = true;
+
+  # Compositor (for visual effects)
+  # LXQt uses Openbox or KWin by default
+  # You can configure compositor in LXQt Session Settings
+
   # PCManFM-Qt file manager configuration
   programs.thunar = {
     # Enable if you prefer Thunar over PCManFM-Qt
