@@ -56,4 +56,24 @@ in
     platformTheme = "lxqt";  # Use LXQt platform theme
   # style = "kvantum";       # Alternative: use Kvantum for theming
   };
+
+  # XDG Portal for sandboxed applications
+  xdg.portal = {
+    enable = true;
+    
+    # Enable LXQt portal
+    lxqt = {
+      enable = true;
+      # Additional Qt styles (optional)
+      styles = with pkgs; [
+        # libsForQt5.qtstyleplugins
+        # kvantum
+      ];
+    };
+    
+    extraPortals = [ 
+      pkgs.xdg-desktop-portal-gtk  # For GTK apps
+    ];
+    config.common.default = "*";
+  };
 }
