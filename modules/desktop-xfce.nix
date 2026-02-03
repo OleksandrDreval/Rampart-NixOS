@@ -135,4 +135,16 @@ in
   #   xfburn  # CD/DVD burning application
   #   parole  # Media player
   # ];
+
+  # Environment variables for Wayland (if using Wayland session)
+  environment.sessionVariables = {
+    # Firefox Wayland support
+    MOZ_ENABLE_WAYLAND = "1";
+    
+    # Electron apps Wayland support
+    NIXOS_OZONE_WL = "1";
+    
+    # GTK Wayland backend
+    GDK_BACKEND = "wayland,x11";  # Wayland first, X11 fallback
+  };
 }
