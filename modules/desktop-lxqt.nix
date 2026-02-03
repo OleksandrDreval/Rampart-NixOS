@@ -58,17 +58,8 @@ in
   # Increases attack surface (network ports 631/tcp, 631/udp)
   services.printing.enable = false;
 
-  # Sound configuration with PipeWire
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # JACK support (optional)
-    # jack.enable = true;
-  };
+  # Sound configuration is handled by modules/audio.nix
+  # See that module for PipeWire configuration and security details
 
   # LXQt-specific packages
   environment.systemPackages = with pkgs; [
