@@ -75,6 +75,27 @@ in
     ];
   };
 
+  # Enable Xfconf (XFCE configuration storage)
+  programs.xfconf.enable = true;
+
+  # Enable touchpad support
+  services.xserver.libinput.enable = true;
+
+  # Enable printing support
+  services.printing.enable = true;
+
+  # Sound configuration with PipeWire
+  services.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # JACK support (optional)
+    # jack.enable = true;
+  };
+
   # XFCE-specific packages
   environment.systemPackages = with pkgs; [
     # XFCE applications (already included by default)
