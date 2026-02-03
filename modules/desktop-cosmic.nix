@@ -109,4 +109,7 @@ in
     ];
     config.common.default = "*";
   };
+
+  # Power management
+  services.upower.enable = true;
 }
