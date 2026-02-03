@@ -131,4 +131,19 @@ in
     ];
     config.common.default = "*";
   };
+
+  # GTK theme configuration
+  # programs.dconf.enable = true;  # Required for GTK settings
+
+  # Environment variables
+  environment.sessionVariables = {
+    # Firefox Wayland support (if using Wayland session)
+    MOZ_ENABLE_WAYLAND = "1";
+    
+    # Electron apps Wayland support
+    NIXOS_OZONE_WL = "1";
+    
+    # GTK backend
+    GDK_BACKEND = "wayland,x11";  # Wayland first, X11 fallback
+  };
 }
