@@ -50,6 +50,38 @@ in
     variant = "";
   };
 
+  # LXQt-specific packages
+  environment.systemPackages = with pkgs; [
+    # LXQt core applications (many are already included)
+    # lxqt.lxqt-config          # Configuration center
+    # lxqt.pcmanfm-qt           # File manager
+    # lxqt.qterminal            # Terminal emulator
+    # lxqt.lximage-qt           # Image viewer
+    # lxqt.lxqt-archiver        # Archive manager
+    # lxqt.lxqt-runner          # Application launcher
+    # lxqt.lxqt-notificationd   # Notification daemon
+    # lxqt.lxqt-policykit       # PolicyKit agent
+    # lxqt.lxqt-powermanagement # Power management
+    # lxqt.lxqt-qtplugin        # Qt platform integration
+    # lxqt.lxqt-session         # Session manager
+    # lxqt.lxqt-sudo            # Graphical sudo
+    # lxqt.pavucontrol-qt       # PulseAudio volume control
+    # lxqt.qps                  # Process manager
+    # lxqt.screengrab           # Screenshot tool
+    
+    # Additional useful applications
+    # featherpad                # Lightweight text editor
+    # qpdfview                  # PDF viewer
+    # nomacs                    # Image viewer
+    # vlc                       # Media player
+    # kde-partitionmanager      # Partition manager (Qt-based)
+  ];
+
+  # Exclude unwanted LXQt packages (optional)
+  # environment.lxqt.excludePackages = with pkgs.lxqt; [
+  #   # Example: exclude packages you don't need
+  # ];
+
   # Configure Qt theming for LXQt
   qt = {
     enable = true;
