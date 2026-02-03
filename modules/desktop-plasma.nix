@@ -47,4 +47,10 @@ in
   # Enable Xwayland for backward compatibility with X11 applications
   # This allows running legacy X11 apps on Wayland
   programs.xwayland.enable = true;
+
+  # Configure keyboard layout (applies to both Wayland and Xwayland)
+  services.xserver.xkb = {
+    layout = vars.keyboardLayout;
+    variant = "";
+  };
 }
