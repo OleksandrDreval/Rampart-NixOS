@@ -32,4 +32,11 @@ in
     layout = vars.keyboardLayout;
     variant = "";
   };
+
+  # Configure Qt theming for LXQt
+  qt = {
+    enable = true;
+    platformTheme = "lxqt";  # Use LXQt platform theme
+  # style = "kvantum";       # Alternative: use Kvantum for theming
+  };
 }
