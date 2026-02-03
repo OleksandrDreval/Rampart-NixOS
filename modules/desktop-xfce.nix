@@ -74,4 +74,44 @@ in
       thunar-media-tags-plugin # Media tags
     ];
   };
+
+  # XFCE-specific packages
+  environment.systemPackages = with pkgs; [
+    # XFCE applications (already included by default)
+    # xfce.xfce4-taskmanager      # Task manager
+    # xfce.xfce4-terminal         # Terminal emulator
+    # xfce.xfce4-screenshooter    # Screenshot tool
+    # xfce.xfce4-panel            # Panel
+    # xfce.xfdesktop              # Desktop manager
+    # xfce.thunar                 # File manager
+    # xfce.ristretto              # Image viewer
+    # xfce.mousepad               # Text editor
+    
+    # Additional XFCE plugins (optional)
+    # xfce.xfce4-pulseaudio-plugin    # PulseAudio plugin
+    # xfce.xfce4-weather-plugin       # Weather plugin
+    # xfce.xfce4-systemload-plugin    # System load plugin
+    # xfce.xfce4-netload-plugin       # Network load plugin
+    # xfce.xfce4-cpugraph-plugin      # CPU graph plugin
+    # xfce.xfce4-diskperf-plugin      # Disk performance plugin
+    # xfce.xfce4-fsguard-plugin       # File system guard plugin
+    # xfce.xfce4-genmon-plugin        # Generic monitor plugin
+    # xfce.xfce4-timer-plugin         # Timer plugin
+    # xfce.xfce4-clipman-plugin       # Clipboard manager
+    # xfce.xfce4-whiskermenu-plugin   # Application menu
+    
+    # Useful applications for XFCE
+    # mate.engrampa         # Archive manager (GTK 3)
+    # gnome.file-roller     # Archive manager (GNOME)
+    # gnome.evince          # Document viewer
+    # vlc                   # Media player
+    # gimp                  # Image editor
+  ];
+
+  # Exclude unwanted XFCE packages (optional)
+  # environment.xfce.excludePackages = with pkgs.xfce; [
+  #   xfce4-screensaver
+  #   xfburn  # CD/DVD burning application
+  #   parole  # Media player
+  # ];
 }
