@@ -91,9 +91,9 @@ in
         # This provides a more secure environment than keepEnv = true
         setEnv = [
           "SSH_AUTH_SOCK"    # Keep SSH agent socket for SSH operations
-          "DISPLAY"          # Keep X11 display for GUI applications
-          "WAYLAND_DISPLAY"  # Keep Wayland display for GUI applications
-          "XAUTHORITY"       # Keep X11 authority for GUI applications
+          "WAYLAND_DISPLAY"  # Keep Wayland display for GUI applications (primary)
+          "DISPLAY"          # Keep X11 display for legacy X11 apps via Xwayland
+          "XAUTHORITY"       # Keep X11 authority for Xwayland applications
           "TERM"             # Keep terminal type for proper display
           "LANG"             # Keep language settings
           "LC_ALL"           # Keep locale settings
