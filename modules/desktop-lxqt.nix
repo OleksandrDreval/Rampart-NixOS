@@ -15,4 +15,12 @@ in
   services.xserver.desktopManager.lxqt = {
     enable = true;
   };
+
+  # Display Manager: SDDM (recommended for LXQt)
+  services.displayManager.sddm = {
+    enable = true;
+    
+    # Wayland support (experimental for LXQt)
+    wayland.enable = true;
+  };
 }
