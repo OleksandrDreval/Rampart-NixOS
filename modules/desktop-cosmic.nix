@@ -112,4 +112,86 @@ in
 
   # Power management
   services.upower.enable = true;
+
+  # Enable NetworkManager (recommended)
+  # networking.networkmanager.enable = true;
+
+  # Bluetooth support (optional)
+  # hardware.bluetooth.enable = true;
+
+  # Notes:
+  # - COSMIC is the next-generation desktop by System76
+  # - Written in Rust for memory safety and performance
+  # - Wayland-native (no X11 support, only Xwayland for legacy apps)
+  # - Inspired by Pop!_OS but more modular and customizable
+  # - Focus on productivity with tiling window management
+  # - Still in active development (some features may be incomplete)
+  # - Uses its own compositor (cosmic-comp) based on Smithay
+  #
+  # Key Features:
+  # - Tiling window management: Automatic window organization
+  # - Workspaces: Multiple virtual desktops
+  # - COSMIC Launcher: Quick application and command launcher
+  # - COSMIC Panel: Customizable top panel
+  # - COSMIC Applets: System tray, notifications, etc.
+  # - COSMIC Settings: Comprehensive settings application
+  # - Keyboard-first workflow: Many keyboard shortcuts
+  #
+  # Window Management:
+  # - Automatic tiling with smart placement
+  # - Manual tiling with keyboard shortcuts
+  # - Floating windows support
+  # - Multiple monitor support
+  # - Workspace-per-monitor or global workspaces
+  #
+  # Keyboard Shortcuts (default):
+  # - Super: Open launcher
+  # - Super+T: Open terminal
+  # - Super+F: Toggle fullscreen
+  # - Super+Arrow: Move focus between windows
+  # - Super+Shift+Arrow: Move windows
+  # - Super+Number: Switch workspace
+  # - Super+Shift+Number: Move window to workspace
+  #
+  # Customization:
+  # - COSMIC Settings for all configuration
+  # - Theme customization: Light/Dark themes
+  # - Panel configuration: Position, size, applets
+  # - Keyboard shortcuts: Fully customizable
+  # - Window management: Tiling behavior, gaps, etc.
+  #
+  # Development Status:
+  # - Alpha/Beta stage (as of 2024-2026)
+  # - Rapidly evolving with frequent updates
+  # - Some features may not be complete
+  # - Check GitHub for latest development status
+  #
+  # Troubleshooting:
+  # - Check logs: journalctl -xe
+  # - COSMIC logs: ~/.local/share/cosmic/
+  # - For compositor issues: cosmic-comp --replace
+  # - For panel issues: cosmic-panel --replace
+  # - NVIDIA users: Ensure latest drivers and Wayland support
+  #   hardware.nvidia.modesetting.enable = true;
+  #   hardware.nvidia.open = true;  # For newer GPUs
+  #
+  # System Requirements:
+  # - Modern GPU with Wayland support
+  # - Vulkan support recommended
+  # - At least 4GB RAM (8GB+ recommended)
+  # - Works best on AMD and Intel GPUs
+  # - NVIDIA requires proprietary drivers with Wayland support
+  #
+  # Comparison with other DEs:
+  # - More modern than GNOME (Wayland-native)
+  # - More productive than traditional DEs (tiling)
+  # - Lighter than KDE Plasma
+  # - More polished than other tiling compositors
+  # - Rust-based (memory safe, unlike C/C++ DEs)
+  #
+  # Migration Notes:
+  # - Coming from GNOME: Similar workflow but with tiling
+  # - Coming from Pop!_OS: COSMIC is the evolution of Pop Shell
+  # - Coming from i3/sway: More user-friendly with GUI configuration
+  # - Coming from Windows: Launcher similar to Windows Search
 }
