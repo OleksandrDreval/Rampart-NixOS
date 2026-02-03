@@ -26,4 +26,10 @@ in
 
   # Enable Xwayland for compatibility
   programs.xwayland.enable = true;
+
+  # Configure keyboard layout
+  services.xserver.xkb = {
+    layout = vars.keyboardLayout;
+    variant = "";
+  };
 }
