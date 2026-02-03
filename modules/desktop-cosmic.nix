@@ -45,4 +45,28 @@ in
     layout = vars.keyboardLayout;
     variant = "";
   };
+
+  # Enable printing support
+  services.printing.enable = true;
+
+  # COSMIC-specific packages
+  environment.systemPackages = with pkgs; [
+    # COSMIC applications (many are already included)
+    # cosmic-term            # Terminal emulator
+    # cosmic-edit            # Text editor
+    # cosmic-files           # File manager
+    # cosmic-store           # App store
+    # cosmic-settings        # Settings application
+    # cosmic-comp            # Compositor
+    # cosmic-panel           # Panel
+    # cosmic-launcher        # Application launcher
+    # cosmic-applets         # System applets
+    # cosmic-workspaces      # Workspace management
+    
+    # Additional useful applications
+    # firefox                # Web browser
+    # gnome.nautilus         # Alternative file manager
+    # vlc                    # Media player
+    # gimp                   # Image editor
+  ];
 }
