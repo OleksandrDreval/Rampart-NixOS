@@ -29,6 +29,9 @@ in
   # Note: COSMIC runs natively on Wayland only
   services.desktopManager.cosmic = {
     enable = true;
+    
+    # Enable Xwayland for legacy X11 applications
+    xwayland.enable = true;
   };
 
   # Enable GDM as display manager (recommended for COSMIC)
