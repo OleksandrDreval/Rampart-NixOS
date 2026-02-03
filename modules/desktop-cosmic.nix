@@ -82,6 +82,24 @@ in
     # gimp                   # Image editor
   ];
 
+  # Environment variables for Wayland
+  environment.sessionVariables = {
+    # Force Wayland for Qt applications
+    QT_QPA_PLATFORM = "wayland";
+    
+    # GTK Wayland backend
+    GDK_BACKEND = "wayland";
+    
+    # Firefox Wayland support
+    MOZ_ENABLE_WAYLAND = "1";
+    
+    # Electron apps Wayland support
+    NIXOS_OZONE_WL = "1";
+    
+    # COSMIC-specific environment variables
+    COSMIC_DATA_CONTROL_ENABLED = "1";
+  };
+
   # XDG Portal for sandboxed applications
   xdg.portal = {
     enable = true;
