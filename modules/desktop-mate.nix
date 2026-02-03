@@ -23,4 +23,35 @@ in
   #
   # NixOS Manual:
   # - https://nixos.org/manual/nixos/stable/options.html#opt-services.xserver.desktopManager.mate.enable
+
+  # Enable X11 windowing system (required for MATE)
+  services.xserver.enable = true;
+
+  # Enable MATE Desktop Environment
+  services.xserver.desktopManager.mate = {
+    enable = true;
+    
+    # Enable experimental Wayland session
+    # Note: Wayland support is experimental
+    enableWaylandSession = true;
+    
+    # Enable debug messages (set to true for troubleshooting)
+    debug = false;
+  };
+
+  # Display Manager: LightDM (recommended for MATE)
+  services.xserver.displayManager.lightdm = {
+    enable = true;
+    
+    # LightDM GTK Greeter
+    greeters.gtk = {
+      enable = true;
+      # Theme configuration
+      # theme.name = "Arc-Dark";
+      # iconTheme.name = "Papirus-Dark";
+    };
+  };
+
+  # Enable Xwayland for Wayland session support
+  programs.xwayland.enable = true;
 }
