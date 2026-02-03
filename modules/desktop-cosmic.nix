@@ -49,6 +49,18 @@ in
   # Enable printing support
   services.printing.enable = true;
 
+  # Sound configuration with PipeWire
+  services.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # JACK support (optional)
+    jack.enable = true;
+  };
+
   # COSMIC-specific packages
   environment.systemPackages = with pkgs; [
     # COSMIC applications (many are already included)
