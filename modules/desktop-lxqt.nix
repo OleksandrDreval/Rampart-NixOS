@@ -7,6 +7,23 @@ in
 {
   # LXQt Desktop Environment Module
   # Lightweight Qt-based desktop environment
+  #
+  # Features:
+  # - Lightweight and fast
+  # - Qt 6 based (modern toolkit)
+  # - Modular architecture
+  # - Low resource usage
+  # - Highly customizable
+  # - Modern and clean interface
+  # - Good for older hardware
+  # - Wayland support via labwc or wayfire
+  #
+  # Official Documentation:
+  # - https://lxqt-project.org/
+  # - https://github.com/lxqt/lxqt
+  #
+  # NixOS Manual:
+  # - https://nixos.org/manual/nixos/stable/options.html#opt-services.xserver.desktopManager.lxqt.enable
 
   # Enable X11 windowing system (required for LXQt)
   services.xserver.enable = true;
