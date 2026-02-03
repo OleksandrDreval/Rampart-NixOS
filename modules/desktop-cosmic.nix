@@ -81,4 +81,14 @@ in
     # vlc                    # Media player
     # gimp                   # Image editor
   ];
+
+  # XDG Portal for sandboxed applications
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ 
+      pkgs.xdg-desktop-portal-cosmic  # COSMIC portal
+      pkgs.xdg-desktop-portal-gtk     # For GTK apps
+    ];
+    config.common.default = "*";
+  };
 }
