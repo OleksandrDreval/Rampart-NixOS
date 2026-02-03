@@ -136,6 +136,19 @@ in
   #   parole  # Media player
   # ];
 
+  # GTK theme configuration
+  # programs.dconf.enable = true;  # Required for GTK settings
+
+  # XDG Portal for sandboxed applications
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ 
+      pkgs.xdg-desktop-portal-gtk 
+      # pkgs.xdg-desktop-portal-xapp  # For better Cinnamon/MATE/XFCE integration
+    ];
+    config.common.default = "*";
+  };
+
   # Environment variables for Wayland (if using Wayland session)
   environment.sessionVariables = {
     # Firefox Wayland support
