@@ -160,4 +160,32 @@ in
   # Compositing (for visual effects)
   # MATE uses Marco compositor by default
   # You can enable additional compositing features in MATE Control Center
+
+  # Notes:
+  # - MATE is a continuation of GNOME 2 desktop environment
+  # - Designed for traditional desktop users who prefer classic UI
+  # - Lightweight and resource-efficient
+  # - Very stable and reliable
+  # - Great for older hardware
+  # - Wayland support is experimental (use X11 for stability)
+  # - Familiar two-panel layout (top and bottom)
+  #
+  # Customization:
+  # - Use MATE Control Center for settings
+  # - Panel applets can be added/removed easily
+  # - Themes: Use MATE Appearance Preferences
+  # - Many GTK 2/3 themes are compatible
+  #
+  # Troubleshooting:
+  # - Check logs: journalctl -xe
+  # - Session logs: ~/.xsession-errors
+  # - If Wayland session has issues, use X11 session
+  # - Panel issues: mate-panel --replace &
+  # - For graphics issues: services.xserver.videoDrivers = [ "modesetting" ];
+  #
+  # Comparison with other DEs:
+  # - Lighter than GNOME and KDE
+  # - More traditional than GNOME 3+
+  # - Similar to Cinnamon but more lightweight
+  # - More feature-rich than LXDE/LXQt
 }
