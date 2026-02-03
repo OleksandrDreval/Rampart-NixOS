@@ -33,4 +33,18 @@ in
     # Set to false for a pure Qt 6 system
     enableQt5Integration = true;
   };
+
+  # Enable SDDM (Simple Desktop Display Manager)
+  # SDDM is the recommended display manager for KDE Plasma
+  services.displayManager.sddm = {
+    enable = true;
+    
+    # Enable Wayland support for SDDM
+    # This allows SDDM to run on Wayland instead of X11
+    wayland.enable = true;
+  };
+
+  # Enable Xwayland for backward compatibility with X11 applications
+  # This allows running legacy X11 apps on Wayland
+  programs.xwayland.enable = true;
 }
