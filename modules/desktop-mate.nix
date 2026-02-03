@@ -146,4 +146,7 @@ in
     # GTK backend
     GDK_BACKEND = "wayland,x11";  # Wayland first, X11 fallback
   };
+
+  # Power management
+  services.upower.enable = true;
 }
