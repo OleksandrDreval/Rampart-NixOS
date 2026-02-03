@@ -108,4 +108,42 @@ in
     # Enable if you prefer Thunar over PCManFM-Qt
     enable = false;
   };
+
+  # Notes:
+  # - LXQt is the Qt port of LXDE (Lightweight X11 Desktop Environment)
+  # - One of the lightest full-featured desktop environments
+  # - Great for older hardware or users who want minimal resource usage
+  # - Uses Openbox window manager by default (can be changed)
+  # - Qt 6 based (modern and actively maintained)
+  # - Modular design allows customization
+  # - Wayland support is experimental (via wayfire or labwc)
+  #
+  # Customization:
+  # - LXQt Configuration Center for all settings
+  # - Themes: Use LXQt Appearance settings
+  # - Can use Kvantum for advanced Qt theming
+  # - Qt5ct/Qt6ct for additional Qt styling
+  #
+  # Window Managers:
+  # - Default: Openbox (lightweight, configurable)
+  # - Alternative: KWin (more features, effects)
+  # - Can be changed in LXQt Session Settings
+  #
+  # Wayland Compositors (experimental):
+  # - labwc (Openbox-like Wayland compositor)
+  # - wayfire (3D Wayland compositor)
+  # Enable with: programs.labwc.enable or programs.wayfire.enable
+  #
+  # Troubleshooting:
+  # - Check logs: journalctl -xe
+  # - Session logs: ~/.xsession-errors
+  # - LXQt settings: ~/.config/lxqt/
+  # - For graphics issues: services.xserver.videoDrivers = [ "modesetting" ];
+  # - If panel crashes: lxqt-panel --replace &
+  #
+  # Comparison with other DEs:
+  # - Lighter than KDE Plasma, GNOME, Cinnamon, MATE
+  # - Similar weight to XFCE but Qt-based
+  # - More modern than LXDE (its predecessor)
+  # - More customizable than most lightweight DEs
 }
