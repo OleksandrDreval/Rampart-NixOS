@@ -149,4 +149,15 @@ in
 
   # Power management
   services.upower.enable = true;
+
+  # Enable NetworkManager (usually preferred by MATE)
+  # networking.networkmanager.enable = true;
+
+  # Bluetooth support (optional)
+  # hardware.bluetooth.enable = true;
+  # services.blueman.enable = true;
+
+  # Compositing (for visual effects)
+  # MATE uses Marco compositor by default
+  # You can enable additional compositing features in MATE Control Center
 }
