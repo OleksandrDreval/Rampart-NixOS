@@ -54,8 +54,10 @@ in
     variant = "";
   };
 
-  # Enable printing support
-  services.printing.enable = true;
+  # Printing support (DISABLED for hardened systems)
+  # CUPS has history of CVEs: CVE-2024-47076, CVE-2024-47175, CVE-2023-32360
+  # Increases attack surface (network ports 631/tcp, 631/udp)
+  services.printing.enable = false;
 
   # Sound configuration with PipeWire
   # PipeWire provides modern audio/video routing and processing
