@@ -88,4 +88,7 @@ in
     # Electron apps Wayland support
     NIXOS_OZONE_WL = "1";
   };
+
+  # Power management
+  services.upower.enable = true;
 }
