@@ -54,4 +54,28 @@ in
 
   # Enable Xwayland for Wayland session support
   programs.xwayland.enable = true;
+
+  # Configure keyboard layout
+  services.xserver.xkb = {
+    layout = vars.keyboardLayout;
+    variant = "";
+  };
+
+  # Enable touchpad support
+  services.xserver.libinput.enable = true;
+
+  # Enable printing support
+  services.printing.enable = true;
+
+  # Sound configuration with PipeWire
+  services.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # JACK support (optional)
+    # jack.enable = true;
+  };
 }
