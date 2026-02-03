@@ -58,4 +58,10 @@ in
 
   # Enable Xwayland for Wayland session (if enableWaylandSession = true)
   programs.xwayland.enable = true;
+
+  # Configure keyboard layout
+  services.xserver.xkb = {
+    layout = vars.keyboardLayout;
+    variant = "";
+  };
 }
