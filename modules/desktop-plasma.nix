@@ -54,6 +54,44 @@ in
     variant = "";
   };
 
+  # Enable printing support
+  services.printing.enable = true;
+
+  # Sound configuration with PipeWire
+  # PipeWire provides modern audio/video routing and processing
+  services.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # JACK support for professional audio applications
+    jack.enable = true;
+  };
+
+  # KDE-specific configurations
+  
+  # Enable KDE Partition Manager (useful for disk management)
+  # programs.partition-manager.enable = true;
+  
+  # Enable KDE Connect (phone integration)
+  # programs.kdeconnect.enable = true;
+  
+  # Enable KDE PIM (Personal Information Management)
+  # Includes KMail, KOrganizer, KAddressBook, etc.
+  # programs.kde-pim.enable = true;
+  
+  # Configure Qt theming
+  qt = {
+    enable = true;
+    platformTheme = "kde";  # Use KDE platform theme
+    style = "breeze";       # Use Breeze style (KDE default)
+  };
+
+  # KWallet PAM integration (auto-unlock wallet on login)
+  security.pam.services.sddm.kwallet.enable = true;
+
   # Environment variables for Wayland
   environment.sessionVariables = {
     # Force Qt applications to use Wayland
@@ -88,4 +126,11 @@ in
     # kdePackages.kio-admin      # Admin file access (Qt6)
     # kdePackages.plasma-browser-integration  # Browser integration
   ];
+
+  # XDG Portal for sandboxed applications (Flatpak, etc.)
+  xdg.portal = {
+    enable = true;
+    # KDE portal is automatically added by plasma6
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  };
 }
