@@ -91,4 +91,10 @@ in
 
   # Power management
   services.upower.enable = true;
+
+  # PCManFM-Qt file manager configuration
+  programs.thunar = {
+    # Enable if you prefer Thunar over PCManFM-Qt
+    enable = false;
+  };
 }
