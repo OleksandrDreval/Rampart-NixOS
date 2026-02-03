@@ -118,4 +118,17 @@ in
   # environment.mate.excludePackages = with pkgs.mate; [
   #   mate-terminal  # If you prefer another terminal
   # ];
+
+  # Enable MATE-specific services
+  services.gnome.gnome-keyring.enable = true;  # Keyring for password management
+
+  # XDG Portal for sandboxed applications
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ 
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-xapp  # Better integration for MATE
+    ];
+    config.common.default = "*";
+  };
 }
