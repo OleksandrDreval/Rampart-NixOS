@@ -108,10 +108,6 @@ in
       # More secure but less convenient - uncomment for maximum security:
       # Defaults timestamp_type=global
       
-      # Ignore .profile, .bashrc, etc. when running commands
-      # Prevents privilege escalation through user configuration files
-      Defaults !env_check
-      
       # Disable path info leak via sudo -l
       # Prevents users from discovering available commands
       Defaults !listpw
@@ -121,10 +117,6 @@ in
       # Disable lecture for wheel group (they already know about sudo)
       # Improves UX without compromising security
       Defaults lecture=never
-      
-      # Disable "sudo: a password is required" message
-      # Cleaner output for desktop users
-      Defaults !pwfeedback
       
       # Preserve HOME for better desktop integration
       # Some GUI apps expect $HOME to point to user's home
@@ -238,14 +230,6 @@ in
       # Custom sudo prompt (optional - uncomment to use)
       # More user-friendly prompt for desktop users:
       Defaults passprompt="[sudo] password for %u@%h: "
-      
-      # Preserve group ownership on files created via sudo
-      # Better for desktop file management
-      Defaults !setenv
-      
-      # Allow path with spaces (common on desktop systems)
-      # Improves compatibility with user directories
-      Defaults exempt_group=wheel
       
       # Custom insult file (optional - uncomment to use)
       # Defaults insults=/path/to/insults.txt
