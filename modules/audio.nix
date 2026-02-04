@@ -21,6 +21,12 @@
     # PipeWire starts automatically when audio is needed
     socketActivation = true;
 
+    # Per-user instances (SECURITY: do not enable system-wide mode)
+    # Each user gets their own isolated PipeWire instance
+    # System-wide mode is NOT RECOMMENDED by PipeWire developers
+    # See: https://github.com/PipeWire/pipewire/blob/master/NEWS
+    systemWide = false;
+
     # ALSA compatibility layer
     # Allows legacy ALSA applications to work with PipeWire
     alsa = {
