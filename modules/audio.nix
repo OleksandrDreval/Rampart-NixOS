@@ -3,6 +3,35 @@
 {
   # Audio System Module - PipeWire Configuration
   # Modern, secure audio/video server for hardened systems
+  #
+  # Why PipeWire over PulseAudio:
+  # - Native sandboxing support (Flatpak/Snap via portals)
+  # - Granular per-object permissions (READ/WRITE/EXECUTE/METADATA)
+  # - Data isolation using memfd/DMA-BUF
+  # - Per-user instances (no system-wide daemon)
+  # - Modern security architecture designed from ground up
+  # - Portal-based access control for sandboxed applications
+  # - PulseAudio/JACK/ALSA compatibility layers
+  #
+  # Security Improvements over PulseAudio:
+  # 1. Portal Integration: Sandboxed apps connect via XDG portal
+  # 2. Permission Model: Fine-grained object-level permissions
+  # 3. Data Isolation: Clients cannot access each other's data
+  # 4. No System-Wide Mode: Each user has isolated instance
+  # 5. Modern Codebase: Built with security-first design
+  #
+  # Key CVEs in PulseAudio (avoided by using PipeWire):
+  # - CVE-2014-3970: Remote DoS vulnerability
+  # - CVE-2018-11410: Buffer overflow in RTP module
+  # - CVE-2020-16123: Use-after-free vulnerability
+  # - Weak DES encryption in network audio (1970s algorithm!)
+  #
+  # Official Documentation:
+  # - https://docs.pipewire.org/
+  # - https://gitlab.freedesktop.org/pipewire/pipewire
+  #
+  # NixOS Manual:
+  # - https://nixos.org/manual/nixos/stable/options.html#opt-services.pipewire.enable
 
   # Disable legacy PulseAudio server
   # PipeWire provides full PulseAudio compatibility via pipewire-pulse
