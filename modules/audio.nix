@@ -156,4 +156,24 @@
   # Disabled by default for security
   # services.pipewire.raopOpenFirewall = false;
 
+  # Additional audio packages (optional)
+  environment.systemPackages = with pkgs; [
+    # PipeWire utilities
+    # pipewire              # Already included by services.pipewire.enable
+    # wireplumber           # Already included
+    
+    # Audio control and monitoring tools (optional)
+    # pavucontrol           # PulseAudio volume control (works with PipeWire)
+    # pwvucontrol           # Native PipeWire volume control
+    # helvum                # PipeWire patchbay (visual connection manager)
+    # easyeffects           # Audio effects (EQ, compressor, reverb, etc.)
+    # qpwgraph              # Qt-based PipeWire graph manager
+    
+    # Codec support (usually included by desktop environments)
+    # gst_all_1.gst-plugins-base
+    # gst_all_1.gst-plugins-good
+    # gst_all_1.gst-plugins-bad
+    # gst_all_1.gst-plugins-ugly
+    # gst_all_1.gst-libav
+  ];
 }
