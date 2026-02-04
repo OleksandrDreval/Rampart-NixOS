@@ -124,5 +124,30 @@
       #   ];
       # };
     };
+
+    # PulseAudio compatibility configuration
+    extraConfig.pipewire-pulse = {
+      # PulseAudio-specific tweaks
+      "10-pulse-config" = {
+        "pulse.properties" = {
+          # Enable echo cancellation (useful for video calls)
+          # "pulse.echo-cancel" = true;
+        };
+        "stream.properties" = {
+          # Resample quality (0-14, higher = better quality but more CPU)
+          # 4 = medium quality, good balance
+          "resample.quality" = 4;
+        };
+      };
+    };
+
+    # JACK compatibility configuration (if enabled)
+    # extraConfig.jack = {
+    #   "10-jack-config" = {
+    #     "jack.properties" = {
+    #       # JACK-specific settings
+    #     };
+    #   };
+    # };
   };
 }
