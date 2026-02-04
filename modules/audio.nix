@@ -17,6 +17,10 @@
   services.pipewire = {
     enable = true;
 
+    # Socket activation (recommended)
+    # PipeWire starts automatically when audio is needed
+    socketActivation = true;
+
     # ALSA compatibility layer
     # Allows legacy ALSA applications to work with PipeWire
     alsa = {
