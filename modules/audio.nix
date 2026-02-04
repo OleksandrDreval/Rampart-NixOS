@@ -150,4 +150,10 @@
     #   };
     # };
   };
+
+  # Firewall configuration for network audio (if needed)
+  # RAOP/Airplay requires specific ports
+  # Disabled by default for security
+  # services.pipewire.raopOpenFirewall = false;
+
 }
