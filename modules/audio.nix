@@ -176,4 +176,57 @@
     # gst_all_1.gst-plugins-ugly
     # gst_all_1.gst-libav
   ];
+
+  # Notes on Audio Security:
+  #
+  # 1. Portal Access Control:
+  #    - Sandboxed apps (Flatpak/Snap) connect via XDG Portal
+  #    - Portal runs OUTSIDE sandbox with elevated permissions
+  #    - Portal connects to PipeWire on behalf of the app
+  #    - PipeWire applies additional permission checks
+  #    - Example: Camera portal for video streaming
+  #
+  # 2. Permission Model:
+  #    - Per-client permissions on every object
+  #    - READ: Required to see an object
+  #    - WRITE: Required to modify object state
+  #    - EXECUTE: Required to call methods on object
+  #    - METADATA: Required to set/remove metadata
+  #    - Permissions can be dropped but NOT reacquired
+  #    - Clients can be started in "blocked" mode
+  #    - Session manager assigns permissions dynamically
+  #
+  # 3. Data Isolation:
+  #    - Uses memfd_create(2) for shared memory (secure)
+  #    - Uses DMA-BUF for GPU integration
+  #    - Clients CANNOT access other clients' data
+  #    - Requires explicit permissions + object connections
+  #
+  # 4. Per-User Isolation:
+  #    - Each user runs their own PipeWire instance
+  #    - Complete isolation between users
+  #    - Runs with user privileges (not root/pulse)
+  #    - No shared daemon = no cross-user attacks
+  #
+  # 5. System-Wide Mode (DO NOT USE):
+  #    - Disabled by default (systemWide = false)
+  #    - NOT RECOMMENDED by PipeWire developers
+  #    - Would allow all users in "pipewire" group
+  #    - Breaks per-user isolation
+  #    - Only enable if you REALLY know what you're doing
+  #
+  # Troubleshooting:
+  # - Check status: systemctl --user status pipewire pipewire-pulse wireplumber
+  # - Check logs: journalctl --user -u pipewire -u pipewire-pulse -u wireplumber
+  # - List devices: pw-cli ls Node
+  # - Monitor graph: pw-top or helvum
+  # - Test audio: paplay /usr/share/sounds/alsa/Front_Center.wav
+  # - Check permissions: pw-cli ls Client
+  #
+  # Advanced Configuration:
+  # - Virtual devices: See PipeWire wiki on virtual devices
+  # - Filter chains: See PipeWire wiki on filter-chain
+  # - Network streaming: See PipeWire wiki on network (not recommended for hardened systems)
+  # - Low latency: Reduce default.clock.quantum (increases CPU usage)
+  # - High quality: Increase resample.quality (increases CPU usage)
 }
