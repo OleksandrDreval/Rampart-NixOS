@@ -90,5 +90,39 @@
       #   };
       # };
     };
+
+    # Audio configuration (main PipeWire server)
+    extraConfig.pipewire = {
+      # Security: Reduce buffer sizes for lower latency
+      # Lower values = lower latency but higher CPU usage
+      # Adjust based on your hardware capabilities
+      "10-clock-rate" = {
+        "context.properties" = {
+          # Sample rate (44100 or 48000 are standard)
+          "default.clock.rate" = 48000;
+          
+          # Allowed sample rates (PipeWire will resample if needed)
+          "default.clock.allowed-rates" = [ 44100 48000 88200 96000 ];
+          
+          # Quantum (buffer size in samples)
+          # Lower = less latency, higher CPU
+          # 1024/48000 = ~21ms latency (good balance)
+          "default.clock.quantum" = 1024;
+          "default.clock.min-quantum" = 256;
+          "default.clock.max-quantum" = 2048;
+        };
+      };
+
+      # Disable network audio module (SECURITY)
+      # Network audio increases attack surface
+      # Uncomment to disable (recommended for hardened systems)
+      # "20-disable-network" = {
+      #   "context.modules" = [
+      #     { name = "libpipewire-module-raop-discover"; flags = [ "nofail" ]; }
+      #     { name = "libpipewire-module-rtp-sink"; flags = [ "nofail" ]; }
+      #     { name = "libpipewire-module-rtp-source"; flags = [ "nofail" ]; }
+      #   ];
+      # };
+    };
   };
 }
