@@ -135,7 +135,8 @@ in
       
       # Preserve only essential environment variables
       # This is a whitelist approach - only explicitly allowed variables pass through
-      Defaults env_keep=""
+      # Note: We start with env_reset (above) which clears all variables,
+      # then selectively add back necessary ones below
       
       # Add back only necessary variables
       Defaults env_keep+="LANG LC_ADDRESS LC_CTYPE LC_COLLATE LC_IDENTIFICATION"
