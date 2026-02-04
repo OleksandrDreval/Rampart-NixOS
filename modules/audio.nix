@@ -72,5 +72,23 @@
     # Uncomment if you use JACK-based audio production software
     # Examples: Ardour, Reaper, Bitwig Studio, Carla
     # jack.enable = true;
+
+    # WirePlumber session manager
+    # Handles device management, routing, and policies
+    wireplumber = {
+      enable = true;
+
+      # Extra configuration for WirePlumber (optional)
+      # extraConfig = {
+      #   # Example: Disable camera support if not needed (reduces attack surface)
+      #   "10-disable-camera" = {
+      #     "wireplumber.profiles" = {
+      #       main = {
+      #         "monitor.libcamera" = "disabled";
+      #       };
+      #     };
+      #   };
+      # };
+    };
   };
 }
