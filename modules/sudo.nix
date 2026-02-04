@@ -235,10 +235,6 @@ in
       # Provides feedback without revealing whether username is valid
       Defaults insults
       
-      # Badpass message - shown after incorrect password
-      # Disabled for cleaner UX on desktop
-      Defaults !badpass_message
-      
       # Custom sudo prompt (optional - uncomment to use)
       # More user-friendly prompt for desktop users:
       Defaults passprompt="[sudo] password for %u@%h: "
