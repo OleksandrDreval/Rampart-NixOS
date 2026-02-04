@@ -4,6 +4,10 @@
   # Audio System Module - PipeWire Configuration
   # Modern, secure audio/video server for hardened systems
 
+  # Disable legacy PulseAudio server
+  # PipeWire provides full PulseAudio compatibility via pipewire-pulse
+  services.pulseaudio.enable = false;
+
   # Enable RealtimeKit for low-latency audio
   # Allows PipeWire to acquire realtime scheduling priority
   # This is essential for professional audio and low-latency playback
