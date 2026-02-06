@@ -157,6 +157,9 @@ let
     let
       # Use list from cfg.overlayPackages
       x11OnlyPackages = cfg.overlayPackages;
+      
+      # Function to check if package is X11-only
+      isX11OnlyPackage = name: builtins.elem name x11OnlyPackages;
     in
 in
 
