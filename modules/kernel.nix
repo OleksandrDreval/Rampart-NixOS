@@ -118,6 +118,7 @@ let
     # Process & Namespace Restrictions
   # "kernel.unprivileged_userns_clone"   = 1;              # Enable unprivileged user namespaces (required for rootless containers and some sandboxes)
     "kernel.yama.ptrace_scope"           = 2;              # Maximum ptrace restrictions - admin only
+    "kernel.tiocsti_restrict"            = 1;              # Restrict TIOCSTI to root (prevent terminal input injection)
   };
 in
 
