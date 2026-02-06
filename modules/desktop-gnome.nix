@@ -68,6 +68,9 @@ in
     ];
   };
 
+  # Required for GDM and input configuration (does NOT enable standalone Xorg)
+  services.xserver.enable = true;
+
   # Printing support (DISABLED for hardened systems)
   # CUPS has a history of critical vulnerabilities:
   # - CVE-2024-47076 (Remote Code Execution via PPD)
