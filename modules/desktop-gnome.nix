@@ -11,6 +11,17 @@ in
   # ./sandbox-x11.nix         # Optional: for manual detailed configuration
   ];
 
+  #############################################################################
+  # GNOME Desktop Environment with Wayland and Security Hardening
+  #############################################################################
+  # Architecture:
+  # - Wayland-native compositor (secure display protocol)
+  # - XDG Desktop Portals for sandboxed application access
+  # - Automatic X11 isolation via nix-bwrapper + xwayland-satellite
+  # - Bubblewrap for low-level sandboxing (user namespaces)
+  # - NO shared Xwayland (each X11 app has isolated X server)
+  #############################################################################
+
   # Enable GNOME Desktop Environment (Wayland-native)
   services.desktopManager.gnome.enable = true;
 
