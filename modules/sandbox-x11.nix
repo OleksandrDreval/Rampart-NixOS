@@ -167,6 +167,48 @@ in
             default = false;
             description = "Run in terminal";
           };
+
+          # Advanced sandboxing options
+          
+          env = mkOption {
+            type = types.attrsOf types.str;
+            default = {};
+            description = "Environment variables for the application";
+            example = { MOZILLA_USE_XINPUT2 = "1"; };
+          };
+
+          execArgs = mkOption {
+            type = types.listOf types.str;
+            default = [];
+            description = "Additional command-line arguments";
+            example = [ "--no-remote" "--profile" "/custom/profile" ];
+          };
+
+          allowWayland = mkOption {
+            type = types.bool;
+            default = false;
+            description = "Allow Wayland socket access (fallback if app supports both)";
+          };
+
+          allowAudio = mkOption {
+            type = types.bool;
+            default = true;
+            description = "Allow PulseAudio/PipeWire access";
+          };
+
+          readOnlyPaths = mkOption {
+            type = types.listOf types.str;
+            default = [];
+            description = "Paths to mount read-only";
+            example = [ "$HOME/Documents" "/mnt/data" ];
+          };
+
+          readWritePaths = mkOption {
+            type = types.listOf types.str;
+            default = [ "$HOME/.bwrapper/\${id}" ];
+            description = "Paths to mount read-write";
+            example = [ "$HOME/Downloads" "$HOME/.config/app" ];
+          };
         };
       });
     };
