@@ -28,6 +28,15 @@ let
       env = appConfig.env or {};
       execArgs = appConfig.execArgs or [];
     };
+
+    # X11 isolation: each application gets a separate Xorg via xwayland-satellite
+    # This completely isolates X11 applications from each other
+    sockets = {
+      x11 = true;  # Automatically launches xwayland-satellite per-app + X11 socket isolation
+      wayland = appConfig.allowWayland or false;  # Fallback to Wayland if supported
+      pulseaudio = appConfig.allowAudio or true;
+      pipewire = appConfig.allowAudio or true;
+    };
   };
 in
 
