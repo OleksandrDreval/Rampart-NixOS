@@ -40,5 +40,6 @@ in
   services.printing.enable = false;
 
   # Sound configuration is handled by modules/audio.nix
-  # See that module for PipeWire configuration and security details
+  # See that module for PipeWire configuration with portal integration
+  # PipeWire is designed for containerized apps (Flatpak primary use case)
 }
