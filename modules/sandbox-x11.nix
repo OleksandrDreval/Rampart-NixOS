@@ -81,7 +81,16 @@ let
         ];
       };
     };
-  };
+  } // (lib.optionalAttrs (appConfig.useFHS or false) {
+    # FHS environment opts for legacy applications
+    fhsenv.opts = {
+      unshareNet = appConfig.isolateNetwork or false;
+      unshareIpc = true;
+      unsharePid = true;
+      unshareUser = false;  # Usually false for FHS apps
+      unshareUts = true;
+    };
+  });
 in
 
 { }
