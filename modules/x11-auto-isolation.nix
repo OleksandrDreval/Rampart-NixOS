@@ -221,5 +221,17 @@ in
         - both: Both approaches (recommended)
       '';
     };
+
+    overlayPackages = mkOption {
+      type = types.listOf types.str;
+      default = [
+        "xterm" "xeyes" "xcalc" "xfontsel" "xclipboard"
+        "xlogo" "xmag" "xbiff"
+      ];
+      description = ''
+        List of X11-only package names for automatic wrapping via overlay.
+        These packages will be automatically isolated at build-time.
+      '';
+    };
   };
 }
