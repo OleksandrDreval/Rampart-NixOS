@@ -85,6 +85,8 @@ let
     "kvm_amd.sev=1"                       # Enable SEV support
     "kvm_amd.sev_es=1"                    # Enable SEV-ES support
     "kvm_amd.sev_snp=1"                   # Enable SEV-SNP support
+
+    "mce=panic"                            # Panic on Machine Check Exceptions (MCEs) to prevent continued operation under hardware faults
   ];
 
   # Base sysctl keys that must be enforced for filesystem/tty/core-dump hardening.
