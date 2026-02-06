@@ -36,6 +36,17 @@ in
   # See: https://flatpak.github.io/xdg-desktop-portal/
   xdg.portal.enable = true;
 
+  #############################################################################
+  # X11 Auto-Isolation - Automatic Legacy Application Sandboxing
+  #############################################################################
+  # Module x11-auto-isolation.nix provides:
+  # - Automatic isolation of ALL X11 applications (without manual configuration)
+  # - Nixpkgs overlay: automatically wraps X11-only packages (build-time)
+  # - Runtime wrapper: x11-launch for any X11 programs
+  # - xwayland-satellite: each X11 application gets a separate X server
+  # - Filesystem, D-Bus, network sandboxing via bubblewrap
+  # - Data stored in $HOME/.bwrapper/auto/{app-id}/
+
   security.x11AutoIsolation = {
     enable = true;
     mode = "both";  # overlay (nixpkgs) + wrapper (runtime)
