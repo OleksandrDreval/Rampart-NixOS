@@ -209,6 +209,12 @@ in
             description = "Paths to mount read-write";
             example = [ "$HOME/Downloads" "$HOME/.config/app" ];
           };
+
+          sandboxPaths = mkOption {
+            type = types.listOf (types.submodule {
+              options = { };
+            });
+          };
         };
       });
     };
