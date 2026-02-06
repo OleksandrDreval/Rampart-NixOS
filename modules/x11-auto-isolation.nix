@@ -263,5 +263,18 @@ in
       '';
       example = 200;
     };
+
+    disableCompositorXwayland = mkOption {
+      type = types.bool;
+      default = false;
+      description = ''
+        Disable compositor's Xwayland (maximum security).
+        
+        Only after verifying that all X11 applications work isolated!
+        
+        With auto-isolation all X11 apps get separate xwayland-satellite,
+        so shared Xwayland is not needed.
+      '';
+    };
   };
 }
