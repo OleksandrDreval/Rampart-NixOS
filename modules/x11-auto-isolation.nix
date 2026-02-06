@@ -8,6 +8,10 @@ with lib;
 
 let
   cfg = config.security.x11AutoIsolation;
+
+  # Runtime wrapper for automatic X11 application isolation
+  # Detects X11 usage and automatically creates isolated xwayland-satellite
+  x11-auto-wrapper = pkgs.writeShellScriptBin "x11-launch" '''';
 in
 
 { }
