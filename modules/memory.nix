@@ -10,7 +10,7 @@ let
     "init_on_alloc=1"                 # Initialize memory on allocation to prevent data leaks
     "init_on_free=1"                  # Initialize memory on free to protect confidentiality
     "slab_nomerge"                    # Disable slab merging to prevent cross-object leaks
-    "slub_debug=FZP"                  # SLUB debugging to detect memory errors
+    "slub_debug=FZ"                   # SLUB debugging to detect memory errors
     "page_alloc.shuffle=1"            # Randomize page allocation to complicate exploits
     "page_poison=1"                   # Fill freed memory to prevent data recovery
     "randomize_kstack_offset=on"      # Randomize kernel stack offset to complicate exploitation
