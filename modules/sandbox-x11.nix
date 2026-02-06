@@ -306,4 +306,9 @@ in
       '';
     };
   };
+
+  config = mkIf cfg.enable {
+    # Add wrapped applications to system packages
+    environment.systemPackages = wrappedApps ++ desktopEntries;
+  };
 }
