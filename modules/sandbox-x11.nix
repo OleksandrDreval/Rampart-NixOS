@@ -314,5 +314,21 @@ in
     # Disable compositor's Xwayland if requested (maximum security mode)
     # With xwayland-satellite each X11 application has its own Xorg server
     programs.xwayland.enable = lib.mkDefault (!cfg.disableXwayland);
+
+    # Security warnings and information
+    warnings = 
+      lib.optional (cfg.enable && !cfg.disableXwayland) ''
+        X11 isolation is enabled via xwayland-satellite (per-app X servers).
+        
+        For maximum security, consider disabling the compositor's shared Xwayland:
+          security.x11Isolation.disableXwayland = true
+        
+        Only do this after configuring ALL X11 applications in isolatedApps.
+      ''
+      ++
+      lib.optional (cfg.enable && (builtins.length cfg.isolatedApps) == 0) ''
+        X11 isolation is enabled but no applications are configured.
+        Add applications to security.x11Isolation.isolatedApps.
+      '';
   };
 }
