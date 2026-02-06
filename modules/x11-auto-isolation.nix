@@ -276,5 +276,46 @@ in
         so shared Xwayland is not needed.
       '';
     };
+
+    isolationSettings = mkOption {
+      type = types.submodule {
+        options = {
+          allowAudio = mkOption {
+            type = types.bool;
+            default = true;
+            description = "Allow access to PulseAudio/PipeWire";
+          };
+
+          allowWayland = mkOption {
+            type = types.bool;
+            default = false;
+            description = "Allow Wayland socket (fallback)";
+          };
+
+          privateTmp = mkOption {
+            type = types.bool;
+            default = true;
+            description = ''
+              Private /tmp directory (only for overlay mode).
+              
+              Runtime wrapper (x11-launch) ALWAYS uses private /tmp
+              with isolated X11 socket for maximum security.
+              
+              Overlay mode passes this option to mkBwrapper, which together with
+              sockets.x11=true automatically ensures X11 socket isolation.
+            '';
+          };
+
+          dbusAccess = mkOption {
+            type = types.listOf types.str;
+            default = [ "org.freedesktop.portal.*" ];
+            description = "Allowed D-Bus services";
+          };
+        };
+      };
+      default = {};
+      description = "Default isolation settings for auto-wrapped applications";
+    };
   };
 }
+
