@@ -330,5 +330,14 @@ in
         X11 isolation is enabled but no applications are configured.
         Add applications to security.x11Isolation.isolatedApps.
       '';
+
+    # Information about isolated files
+    system.activationScripts.x11IsolationInfo = lib.mkIf cfg.enable (
+      lib.stringAfter [ "etc" ] ''
+        echo "X11 Isolation enabled for ${toString (builtins.length cfg.isolatedApps)} applications"
+        echo "Sandboxed data location: \$HOME/.bwrapper/{app-id}/"
+        echo "Each X11 app runs in isolated Xorg via xwayland-satellite"
+      ''
+    );
   };
 }
