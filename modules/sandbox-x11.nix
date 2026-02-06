@@ -31,6 +31,13 @@ let
 
     # X11 isolation: each application gets a separate Xorg via xwayland-satellite
     # This completely isolates X11 applications from each other
+    # 
+    # SECURITY MECHANISM:
+    # - sockets.x11 = true activates automatic isolation via nix-bwrapper
+    # - nix-bwrapper creates a separate X11 socket only for this application
+    # - Program CANNOT SEE other X11 displays (including compositor's Xwayland :0)
+    # - Access only to its isolated display via xwayland-satellite
+    # - /tmp/.X11-unix contains ONLY this application's socket
     sockets = {
       x11 = true;  # Automatically launches xwayland-satellite per-app + X11 socket isolation
       wayland = appConfig.allowWayland or false;  # Fallback to Wayland if supported
