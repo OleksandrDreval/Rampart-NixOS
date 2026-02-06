@@ -64,4 +64,30 @@ in
   # Without this bubblewrap cannot create isolated environments
   # Source: security.allowUserNamespaces option in NixOS
   security.allowUserNamespaces = lib.mkDefault true;
+
+  # SYSTEM PACKAGES
+  # NOTE: bubblewrap and xwayland-satellite are automatically added
+  # by nix-bwrapper when using corresponding options:
+  # - bubblewrap: always included as a dependency
+  # - xwayland-satellite: automatically added when sockets.x11 = true
+  #
+  # No need to add them manually to environment.systemPackages
+
+  # USAGE EXAMPLE
+  # environment.systemPackages = [
+  #   (pkgs.mkBwrapper {
+  #     app = {
+  #       package = pkgs.firefox;
+  #       runScript = "firefox";
+  #     };
+  #     sockets.x11 = true;        # Unique X11 server via xwayland-satellite
+  #     sockets.wayland = true;    # Wayland socket
+  #     sockets.pulseaudio = true; # PulseAudio socket
+  #     sockets.pipewire = true;   # PipeWire socket
+  #     mounts.privateTmp = true;  # Isolated /tmp
+  #     dbus.session.talks = [     # DBus permissions
+  #       "org.freedesktop.Notifications"
+  #     ];
+  #   })
+  # ];
 }
