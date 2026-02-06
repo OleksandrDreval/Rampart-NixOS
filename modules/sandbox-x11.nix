@@ -44,6 +44,16 @@ let
       pulseaudio = appConfig.allowAudio or true;
       pipewire = appConfig.allowAudio or true;
     };
+
+    # Filesystem: minimal access by default
+    mounts = {
+      # Home directory: read-only by default
+      read = appConfig.readOnlyPaths or [];
+      readWrite = appConfig.readWritePaths or [
+        # Allow writes to sandbox-specific directory
+        "$HOME/.bwrapper/${appConfig.id}"
+      ];
+    };
   };
 in
 
