@@ -343,6 +343,78 @@ in
 
   meta = {
     maintainers = [ "Rampart-NixOS" ];
-    doc = '''';
+    doc = ''
+      X11 Legacy Application Isolation Module
+      
+      This module provides comprehensive isolation for legacy X11 applications
+      that cannot run natively on Wayland. Using nix-bwrapper + xwayland-satellite,
+      each X11 application runs in its own isolated environment with:
+      
+      Security Features:
+      - Per-app X servers via xwayland-satellite (prevents X11 spying)
+      - Filesystem sandboxing (private $HOME/.bwrapper/{app-id}/)
+      - D-Bus filtering (only portals by default)
+      - Network isolation (optional)
+      - Private /tmp directory
+      - Sandboxed user namespaces
+      
+      Architecture:
+      - nix-bwrapper: NixOS wrapper for bubblewrap sandboxing
+      - xwayland-satellite: Per-application X11 server implementation
+      - No shared Xwayland: Each app has dedicated Xorg instance
+      - XDG Portals: Controlled resource access (files, screenshots, etc.)
+      
+      Advantages over traditional Xpra:
+      - Full filesystem and D-Bus sandboxing (not just X11)
+      - Declarative NixOS configuration (no shell scripts)
+      - Better integration with Wayland compositors
+      - Modern sandboxing via bubblewrap (used by Flatpak)
+      - Automatic desktop entry generation
+      
+      Usage:
+      1. Enable the module: security.x11Isolation.enable = true;
+      2. Configure X11 apps in isolatedApps with full permissions
+      3. Applications get "(X11 Isolated)" desktop entries
+      4. Data stored in $HOME/.bwrapper/{app-id}/
+      
+      Example Configuration:
+        security.x11Isolation = {
+          enable = true;
+          isolatedApps = [
+            {
+              package = pkgs.firefox-esr;
+              id = "firefox-esr";
+              desktopName = "Firefox ESR";
+              icon = "firefox-esr";
+              comment = "Legacy X11 Web Browser";
+              categories = [ "Network" "WebBrowser" ];
+              readWritePaths = [ "$HOME/Downloads" ];
+              allowAudio = true;
+              allowWayland = false;  # Pure X11 mode
+            }
+          ];
+          # Optional: disable shared Xwayland for maximum security
+          # disableXwayland = true;
+        };
+      
+      Advanced Options:
+      - env: Custom environment variables
+      - execArgs: Additional CLI arguments
+      - readOnlyPaths/readWritePaths: Fine-grained filesystem access
+      - sandboxPaths: Path remapping (e.g., fake $HOME)
+      - dbus: D-Bus service access control
+      - useFHS: FHS environment for non-Nix binaries
+      - isolateNetwork: Complete network isolation
+      
+      Security Best Practice:
+      After configuring all X11 apps, set disableXwayland = true to completely
+      disable the compositor's shared Xwayland server. This prevents any
+      unconfigured X11 apps from running and eliminates the X11 attack surface.
+      
+      Documentation:
+      - GitHub: https://github.com/Naxdy/nix-bwrapper
+      - Interactive Options Search: https://naxdy.github.io/nix-bwrapper/
+      - README Examples: https://github.com/Naxdy/nix-bwrapper#getting-started
+    '';
   };
 }
