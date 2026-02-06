@@ -237,6 +237,34 @@ in
               ]
             '';
           };
+
+          privateTmp = mkOption {
+            type = types.bool;
+            default = true;
+            description = "Use private /tmp directory";
+          };
+
+          dbus = mkOption {
+            type = types.attrs;
+            default = {
+              session = {
+                talks = [ "org.freedesktop.portal.*" ];
+              };
+            };
+            description = "D-Bus access configuration";
+          };
+
+          useFHS = mkOption {
+            type = types.bool;
+            default = false;
+            description = "Wrap in FHS environment (for non-Nix applications)";
+          };
+
+          isolateNetwork = mkOption {
+            type = types.bool;
+            default = false;
+            description = "Isolate network (only when useFHS = true)";
+          };
         };
       });
     };
