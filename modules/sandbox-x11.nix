@@ -122,7 +122,52 @@ in
 
     isolatedApps = mkOption {
       type = types.listOf (types.submodule {
-        options = { };
+        options = {
+          package = mkOption {
+            type = types.package;
+            description = "Application package to wrap";
+            example = literalExpression "pkgs.firefox-esr";
+          };
+          
+          id = mkOption {
+            type = types.str;
+            description = "Unique application identifier (used for paths and naming)";
+            example = "firefox-esr";
+          };
+          
+          desktopName = mkOption {
+            type = types.str;
+            description = "Display name for the application";
+            example = "Firefox ESR";
+          };
+          
+          icon = mkOption {
+            type = types.str;
+            default = "";
+            description = "Icon name";
+            example = "firefox-esr";
+          };
+          
+          comment = mkOption {
+            type = types.str;
+            default = "";
+            description = "Application description";
+            example = "Legacy X11 Web Browser";
+          };
+          
+          categories = mkOption {
+            type = types.listOf types.str;
+            default = [ "Application" ];
+            description = "Desktop entry categories";
+            example = [ "Network" "WebBrowser" ];
+          };
+          
+          terminal = mkOption {
+            type = types.bool;
+            default = false;
+            description = "Run in terminal";
+          };
+        };
       });
     };
   };
