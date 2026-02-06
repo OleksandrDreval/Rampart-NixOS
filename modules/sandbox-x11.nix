@@ -212,7 +212,13 @@ in
 
           sandboxPaths = mkOption {
             type = types.listOf (types.submodule {
-              options = { };
+              options = {
+                name = mkOption {
+                  type = types.str;
+                  description = "Directory name created under $HOME/.bwrapper/[app-id]/";
+                  example = "config";
+                };
+              };
             });
           };
         };
