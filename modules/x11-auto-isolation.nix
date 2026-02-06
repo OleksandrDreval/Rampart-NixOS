@@ -360,6 +360,34 @@ in
 
   meta = {
     maintainers = [ "Rampart-NixOS" ];
-    doc = '''';
+    doc = ''
+      X11 Auto-Isolation Module
+      
+      Automatic X11 application isolation without manual configuration.
+      Combines two approaches:
+      
+      1. Nixpkgs Overlay (build-time):
+         - Automatically wraps X11-only packages in mkBwrapper
+         - Works only for nixpkgs packages
+         - Efficient, no runtime overhead
+      
+      2. Runtime Wrapper:
+         - Intercepts X11 application launches
+         - Works with any X11 programs (AppImage, etc.)
+         - Usage: x11-launch <program>
+      
+      Advantages:
+      - No need to configure each X11 application separately
+      - Automatic isolation: separate X server + sandbox
+      - Support for both nixpkgs and external programs
+      - Transparent for the user
+      
+      Configuration:
+        security.x11AutoIsolation = {
+          enable = true;
+          mode = "both";  # overlay + wrapper
+          disableCompositorXwayland = false;  # true after testing
+        };
+    '';
   };
 }
