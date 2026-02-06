@@ -357,4 +357,9 @@ in
       ''
     );
   };
+
+  meta = {
+    maintainers = [ "Rampart-NixOS" ];
+    doc = '''';
+  };
 }
