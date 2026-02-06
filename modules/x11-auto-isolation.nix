@@ -196,6 +196,12 @@ let
           pkg;  # Fallback if mkBwrapper unavailable
       
     in
+    # Automatically wrap X11-only packages
+    lib.mapAttrs (name: value: 
+      if isX11OnlyPackage name && (value ? type) && (value.type or null == "derivation")
+      then wrapX11Package value
+      else value
+    ) prev;
 in
 
 { }
