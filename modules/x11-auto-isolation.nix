@@ -242,5 +242,26 @@ in
         Usage: x11-launch <program> [args...]
       '';
     };
+
+    displayNumberStart = mkOption {
+      type = types.int;
+      default = 200;
+      description = ''
+        First X11 display number for isolated applications.
+        
+        Traditional allocation:
+        - :0        - Main X server / compositor's Xwayland
+        - :1-:10    - VNC servers
+        - :10-:99   - SSH X11 forwarding
+        - :99-:199  - Xvfb, Xephyr (virtual displays)
+        - :200+     - Free zone (recommended for isolation)
+        
+        Value 200 chosen to avoid conflicts with typical programs.
+        Each new isolated application gets the next number: :200, :201, :202...
+        
+        Maximum display: displayNumberStart + 99 (100 slots).
+      '';
+      example = 200;
+    };
   };
 }
