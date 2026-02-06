@@ -53,6 +53,22 @@ let
         # Allow writes to sandbox-specific directory
         "$HOME/.bwrapper/${appConfig.id}"
       ];
+
+      # Sandbox directory for isolation (listOf submodule with name/path)
+      sandbox = appConfig.sandboxPaths or [
+        {
+          name = "config";
+          path = "$HOME/.config";
+        }
+        {
+          name = "local";
+          path = "$HOME/.local";
+        }
+        {
+          name = "cache";
+          path = "$HOME/.cache";
+        }
+      ];
     };
   };
 in
