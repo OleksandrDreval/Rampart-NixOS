@@ -27,6 +27,13 @@ in
     variant = "";
   };
 
+  #############################################################################
+  # XDG Desktop Portals - Sandboxed Application Interface
+  #############################################################################
+  # GNOME automatically enables xdg-desktop-portal-gnome
+  # Provides secure APIs: FileChooser, Screenshot, ScreenCast, etc.
+  # Used by sandboxed applications (nix-bwrapper, etc.)
+  # See: https://flatpak.github.io/xdg-desktop-portal/
   xdg.portal.enable = true;
 
   # Printing support (DISABLED for hardened systems)
