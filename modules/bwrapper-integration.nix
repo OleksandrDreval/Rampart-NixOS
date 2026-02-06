@@ -47,4 +47,21 @@ let
   };
 in 
 
-{ }
+{
+  # Add overlay to nixpkgs
+  # This makes mkBwrapper and mkBwrapperFHSEnv functions available
+  nixpkgs.overlays = [ bwrapperOverlay ];
+
+  # SECURITY SETTINGS
+  # Required for bubblewrap sandboxing
+
+  # Enable unprivileged user namespaces for bubblewrap
+  # This allows regular users to create namespace isolation
+  # Source: security.unprivilegedUsernsClone option in NixOS
+  security.unprivilegedUsernsClone = lib.mkDefault true;
+
+  # Enable user namespaces (required for sandboxing)
+  # Without this bubblewrap cannot create isolated environments
+  # Source: security.allowUserNamespaces option in NixOS
+  security.allowUserNamespaces = lib.mkDefault true;
+}
