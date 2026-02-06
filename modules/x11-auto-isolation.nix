@@ -204,4 +204,10 @@ let
     ) prev;
 in
 
-{ }
+{
+  imports = [ ./bwrapper-integration.nix ];
+
+  options.security.x11AutoIsolation = {
+    enable = mkEnableOption "automatic X11 application isolation";
+  };
+}
