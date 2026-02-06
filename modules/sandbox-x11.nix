@@ -218,6 +218,11 @@ in
                   description = "Directory name created under $HOME/.bwrapper/[app-id]/";
                   example = "config";
                 };
+                path = mkOption {
+                  type = types.str;
+                  description = "Path for this directory within the sandbox";
+                  example = "$HOME/.config";
+                };
               };
             });
           };
