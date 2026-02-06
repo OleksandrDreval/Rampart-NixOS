@@ -160,6 +160,41 @@ let
       
       # Function to check if package is X11-only
       isX11OnlyPackage = name: builtins.elem name x11OnlyPackages;
+      
+      # Function for automatic X11 package wrapping
+      # Uses settings from cfg.isolationSettings
+      wrapX11Package = pkg: 
+        if (prev ? mkBwrapper) then
+          final.mkBwrapper {
+            app = {
+              package = pkg;
+              id = pkg.pname or pkg.name;
+            };
+            
+            # Sockets based on cfg.isolationSettings
+            # SECURITY MECHANISM: sockets.x11 = true activates nix-bwrapper's
+            # automatic X11 socket isolation - program cannot see other displays
+            sockets = {
+              x11 = true;  # Automatic xwayland-satellite per-app + X11 socket isolation
+              wayland = cfg.isolationSettings.allowWayland;
+              pulseaudio = cfg.isolationSettings.allowAudio;
+              pipewire = cfg.isolationSettings.allowAudio;
+            };
+            
+            # Mounts based on cfg.isolationSettings
+            mounts = {
+              privateTmp = cfg.isolationSettings.privateTmp;
+              sandbox = {
+                "$HOME" = "$HOME/.bwrapper/${pkg.pname or pkg.name}";
+              };
+            };
+            
+            # D-Bus based on cfg.isolationSettings.dbusAccess
+            dbus.session.talks = cfg.isolationSettings.dbusAccess;
+          }
+        else
+          pkg;  # Fallback if mkBwrapper unavailable
+      
     in
 in
 
