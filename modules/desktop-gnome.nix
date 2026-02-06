@@ -59,6 +59,13 @@ in
       privateTmp = true;
       dbusAccess = [ "org.freedesktop.portal.*" ];
     };
+    
+    # X11-only packages for automatic wrapping (overlay mode)
+    # Add packages here that need to be isolated
+    overlayPackages = [
+      "xterm" "xeyes" "xcalc"
+      # Add other X11-only programs
+    ];
   };
 
   # Printing support (DISABLED for hardened systems)
