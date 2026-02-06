@@ -317,5 +317,11 @@ in
       description = "Default isolation settings for auto-wrapped applications";
     };
   };
-}
 
+  config = mkIf cfg.enable {
+    # Add overlay if mode is overlay or both
+    nixpkgs.overlays = mkIf (cfg.mode == "overlay" || cfg.mode == "both") [ 
+      x11AutoIsolationOverlay 
+    ];
+  };
+}
