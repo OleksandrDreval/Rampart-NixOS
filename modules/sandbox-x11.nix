@@ -275,6 +275,20 @@ in
         
         Files are stored in $HOME/.bwrapper/{app.id}/
       '';
+      example = literalExpression ''
+        [
+          {
+            package = pkgs.firefox-esr;
+            id = "firefox-esr";
+            desktopName = "Firefox ESR";
+            icon = "firefox-esr";
+            comment = "Legacy X11 Web Browser";
+            categories = [ "Network" "WebBrowser" ];
+            readWritePaths = [ "$HOME/Downloads" ];
+            allowAudio = true;
+          }
+        ]
+      '';
     };
   };
 }
