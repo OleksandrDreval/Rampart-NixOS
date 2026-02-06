@@ -105,6 +105,12 @@ let
 
   # Create wrapped packages for all configured apps
   wrappedApps = map mkSandboxedX11App cfg.isolatedApps;
+  
+  # Create desktop entries for all wrapped apps
+  desktopEntries = lib.imap0 (i: appConfig: 
+    generateDesktopEntry appConfig (builtins.elemAt wrappedApps i)
+  ) cfg.isolatedApps;
+
 in
 
 { }
