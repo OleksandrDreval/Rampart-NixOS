@@ -5,9 +5,11 @@ let
 in
 
 {
-  # Enable GNOME Desktop Environment with Wayland
-  # services.xserver is required for display management and some X11 compatibility
-  services.xserver.enable = true;
+  # Import X11 auto-isolation module (automatic for all X11 apps)
+  imports = [
+    ./x11-auto-isolation.nix  # Automatic X11 isolation for legacy applications
+  # ./sandbox-x11.nix         # Optional: for manual detailed configuration
+  ];
 
   # Enable GNOME Desktop Environment (Wayland-native)
   services.desktopManager.gnome.enable = true;
