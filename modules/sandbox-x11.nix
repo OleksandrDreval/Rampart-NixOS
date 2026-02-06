@@ -91,6 +91,17 @@ let
       unshareUts = true;
     };
   });
+
+  # Generate desktop entry for sandboxed application
+  generateDesktopEntry = appConfig: wrappedPkg: pkgs.makeDesktopItem {
+    name = "${appConfig.id}-isolated";
+    desktopName = "${appConfig.desktopName} (X11 Isolated)";
+    exec = "${wrappedPkg}/bin/${appConfig.id}";
+    icon = appConfig.icon or appConfig.id;
+    comment = "Isolated X11 session via xwayland-satellite - ${appConfig.comment or ""}";
+    categories = appConfig.categories or [ "Application" ];
+    terminal = appConfig.terminal or false;
+  };
 in
 
 { }
