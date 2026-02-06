@@ -27,8 +27,7 @@ in
     variant = "";
   };
 
-  # Enable touchpad support (enabled by default in most desktop managers)
-  # services.xserver.libinput.enable = true;
+  xdg.portal.enable = true;
 
   # Printing support (DISABLED for hardened systems)
   # CUPS has a history of critical vulnerabilities:
