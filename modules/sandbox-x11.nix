@@ -117,5 +117,13 @@ in
   # Import nix-bwrapper integration
   imports = [ ./bwrapper-integration.nix ];
 
-  options.security.x11Isolation = { };
+  options.security.x11Isolation = {
+    enable = mkEnableOption "automatic X11 application isolation via nix-bwrapper + xwayland-satellite";
+
+    isolatedApps = mkOption {
+      type = types.listOf (types.submodule {
+        options = { };
+      });
+    };
+  };
 }
