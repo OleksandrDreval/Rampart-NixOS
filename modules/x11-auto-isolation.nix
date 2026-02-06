@@ -233,5 +233,14 @@ in
         These packages will be automatically isolated at build-time.
       '';
     };
+
+    wrapperInPath = mkOption {
+      type = types.bool;
+      default = true;
+      description = ''
+        Add x11-launch wrapper to PATH for manual use.
+        Usage: x11-launch <program> [args...]
+      '';
+    };
   };
 }
