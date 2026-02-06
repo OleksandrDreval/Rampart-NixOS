@@ -51,6 +51,14 @@ in
     enable = true;
     mode = "both";  # overlay (nixpkgs) + wrapper (runtime)
     disableCompositorXwayland = false;  # true after verifying everything works
+    
+    # Default isolation settings
+    isolationSettings = {
+      allowAudio = true;
+      allowWayland = false;  # Pure X11 mode
+      privateTmp = true;
+      dbusAccess = [ "org.freedesktop.portal.*" ];
+    };
   };
 
   # Printing support (DISABLED for hardened systems)
