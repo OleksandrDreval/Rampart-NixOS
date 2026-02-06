@@ -69,6 +69,17 @@ let
           path = "$HOME/.cache";
         }
       ];
+
+      privateTmp = appConfig.privateTmp or true;
+    };
+
+    # D-Bus: restricted access
+    dbus = appConfig.dbus or {
+      session = {
+        talks = [
+          "org.freedesktop.portal.*"  # XDG Portals for secure access
+        ];
+      };
     };
   };
 in
