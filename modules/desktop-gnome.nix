@@ -3,18 +3,19 @@
 let
   vars = import ./includes/variables.nix;
 in
+
 {
   # Enable GNOME Desktop Environment with Wayland
   # services.xserver is required for display management and some X11 compatibility
   services.xserver.enable = true;
 
-  # Enable GNOME Desktop Environment (runs on Wayland by default)
+  # Enable GNOME Desktop Environment (Wayland-native)
   services.desktopManager.gnome.enable = true;
 
   # Enable GDM (GNOME Display Manager) with Wayland support
   services.displayManager.gdm = {
     enable = true;
-    wayland = true;  # Enable Wayland session (default: true)
+    wayland = true;  # Native Wayland session (default: true)
   };
 
   # Configure keyboard layout (applies to Wayland and Xwayland)
