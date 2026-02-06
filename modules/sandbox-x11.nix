@@ -290,5 +290,20 @@ in
         ]
       '';
     };
+
+    disableXwayland = mkOption {
+      type = types.bool;
+      default = false;
+      description = ''
+        Completely disable compositor's Xwayland for maximum security.
+        
+        With nix-bwrapper + xwayland-satellite, each X11 app gets its own
+        isolated Xorg server, so the compositor's shared Xwayland is not needed.
+        
+        Only enable this if ALL your X11 applications are configured in isolatedApps.
+        
+        Warning: This will break X11 applications that are not explicitly sandboxed.
+      '';
+    };
   };
 }
