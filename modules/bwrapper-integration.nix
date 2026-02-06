@@ -58,12 +58,12 @@ in
   # Enable unprivileged user namespaces for bubblewrap
   # This allows regular users to create namespace isolation
   # Source: security.unprivilegedUsernsClone option in NixOS
-  security.unprivilegedUsernsClone = lib.mkDefault true;
+  security.unprivilegedUsernsClone = lib.mkForce true;
 
   # Enable user namespaces (required for sandboxing)
   # Without this bubblewrap cannot create isolated environments
   # Source: security.allowUserNamespaces option in NixOS
-  security.allowUserNamespaces = lib.mkDefault true;
+  security.allowUserNamespaces = lib.mkForce true;
 
   # SYSTEM PACKAGES
   # NOTE: bubblewrap and xwayland-satellite are automatically added
