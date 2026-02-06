@@ -36,6 +36,12 @@ in
   # See: https://flatpak.github.io/xdg-desktop-portal/
   xdg.portal.enable = true;
 
+  security.x11AutoIsolation = {
+    enable = true;
+    mode = "both";  # overlay (nixpkgs) + wrapper (runtime)
+    disableCompositorXwayland = false;  # true after verifying everything works
+  };
+
   # Printing support (DISABLED for hardened systems)
   # CUPS has a history of critical vulnerabilities:
   # - CVE-2024-47076 (Remote Code Execution via PPD)
