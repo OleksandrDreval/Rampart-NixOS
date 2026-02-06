@@ -102,6 +102,9 @@ let
     categories = appConfig.categories or [ "Application" ];
     terminal = appConfig.terminal or false;
   };
+
+  # Create wrapped packages for all configured apps
+  wrappedApps = map mkSandboxedX11App cfg.isolatedApps;
 in
 
 { }
