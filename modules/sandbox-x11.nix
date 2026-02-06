@@ -267,6 +267,14 @@ in
           };
         };
       });
+      default = [];
+      description = ''
+        List of X11 legacy applications that should be automatically isolated.
+        Each application gets its own X server via xwayland-satellite, preventing
+        X11-based attacks like keylogging, window injection, and screenshots.
+        
+        Files are stored in $HOME/.bwrapper/{app.id}/
+      '';
     };
   };
 }
