@@ -345,5 +345,16 @@ in
         (AppImage, manually compiled, etc.) will NOT be isolated.
         Consider using mode = "both" for full coverage.
       '';
+
+    system.activationScripts.x11AutoIsolationInfo = lib.mkIf cfg.enable (
+      lib.stringAfter [ "etc" ] ''
+        echo "X11 Auto-Isolation enabled (mode: ${cfg.mode})"
+        ${lib.optionalString (cfg.mode == "overlay" || cfg.mode == "both")
+          "echo \"Overlay will auto-wrap: ${lib.concatStringsSep ", " cfg.overlayPackages}\""}
+        ${lib.optionalString (cfg.mode == "wrapper" || cfg.mode == "both")
+          "echo \"Runtime wrapper available: x11-launch <program>\""}
+        echo "Each X11 app gets isolated xwayland-satellite + sandbox"
+      ''
+    );
   };
 }
