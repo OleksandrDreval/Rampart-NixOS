@@ -31,8 +31,12 @@ in
   # services.xserver.libinput.enable = true;
 
   # Printing support (DISABLED for hardened systems)
-  # CUPS has history of CVEs: CVE-2024-47076, CVE-2024-47175, CVE-2023-32360
-  # Increases attack surface (network ports 631/tcp, 631/udp)
+  # CUPS has a history of critical vulnerabilities:
+  # - CVE-2024-47076 (Remote Code Execution via PPD)
+  # - CVE-2024-47175 (libcupsfilters flaw)
+  # - CVE-2023-32360 (Privilege escalation)
+  # Attack surface: network ports 631/tcp, 631/udp
+  # Recommendation: Use PDF export and external printing services
   services.printing.enable = false;
 
   # Sound configuration is handled by modules/audio.nix
