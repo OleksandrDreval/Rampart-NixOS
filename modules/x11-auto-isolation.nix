@@ -328,5 +328,8 @@ in
     environment.systemPackages = mkIf 
       ((cfg.mode == "wrapper" || cfg.mode == "both") && cfg.wrapperInPath)
       [ x11-auto-wrapper ];
+
+    # Disable compositor's Xwayland if requested
+    programs.xwayland.enable = lib.mkDefault (!cfg.disableCompositorXwayland);
   };
 }
