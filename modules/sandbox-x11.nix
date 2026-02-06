@@ -113,4 +113,9 @@ let
 
 in
 
-{ }
+{
+  # Import nix-bwrapper integration
+  imports = [ ./bwrapper-integration.nix ];
+
+  options.security.x11Isolation = { };
+}
