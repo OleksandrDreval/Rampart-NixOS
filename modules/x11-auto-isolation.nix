@@ -209,5 +209,17 @@ in
 
   options.security.x11AutoIsolation = {
     enable = mkEnableOption "automatic X11 application isolation";
+
+    mode = mkOption {
+      type = types.enum [ "overlay" "wrapper" "both" ];
+      default = "both";
+      description = ''
+        Automatic isolation mode:
+        
+        - overlay: Automatically wraps X11-only nixpkgs packages (build-time)
+        - wrapper: Runtime wrapper for all X11 applications
+        - both: Both approaches (recommended)
+      '';
+    };
   };
 }
