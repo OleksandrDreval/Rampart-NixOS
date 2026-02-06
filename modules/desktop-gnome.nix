@@ -67,6 +67,13 @@ in
       # Add other X11-only programs
     ];
   };
+  
+  # For detailed manual configuration of specific applications:
+  # Uncomment ./sandbox-x11.nix in imports and use
+  # security.x11Isolation.isolatedApps for specific settings
+  
+  # Security tip: After testing, set:
+  # security.x11AutoIsolation.disableCompositorXwayland = true;
 
   # Required for GDM and input configuration (does NOT enable standalone Xorg)
   services.xserver.enable = true;
