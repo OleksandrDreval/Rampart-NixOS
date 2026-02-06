@@ -310,5 +310,9 @@ in
   config = mkIf cfg.enable {
     # Add wrapped applications to system packages
     environment.systemPackages = wrappedApps ++ desktopEntries;
+
+    # Disable compositor's Xwayland if requested (maximum security mode)
+    # With xwayland-satellite each X11 application has its own Xorg server
+    programs.xwayland.enable = lib.mkDefault (!cfg.disableXwayland);
   };
 }
