@@ -331,5 +331,19 @@ in
 
     # Disable compositor's Xwayland if requested
     programs.xwayland.enable = lib.mkDefault (!cfg.disableCompositorXwayland);
+
+    # Information and warnings
+    warnings = 
+      lib.optional (cfg.enable && cfg.disableCompositorXwayland) ''
+        Compositor's Xwayland disabled. All X11 apps will use auto-isolated
+        xwayland-satellite instances. If some X11 app doesn't work, it's not
+        properly auto-wrapped yet.
+      ''
+      ++
+      lib.optional (cfg.enable && cfg.mode == "overlay") ''
+        X11 Auto-Isolation in overlay-only mode. Non-nixpkgs X11 applications
+        (AppImage, manually compiled, etc.) will NOT be isolated.
+        Consider using mode = "both" for full coverage.
+      '';
   };
 }
