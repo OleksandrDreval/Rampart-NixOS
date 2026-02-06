@@ -230,6 +230,12 @@ in
               Sandboxed path mappings (name -> path).
               Default includes: config, local, cache
             '';
+            example = literalExpression ''
+              [
+                { name = "config"; path = "$HOME/.config"; }
+                { name = "documents"; path = "$HOME/Documents"; }
+              ]
+            '';
           };
         };
       });
