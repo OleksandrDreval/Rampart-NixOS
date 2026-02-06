@@ -225,6 +225,11 @@ in
                 };
               };
             });
+            default = [];
+            description = ''
+              Sandboxed path mappings (name -> path).
+              Default includes: config, local, cache
+            '';
           };
         };
       });
