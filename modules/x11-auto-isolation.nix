@@ -323,5 +323,10 @@ in
     nixpkgs.overlays = mkIf (cfg.mode == "overlay" || cfg.mode == "both") [ 
       x11AutoIsolationOverlay 
     ];
+
+    # Add wrapper to system packages if mode is wrapper or both
+    environment.systemPackages = mkIf 
+      ((cfg.mode == "wrapper" || cfg.mode == "both") && cfg.wrapperInPath)
+      [ x11-auto-wrapper ];
   };
 }
