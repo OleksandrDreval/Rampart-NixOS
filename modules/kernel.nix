@@ -116,7 +116,7 @@ let
     "net.core.bpf_jit_kallsyms"          = 0;              # Disable publishing JIT symbols to kallsyms
     
     # Process & Namespace Restrictions
-    "kernel.unprivileged_userns_clone"   = 1;              # Enable unprivileged user namespaces (required for rootless containers and some sandboxes)
+  # "kernel.unprivileged_userns_clone"   = 1;              # Enable unprivileged user namespaces (required for rootless containers and some sandboxes)
     "kernel.yama.ptrace_scope"           = 2;              # Maximum ptrace restrictions - admin only
   };
 in
