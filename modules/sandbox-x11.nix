@@ -17,6 +17,18 @@ with lib;
 
 let
   cfg = config.security.x11Isolation;
+
+  # Create sandboxed X11 application via nix-bwrapper
+  # Each X11 application gets its own Xorg server via xwayland-satellite
+  mkSandboxedX11App = appConfig: pkgs.mkBwrapper {
+    # Basic application configuration
+    app = {
+      package = appConfig.package;
+      id = appConfig.id;
+      env = appConfig.env or {};
+      execArgs = appConfig.execArgs or [];
+    };
+  };
 in
 
 { }
