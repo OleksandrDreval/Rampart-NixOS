@@ -121,6 +121,7 @@ let
     
     "kernel.tiocsti_restrict"            = 1;              # Restrict TIOCSTI to root (prevent terminal input injection)
     "kernel.device_sidechannel_restrict" = 1;              # Restrict device sidechannel attacks
+    "kernel.pid_max"                     = 65536;          # Limit maximum PID to reduce attack surface
   };
 in
 
