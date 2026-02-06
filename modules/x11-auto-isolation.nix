@@ -151,6 +151,13 @@ let
     # xwayland-satellite is already running and waiting for X11 connections on :$DISPLAY_NUM
     exec ${pkgs.bubblewrap}/bin/bwrap "''${BWRAP_ARGS[@]}"
   '';
+
+  # Overlay for automatic X11 package wrapping
+  x11AutoIsolationOverlay = final: prev: 
+    let
+      # Use list from cfg.overlayPackages
+      x11OnlyPackages = cfg.overlayPackages;
+    in
 in
 
 { }
