@@ -1,6 +1,15 @@
+# nix-bwrapper system integration
+# nix-bwrapper: https://github.com/Naxdy/nix-bwrapper
+# Provides mkBwrapper and mkBwrapperFHSEnv functions for creating sandboxed applications
+# Documentation: https://naxdy.github.io/nix-bwrapper/
+
 { config, pkgs, lib, ... }:
 
 let
+  # Load nix-bwrapper from GitHub
+  # NOTE: For flake-based configurations use:
+  # inputs.nix-bwrapper.url = "github:Naxdy/nix-bwrapper";
+  # nixpkgs.overlays = [ nix-bwrapper.overlays.default ];
   nix-bwrapper = pkgs.fetchGit {
     url = "https://github.com/Naxdy/nix-bwrapper";
     ref = "main";
@@ -8,11 +17,15 @@ let
     rev = "1248b52f2bd4fe5690c1a36836a1798be21d953b"; # 2026-02-06: chore: update flake deps
   };
 
+  # Import nix-bwrapper module system
+  # modules/default.nix exports: bwrapperEval, options-json, evalMod
   bwrapperLib = import "${nix-bwrapper}/modules" {
     inherit pkgs;
     nixpkgs = import <nixpkgs> { }; # Required for build-fhsenv-bubblewrap
   };
 
+  # Create overlay according to flake.nix structure
+  # Source: https://github.com/Naxdy/nix-bwrapper/blob/main/flake.nix#L223-L243
   bwrapperOverlay = final: prev: {
     # bwrapperEval - module configuration evaluator
     bwrapperEval = bwrapperLib.bwrapperEval;
