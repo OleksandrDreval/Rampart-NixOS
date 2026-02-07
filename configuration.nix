@@ -60,6 +60,11 @@ in
       ./modules/localization.nix       # Localization settings
       ./modules/audio.nix              # Audio system (PipeWire with security hardening)
       
+      # Desktop Environment modules with Native Wayland support (choose ONE)
+      ./modules/desktop-gnome.nix      # GNOME Desktop (Wayland-native, modern, feature-rich)
+    # ./modules/desktop-plasma.nix     # KDE Plasma 6 (Wayland-native, Qt 6, highly customizable)
+    # ./modules/desktop-cosmic.nix     # COSMIC (Wayland-only, Rust, tiling, next-gen, System76)
+      
       ./modules/users.nix              # User accounts and permissions
 
       # Privilege escalation modules (choose ONE)
