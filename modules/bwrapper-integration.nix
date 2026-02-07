@@ -21,7 +21,10 @@ let
   # modules/default.nix exports: bwrapperEval, options-json, evalMod
   bwrapperLib = import "${nix-bwrapper}/modules" {
     inherit pkgs;
-    nixpkgs = import <nixpkgs> { }; # Required for build-fhsenv-bubblewrap
+    # Use pkgs.path to reference the same nixpkgs as the system
+    # This is equivalent to 'inherit nixpkgs' in flake-based configs
+    # Required for build-fhsenv-bubblewrap to access buildFHSEnv
+    nixpkgs = pkgs.path;
   };
 
   # Create overlay according to flake.nix structure
