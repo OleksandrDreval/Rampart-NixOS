@@ -58,7 +58,8 @@ in
       ./modules/veracrypt.nix          # VeraCrypt disk encryption
 
       ./modules/localization.nix       # Localization settings
-      ./modules/desktop.nix            # Desktop environment settings
+      ./modules/audio.nix              # Audio system (PipeWire with security hardening)
+      
       ./modules/users.nix              # User accounts and permissions
 
       # Privilege escalation modules (choose ONE)
