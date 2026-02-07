@@ -10,7 +10,7 @@ let
   # NOTE: For flake-based configurations use:
   # inputs.nix-bwrapper.url = "github:Naxdy/nix-bwrapper";
   # nixpkgs.overlays = [ nix-bwrapper.overlays.default ];
-  nix-bwrapper = pkgs.fetchGit {
+  nix-bwrapper = builtins.fetchGit {
     url = "https://github.com/Naxdy/nix-bwrapper";
     ref = "main";
     # Use specific commit for stability and reproducibility
