@@ -114,8 +114,8 @@ let
 in
 
 {
-  # Import nix-bwrapper integration
-  imports = [ ./bwrapper-integration.nix ];
+  # NOTE: bwrapper-integration.nix MUST be imported by parent module
+  # Do NOT import here to avoid duplicate overlay registration
 
   options.security.x11Isolation = {
     enable = mkEnableOption "automatic X11 application isolation via nix-bwrapper + xwayland-satellite";
@@ -311,13 +311,13 @@ in
     # Add wrapped applications to system packages
     environment.systemPackages = wrappedApps ++ desktopEntries;
 
-    # Disable compositor's Xwayland if requested (maximum security mode)
-    # With xwayland-satellite each X11 application has its own Xorg server
-    programs.xwayland.enable = lib.mkDefault (!cfg.disableXwayland);
+    # NOTE: programs.xwayland.enable is managed by x11-isolation-config.nix
+    # to avoid conflicts between multiple isolation modules
 
     # Security warnings and information
     warnings = 
-      lib.optional (cfg.enable && !cfg.disableXwayland) ''
+      # Warning: X11 isolation enabled with compositor's Xwayland still active
+      lib.optional (cfg.enable && !cfg.disableXwayland && (builtins.length cfg.isolatedApps) > 0) ''
         X11 isolation is enabled via xwayland-satellite (per-app X servers).
         
         For maximum security, consider disabling the compositor's shared Xwayland:
@@ -326,6 +326,7 @@ in
         Only do this after configuring ALL X11 applications in isolatedApps.
       ''
       ++
+      # Warning: Module enabled but no apps configured
       lib.optional (cfg.enable && (builtins.length cfg.isolatedApps) == 0) ''
         X11 isolation is enabled but no applications are configured.
         Add applications to security.x11Isolation.isolatedApps.
