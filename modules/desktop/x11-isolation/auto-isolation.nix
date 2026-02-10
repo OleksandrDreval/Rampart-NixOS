@@ -218,8 +218,9 @@ let
 in
 
 {
-  # NOTE: The nix-bwrapper overlay is added via a flake input in the parent module
-  # (modules/x11-isolation-config.nix or modules/x11-isolation/default.nix)
+  # NOTE: nix-bwrapper overlay (mkBwrapper, mkBwrapperFHSEnv) is applied
+  # centrally in flake.nix via nix-bwrapper.overlays.default
+  # Parent module (x11-isolation-config.nix) does not re-apply the overlay
 
   options.security.x11AutoIsolation = {
     enable = mkEnableOption "automatic X11 application isolation";
