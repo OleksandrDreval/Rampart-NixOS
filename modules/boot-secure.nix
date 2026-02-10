@@ -1,22 +1,15 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 let
   vars = import ./includes/variables.nix;
   
-  # To obtain a fixed commit SHA for `rev`:
-  # - Remote lookup without cloning:
-  #     git ls-remote https://github.com/nix-community/lanzaboote refs/tags/v1.0.0
-  #   This prints: <SHA>\trefs/tags/v1.0.0 — use the <SHA> as `rev`.
-  #
-  # Import Lanzaboote using builtins.fetchGit (inline to ensure correct evaluation).
+  # MIGRATED TO FLAKES APPROACH:
+  # Lanzaboote is now imported as a flake input from flake.nix
+  # Version: v1.0.0 (tracked in flake.lock)
+  # Previous approach: builtins.fetchGit (now deprecated)
 in
 { 
-  imports = [ (import (builtins.fetchGit {
-    name = "lanzaboote";
-    url = "https://github.com/nix-community/lanzaboote";
-    ref = "refs/tags/v1.0.0";
-    rev = "2fe211d9c0e2320ce23dc995a3f93666ca149d9a";
-  }) {}).nixosModules.lanzaboote ];
+  imports = [ inputs.lanzaboote.nixosModules.lanzaboote ];
 
   # Lanzaboote provides `nixosModules` directly; no overlay is required here.
 
