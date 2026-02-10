@@ -184,9 +184,22 @@ let
             # Mounts based on cfg.isolationSettings
             mounts = {
               privateTmp = cfg.isolationSettings.privateTmp;
-              sandbox = {
-                "$HOME" = "$HOME/.bwrapper/${pkg.pname or pkg.name}";
-              };
+              # Sandbox paths for application isolation
+              # Maps standard directories to isolated locations
+              sandbox = [
+                {
+                  name = "config";
+                  path = "$HOME/.config";
+                }
+                {
+                  name = "local";
+                  path = "$HOME/.local";
+                }
+                {
+                  name = "cache";
+                  path = "$HOME/.cache";
+                }
+              ];
             };
             
             # D-Bus based on cfg.isolationSettings.dbusAccess
@@ -205,7 +218,8 @@ let
 in
 
 {
-  imports = [ ./bwrapper-integration.nix ];
+  # NOTE: bwrapper-integration.nix MUST be imported by parent module
+  # Do NOT import here to avoid duplicate overlay registration
 
   options.security.x11AutoIsolation = {
     enable = mkEnableOption "automatic X11 application isolation";
@@ -329,8 +343,8 @@ in
       ((cfg.mode == "wrapper" || cfg.mode == "both") && cfg.wrapperInPath)
       [ x11-auto-wrapper ];
 
-    # Disable compositor's Xwayland if requested
-    programs.xwayland.enable = lib.mkDefault (!cfg.disableCompositorXwayland);
+    # NOTE: programs.xwayland.enable is managed by x11-isolation-config.nix
+    # to avoid conflicts between multiple isolation modules
 
     # Information and warnings
     warnings = 
