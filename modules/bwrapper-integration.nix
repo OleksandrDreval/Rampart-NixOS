@@ -10,45 +10,50 @@ let
   # NOTE: For flake-based configurations use:
   # inputs.nix-bwrapper.url = "github:Naxdy/nix-bwrapper";
   # nixpkgs.overlays = [ nix-bwrapper.overlays.default ];
-  nix-bwrapper = builtins.fetchGit {
-    url = "https://github.com/Naxdy/nix-bwrapper";
-    ref = "main";
+  # Using fetchFromGitHub instead of fetchGit (doesn't require git in system)
+  nix-bwrapper = pkgs.fetchFromGitHub {
+    owner = "Naxdy";
+    repo = "nix-bwrapper";
     # Use specific commit for stability and reproducibility
     rev = "1248b52f2bd4fe5690c1a36836a1798be21d953b"; # 2026-02-06: chore: update flake deps
+    # Hash verified with: nix-prefetch-url --unpack https://github.com/Naxdy/nix-bwrapper/archive/1248b52f2bd4fe5690c1a36836a1798be21d953b.tar.gz
+    sha256 = "sha256-1x79rq1jfbl5akpikmrilnj2y2hbnisjvsf1lsmczqgcz5w8h6sp=";
   };
 
-  # Import nix-bwrapper module system
-  # modules/default.nix exports: bwrapperEval, options-json, evalMod
-  bwrapperLib = import "${nix-bwrapper}/modules" {
-    inherit pkgs;
-    # Use pkgs.path to reference the same nixpkgs as the system
-    # This is equivalent to 'inherit nixpkgs' in flake-based configs
-    # Required for build-fhsenv-bubblewrap to access buildFHSEnv
-    nixpkgs = pkgs.path;
-  };
-
-  # Create overlay according to flake.nix structure
+  # Create overlay according to official flake.nix structure
   # Source: https://github.com/Naxdy/nix-bwrapper/blob/main/flake.nix#L223-L243
-  bwrapperOverlay = final: prev: {
-    # bwrapperEval - module configuration evaluator
-    bwrapperEval = bwrapperLib.bwrapperEval;
+  # CRITICAL: bwrapperLib must be created INSIDE overlay with final pkgs
+  bwrapperOverlay = final: prev:
+    let
+      # Import nix-bwrapper module system with overlay-aware pkgs
+      # modules/default.nix exports: bwrapperEval, options-json, evalMod
+      bwrapperLib = import "${nix-bwrapper}/modules" {
+        pkgs = final;  # Use final (overlay-aware) pkgs, not prev!
+        # Use final.path to reference the same nixpkgs as the system after overlay
+        # This is equivalent to 'inherit nixpkgs' in flake-based configs
+        # Required for build-fhsenv-bubblewrap to access buildFHSEnv
+        nixpkgs = final.path;
+      };
+    in {
+      # bwrapperEval - module configuration evaluator
+      bwrapperEval = bwrapperLib.bwrapperEval;
 
-    # mkBwrapper - main function for creating sandboxed packages
-    # Takes module configuration and returns package
-    mkBwrapper = mod: (final.bwrapperEval mod).config.build.package;
+      # mkBwrapper - main function for creating sandboxed packages
+      # Takes module configuration and returns package
+      mkBwrapper = mod: (final.bwrapperEval mod).config.build.package;
 
-    # mkBwrapperFHSEnv - for packages already using buildFHSEnv
-    # Takes module configuration and returns fhsenv function
-    mkBwrapperFHSEnv = mod:
-      (final.bwrapperEval {
-        imports = [ mod ];
-        app = {
-          package = null;
-          isFhsenv = true;
-        };
-      }).config.build.fhsenv;
-  };
-in 
+      # mkBwrapperFHSEnv - for packages already using buildFHSEnv
+      # Takes module configuration and returns fhsenv function
+      mkBwrapperFHSEnv = mod:
+        (final.bwrapperEval {
+          imports = [ mod ];
+          app = {
+            package = null;
+            isFhsenv = true;
+          };
+        }).config.build.fhsenv;
+    };
+in
 
 {
   # Add overlay to nixpkgs
