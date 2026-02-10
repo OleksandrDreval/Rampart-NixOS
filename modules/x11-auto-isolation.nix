@@ -218,8 +218,8 @@ let
 in
 
 {
-  # NOTE: bwrapper-integration.nix MUST be imported by parent module
-  # Do NOT import here to avoid duplicate overlay registration
+  # NOTE: The nix-bwrapper overlay is added via a flake input in the parent module
+  # (modules/x11-isolation-config.nix or modules/x11-isolation/default.nix)
 
   options.security.x11AutoIsolation = {
     enable = mkEnableOption "automatic X11 application isolation";
