@@ -11,9 +11,9 @@
     ./sandbox-x11.nix           # Manual X11 isolation module (options + wrappers)
   ];
 
-  # nix-bwrapper overlay from flake input (replaces the old bwrapper-integration.nix)
-  # Overlay adds mkBwrapper and mkBwrapperFHSEnv functions to pkgs
-  nixpkgs.overlays = [ inputs.nix-bwrapper.overlays.default ];
+  # NOTE: nix-bwrapper overlay додається в flake.nix (централізовано)
+  # Overlay додає mkBwrapper та mkBwrapperFHSEnv функції до pkgs
+  # НЕ додавати overlay тут, щоб уникнути дублювання!
 
   # Security settings for bubblewrap sandboxing
   security.unprivilegedUsernsClone = lib.mkForce true;
