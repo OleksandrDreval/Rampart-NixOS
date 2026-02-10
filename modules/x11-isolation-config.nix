@@ -3,14 +3,21 @@
 # Uses: nix-bwrapper + xwayland-satellite + bubblewrap
 # Documentation: https://github.com/Naxdy/nix-bwrapper
 
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 {
   imports = [
-    ./bwrapper-integration.nix  # Core nix-bwrapper integration (overlay + functions)
     ./x11-auto-isolation.nix    # Automatic X11 isolation module (options + wrapper)
     ./sandbox-x11.nix           # Manual X11 isolation module (options + wrappers)
   ];
+
+  # nix-bwrapper overlay from flake input (replaces the old bwrapper-integration.nix)
+  # Overlay adds mkBwrapper and mkBwrapperFHSEnv functions to pkgs
+  nixpkgs.overlays = [ inputs.nix-bwrapper.overlays.default ];
+
+  # Security settings for bubblewrap sandboxing
+  security.unprivilegedUsernsClone = lib.mkForce true;
+  security.allowUserNamespaces = lib.mkForce true;
 
   #############################################################################
   # Compositor's Xwayland Management
