@@ -30,52 +30,55 @@ in
       ./modules/hardware-configuration.nix
 
       # Rampart option declarations - must be connected higher than used
-      ./modules/rampart-options.nix    # Rampart option declarations
+      ./modules/rampart-options.nix       # Rampart option declarations
 
       # Boot modules (choose ONE)
-      ./modules/boot.nix               # Standard boot configuration
-    # ./modules/boot-secure.nix        # Secure Boot with Lanzaboote
+      ./modules/boot.nix                  # Standard boot configuration
+    # ./modules/boot-secure.nix           # Secure Boot with Lanzaboote
 
       # System modules
-    # ./modules/kernel.nix             # Kernel parameters, modules and sysctl settings
-      ./modules/memory.nix             # Anything related to system memory (RAM)
-      ./modules/entropy.nix            # Entropy / RNG configuration
-      ./modules/filesystems.nix        # Filesystem-related sysctl and ntfs support
-    # ./modules/apparmor.nix           # AppArmor MAC configuration
-    # ./modules/usbguard.nix           # USB device authorization
+    # ./modules/kernel.nix                # Kernel parameters, modules and sysctl settings
+      ./modules/memory.nix                # Anything related to system memory (RAM)
+      ./modules/entropy.nix               # Entropy / RNG configuration
+      ./modules/filesystems.nix           # Filesystem-related sysctl and ntfs support
+    # ./modules/apparmor.nix              # AppArmor MAC configuration
+    # ./modules/usbguard.nix              # USB device authorization
 
       # Networking modules
-      ./modules/networking.nix         # General networking configuration
+      ./modules/networking.nix            # General networking configuration
 
       # DNS configuration modules (choose ONE)
-      ./modules/dns-classic.nix        # Classic static DNS configuration (conflicts with resolved and dnsmasq)
-    # ./modules/dns-resolved.nix       # DNSSEC DNS with systemd-resolved (conflicts with classic and dnsmasq)
-    # ./modules/dns-dnsmasq.nix        # Alternative: DNSSEC DNS with dnsmasq (conflicts with classic and resolved)
+      ./modules/dns-classic.nix           # Classic static DNS configuration (conflicts with resolved and dnsmasq)
+    # ./modules/dns-resolved.nix          # DNSSEC DNS with systemd-resolved (conflicts with classic and dnsmasq)
+    # ./modules/dns-dnsmasq.nix           # Alternative: DNSSEC DNS with dnsmasq (conflicts with classic and resolved)
 
       # Application modules
-    # ./modules/chromium.nix           # Ungoogled Chromium browser configuration (conflicts with chromium-firejail and it will also not work with the memory.nix module if the hardened allocator is enabled in it)
-      ./modules/chromium-firejail.nix  # Ungoogled Chromium with Firejail sandboxing (configuration conflicts with regular chromium.nix module)
-      ./modules/veracrypt.nix          # VeraCrypt disk encryption
+    # ./modules/chromium.nix              # Ungoogled Chromium browser configuration (conflicts with chromium-firejail and it will also not work with the memory.nix module if the hardened allocator is enabled in it)
+      ./modules/chromium-firejail.nix     # Ungoogled Chromium with Firejail sandboxing (configuration conflicts with regular chromium.nix module)
+      ./modules/veracrypt.nix             # VeraCrypt disk encryption
 
-      ./modules/localization.nix       # Localization settings
-      ./modules/audio.nix              # Audio system (PipeWire with security hardening)
+      ./modules/localization.nix          # Localization settings
+      ./modules/audio.nix                 # Audio system (PipeWire with security hardening)
+      
+      # X11 Legacy Applications Isolation
+      ./modules/x11-isolation-config.nix  # X11 sandboxing via nix-bwrapper + xwayland-satellite
       
       # Desktop Environment modules with Native Wayland support (choose ONE)
-      ./modules/desktop-gnome.nix      # GNOME Desktop (Wayland-native, modern, feature-rich)
-    # ./modules/desktop-plasma.nix     # KDE Plasma 6 (Wayland-native, Qt 6, highly customizable)
-    # ./modules/desktop-cosmic.nix     # COSMIC (Wayland-only, Rust, tiling, next-gen, System76)
+      ./modules/desktop-gnome.nix         # GNOME Desktop (Wayland-native, modern, feature-rich)
+    # ./modules/desktop-plasma.nix        # KDE Plasma 6 (Wayland-native, Qt 6, highly customizable)
+    # ./modules/desktop-cosmic.nix        # COSMIC (Wayland-only, Rust, tiling, next-gen, System76)
       
-      ./modules/users.nix              # User accounts and permissions
+      ./modules/users.nix                 # User accounts and permissions
 
       # Privilege escalation modules (choose ONE)
-      ./modules/sudo.nix               # Sudo security configuration (traditional, feature-rich)
-    # ./modules/doas.nix               # Doas security configuration (OpenBSD alternative: simpler, smaller attack surface)
-    # ./modules/run0.nix               # Run0 security configuration (systemd-native: no SUID, modern Linux architecture)
+      ./modules/sudo.nix                  # Sudo security configuration (traditional, feature-rich)
+    # ./modules/doas.nix                  # Doas security configuration (OpenBSD alternative: simpler, smaller attack surface)
+    # ./modules/run0.nix                  # Run0 security configuration (systemd-native: no SUID, modern Linux architecture)
 
-      ./modules/packages.nix           # Additional system packages
-      ./modules/nixos-permissions.nix  # Secure /etc/nixos/ permissions
-    # ./modules/ssh.nix                # SSH server/client configuration 
-    # ./modules/virtualisation.nix     # Virtualization settings
+      ./modules/packages.nix              # Additional system packages
+      ./modules/nixos-permissions.nix     # Secure /etc/nixos/ permissions
+    # ./modules/ssh.nix                   # SSH server/client configuration 
+    # ./modules/virtualisation.nix        # Virtualization settings
     
       # Finalizer for kernel arrays/sysctl - must be last so it sees additions
       ./modules/kernel-finalize.nix
