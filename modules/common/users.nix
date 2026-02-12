@@ -82,5 +82,5 @@ in
   # Nix daemon access control
   # Limit nix commands to wheel group (sudoers) only
   # Prevents unprivileged users from installing packages or using nix-shell
-  nix.settings.allowed-users = [ "@wheel" ];
+  nix.settings.allowed-users = vars.nixAllowedUsers;
 }
