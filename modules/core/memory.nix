@@ -32,6 +32,8 @@ let
 
     # Stack protection (legacy)
     "kernel.exec-shield"          = 1;      # Stack execution protection
+
+    "kernel.unprivileged_userns_clone" =1;
   };
 in
 
