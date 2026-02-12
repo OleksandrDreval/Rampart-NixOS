@@ -7,13 +7,13 @@
 
 {
   imports = [
-    ./x11-auto-isolation.nix    # Automatic X11 isolation module (options + wrapper)
-    ./sandbox-x11.nix           # Manual X11 isolation module (options + wrappers)
+    ./auto-isolation.nix        # Automatic X11 isolation module (options + wrapper)
+    ./manual-wrappers.nix       # Manual X11 isolation module (options + wrappers)
   ];
 
-  # NOTE: nix-bwrapper overlay додається в flake.nix (централізовано)
-  # Overlay додає mkBwrapper та mkBwrapperFHSEnv функції до pkgs
-  # НЕ додавати overlay тут, щоб уникнути дублювання!
+  # NOTE: nix-bwrapper overlay is added in flake.nix (centralized)
+  # Overlay adds mkBwrapper and mkBwrapperFHSEnv functions to pkgs
+  # DO NOT add overlay here to avoid duplication!
 
   # Security settings for bubblewrap sandboxing
   security.unprivilegedUsernsClone = lib.mkForce true;
