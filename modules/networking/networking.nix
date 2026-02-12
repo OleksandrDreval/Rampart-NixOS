@@ -112,7 +112,7 @@ in
 
 {
   # Network configuration
-  networking.hostName = vars.hostname;
+  networking.hostName = vars.hostName;
   networking.networkmanager.enable = true;
   
   # Use iwd (Intel Wireless Daemon) instead of wpa_supplicant
