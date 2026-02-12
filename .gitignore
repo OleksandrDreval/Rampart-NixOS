@@ -5,13 +5,17 @@ result-*
 # Ignore automatically generated direnv output
 .direnv
 
+# Flakes: DO commit flake.lock for reproducibility!
+# But ignore temporary flake files
+.nix-*
+
 # Ignore instructions files
 .github/instructions/*.md
 
 # Sensitive configuration files
 lie_*.nix
 modules/includes/variables.nix
-modules/hardware-configuration.nix
+modules/core/hardware-configuration.nix
 modules/includes/dnscrypt-configs/dnscrypt-proxy-*.toml
 .scripts/find_*
 .scripts/check_*
