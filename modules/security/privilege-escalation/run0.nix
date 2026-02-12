@@ -186,7 +186,7 @@
   # Migration from Sudo/Doas to run0
   #
   # Step 1: Enable this module in configuration.nix
-  #         imports = [ ./modules/run0.nix ];
+  #         imports = [ ./modules/security/privilege-escalation/run0.nix ];
   #
   # Step 2: Test run0 while keeping sudo/doas enabled
   #         $ run0 whoami
@@ -195,8 +195,8 @@
   #
   # Step 3: If everything works, disable sudo/doas
   #         In configuration.nix, comment out:
-  #         # ./modules/sudo.nix
-  #         # ./modules/doas.nix
+  #         # ./modules/security/privilege-escalation/sudo.nix
+  #         # ./modules/security/privilege-escalation/doas.nix
   #         Or set: security.sudo.enable = false;
   #
   # Step 4: Enable sudo alias for compatibility
