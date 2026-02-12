@@ -8,9 +8,23 @@
 
   # System-wide packages
   environment.systemPackages = lib.mkDefault (with pkgs; [
-    # Add your packages here
-    # vim
-    # wget
+    # Essential tools
+    git           # Required for flakes
+    vim           # Text editor
+    wget          # File downloader
+    curl          # Another downloader
+    htop          # Process monitor
+    tree          # Directory structure viewer
+    file          # File type detection
+
+    # Compression tools
+    unzip
+    zip
+
+    # System info
+    lshw
+    pciutils
+    usbutils
   ] ++ (config.environment.systemPackages or []));
 
   # Some programs need SUID wrappers, can be configured further or are
