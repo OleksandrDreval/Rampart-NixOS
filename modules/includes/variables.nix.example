@@ -1,77 +1,128 @@
 {
+  # ============================================================================
+  # SYSTEM CONFIGURATION
+  # ============================================================================
+  
+  # System architecture
+  system = "x86_64-linux";  # or "aarch64-linux" for ARM
+  
+  # Machine hostName (used in flake.nix and networking)
+  hostName = "nixos";
+  
+  # NixOS release version
+  stateVersion = "25.11";  # Don't change unless you know what you're doing
+  
+  # ============================================================================
+  # DISK ENCRYPTION
+  # ============================================================================
+  
   # LUKS device UUIDs
-  # Replace with your actual UUIDs from: ls -l /dev/disk/by-uuid/
+  # Find with: ls -l /dev/disk/by-uuid/
   luksSwapUUID = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
   luksRootUUID = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
   
   # Boot partition UUID
   bootPartitionUUID = "XXXX-XXXX";
   
-  # Network configuration
-  hostname = "nixos";
+  # ============================================================================
+  # USER CONFIGURATION
+  # ============================================================================
   
   # User configuration
   mainUser = "user";
   mainUserDescription = "NixOS User";
   # Generate password hash with: mkpasswd -m sha-512
-  # Or use initialHashedPassword if you want to set password later via passwd (requires mutableUsers = true)
-  mainUserHashedPassword = "$6$rounds=656000$...";  # Replace with your actual password hash
+  mainUserHashedPassword = "$6$rounds=656000$...";  # Replace with your hash
+  
+  # ============================================================================
+  # BOOT CONFIGURATION
+  # ============================================================================
   
   # Boot configuration
   bootTimeout = 5;      # Bootloader timeout in seconds
-  bootConfigLimit = 5;  # Number of boot configurations to keep (recommended: 3-10)
+  bootConfigLimit = 5;  # Number of boot configurations to keep
+  
+  # ============================================================================
+  # SECURITY CONFIGURATION
+  # ============================================================================
   
   # Sudo configuration
-  sudoPasswdTimeout = 25;    # Password timeout in seconds (time to enter password)
-  sudoTimestampTimeout = 5;  # Timestamp timeout in minutes (sudo cache duration)
-  sudoPasswdTries = 3;       # Maximum number of authentication attempts before failing (recommended: 3)
-  sudoSecurePath = "/run/wrappers/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin";  # Secure PATH for sudo commands
-  sudoLogFile = "/var/log/sudo.log";  # Log file for sudo usage
-  sudoMaxSeq = 1000;                  # Maximum command line length (prevents buffer overflows)
-  # Login failure delay (microseconds) applied after a failed login attempt
-  # Example default shown here is 5 seconds (5000000 μs)
+  sudoPasswdTimeout = 25;    # Password timeout in seconds
+  sudoTimestampTimeout = 5;  # Timestamp timeout in minutes
+  sudoPasswdTries = 3;       # Maximum authentication attempts
+  sudoSecurePath = "/run/wrappers/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin";
+  sudoLogFile = "/var/log/sudo.log";
+  sudoMaxSeq = 1000;
+  
+  # Login security
   loginFailDelay = 5000000;  # microseconds (5s)
-  # Shadow password hashing rounds for /etc/shadow (increase brute-force cost)
-  # Example: 65536
-  shadowHashRounds = 65536;
+  shadowHashRounds = 65536;  # Password hashing rounds
+  
+  # ============================================================================
+  # NIX CONFIGURATION
+  # ============================================================================
+  
+  # Nix experimental features
+  nixExperimentalFeatures = [ "nix-command" "flakes" ];
+  
+  # Nix settings
+  nixAutoOptimiseStore = true;  # Automatic deduplication
+  nixTrustedUsers = [ "root" "@wheel" ];
+  nixAllowedUsers = [ "@wheel" ];
+  
+  # Package permissions
+  allowUnfree = true;  # Allow unfree packages
+  permittedInsecurePackages = [];  # Add insecure packages here
+  allowUnfreeList = [ "discord" "vscode" ];  # Specific unfree packages
+  
+  # Binary cache configuration
+  substituters = [
+    "https://cache.nixos.org"
+    "https://nix-community.cachix.org"
+  ];
+  
+  trustedPublicKeys = [
+    "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+    "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+  ];
+  
+  # Garbage collection
+  gcAutomatic = true;
+  gcDates = "weekly";
+  gcOptions = "--delete-older-than 30d";
+  
+  # ============================================================================
+  # LOCALIZATION
+  # ============================================================================
   
   # Localization
-  # See available timezones: timedatectl list-timezones
   timeZone = "Europe/London";
-  # See available locales: localectl list-locales
   defaultLocale = "en_US.UTF-8";
-  # See available keymaps: localectl list-keymaps
   consoleKeyMap = "us";
-  # Keyboard layouts for Wayland/X11 (comma-separated, e.g., "us,de,fr")
-  keyboardLayout = "us";
+  keyboardLayout = "us";  # Comma-separated: "us,de,fr"
+  
+  # ============================================================================
+  # USBGUARD CONFIGURATION
+  # ============================================================================
   
   # USBGuard allowed devices
-  # Add your trusted USB devices here
-  # To generate rules for currently connected devices: sudo usbguard generate-policy
-  # To list all connected devices: usbguard list-devices
+  # Generate rules: sudo usbguard generate-policy
+  # List devices: usbguard list-devices
   usbguardAllowedDevices = [
     # System USB controllers (required for USB to work)
-    # These are auto-generated when you run: sudo usbguard generate-policy
     # Example:
     # "allow id 1d6b:0002 serial \"0000:00:14.0\" name \"xHCI Host Controller\""
     
-    # Add your trusted devices below:
     # Keyboard example:
     # "allow id 046d:c52b name \"Logitech Keyboard\" with-interface 03:01:01"
     
     # Mouse example:
     # "allow id 046d:c077 name \"Logitech Mouse\" with-interface 03:01:02"
     
-    # USB flash drive example (specific device):
-    # "allow id 0781:5583 serial \"123456789ABC\" name \"SanDisk USB\" with-interface 08:06:50"
-    
-    # Webcam example:
-    # "allow id 046d:0825 name \"Logitech Webcam\" with-interface { 0e:01:00 0e:02:00 }"
-    
-    # Allow all keyboards (less secure, but convenient):
+    # Allow all keyboards (less secure):
     # "allow with-interface 03:01:01"
     
-    # Allow all mice (less secure, but convenient):
+    # Allow all mice (less secure):
     # "allow with-interface 03:01:02"
   ];
 }
