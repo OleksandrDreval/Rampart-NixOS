@@ -1,0 +1,31 @@
+# Git attributes for Rampart NixOS
+
+# Enforce LF line endings for all text files
+* text=auto eol=lf
+
+# Source files
+*.nix text diff=nix
+*.sh text eol=lf
+*.bash text eol=lf
+
+# Documentation
+*.md text diff=markdown
+*.txt text
+
+# Configuration
+*.toml text
+*.yaml text
+*.yml text
+*.json text
+
+# Git files
+.gitignore text
+.gitattributes text
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
