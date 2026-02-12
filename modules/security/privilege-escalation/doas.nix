@@ -251,7 +251,7 @@ in
   # Migration from Sudo to Doas
   #
   # Step 1: Enable this module in configuration.nix
-  #         imports = [ ./modules/doas.nix ];
+  #         imports = [ ./modules/security/privilege-escalation/doas.nix ];
   #
   # Step 2: Test doas while keeping sudo enabled
   #         $ doas whoami
