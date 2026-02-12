@@ -195,7 +195,7 @@ in
       Defaults syslog_goodpri=info
       Defaults syslog_badpri=alert
       
-      # Log hostname in sudo log (useful for multi-system management)
+      # Log hostName in sudo log (useful for multi-system management)
       Defaults log_host
       
       # Log year in timestamps (useful for long-term log analysis)
