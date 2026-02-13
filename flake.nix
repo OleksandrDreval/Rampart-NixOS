@@ -76,7 +76,7 @@
             nixpkgs.config.allowUnfree = true;
             nixpkgs.overlays = [
               nix-bwrapper.overlays.default
-            ] ++ overlays;
+            ];
 
             # Set hostName
             networking.hostName = hostName;
