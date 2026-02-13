@@ -20,6 +20,15 @@ modules/includes/dnscrypt-configs/dnscrypt-proxy-*.toml
 .scripts/find_*
 .scripts/check_*
 
+# SOPS encrypted secrets (safe to commit when encrypted!)
+# secrets/secrets.yaml is now ENCRYPTED and safe to commit
+secrets/*.yaml
+!secrets/*.yaml.example
+!secrets/secrets.yaml
+# Age keys (if stored locally)
+**/.sops/
+**/sops/age/keys.txt
+
 # Backup files
 *.bak
 
