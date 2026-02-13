@@ -1,7 +1,7 @@
 { config, pkgs, lib, inputs, ... }:
 
 let
-  vars = import ./includes/variables.nix;
+  vars = import ../security/secrets/vars-compat.nix { inherit config lib; };
   
   # MIGRATED TO FLAKES APPROACH:
   # Lanzaboote is now imported as a flake input from flake.nix
