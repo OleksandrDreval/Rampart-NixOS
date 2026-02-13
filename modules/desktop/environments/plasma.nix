@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   vars = import ../../security/secrets/vars-compat.nix { inherit config lib; };
@@ -28,7 +28,7 @@ in
   # Plasma 6 runs natively on Wayland by default
   services.desktopManager.plasma6 = {
     enable = true;
-    
+
     # Enable Qt 5 integration for backward compatibility
     # Set to false for a pure Qt 6 system
     enableQt5Integration = true;
@@ -38,7 +38,7 @@ in
   # SDDM is the recommended display manager for KDE Plasma
   services.displayManager.sddm = {
     enable = true;
-    
+
     # Enable Wayland support for SDDM
     # This allows SDDM to run on Wayland instead of X11
     wayland.enable = true;
@@ -63,17 +63,17 @@ in
   # See that module for PipeWire configuration and security details
 
   # KDE-specific configurations
-  
+
   # Enable KDE Partition Manager (useful for disk management)
   # programs.partition-manager.enable = true;
-  
+
   # Enable KDE Connect (phone integration)
   # programs.kdeconnect.enable = true;
-  
+
   # Enable KDE PIM (Personal Information Management)
   # Includes KMail, KOrganizer, KAddressBook, etc.
   # programs.kde-pim.enable = true;
-  
+
   # Configure Qt theming
   qt = {
     enable = true;
@@ -88,13 +88,13 @@ in
   environment.sessionVariables = {
     # Force Qt applications to use Wayland
     QT_QPA_PLATFORM = "wayland;xcb";  # Wayland first, X11 fallback
-    
+
     # Enable Wayland for Qt 5 applications
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-    
+
     # Firefox Wayland support
     MOZ_ENABLE_WAYLAND = "1";
-    
+
     # Electron apps Wayland support
     NIXOS_OZONE_WL = "1";
   };
@@ -112,7 +112,7 @@ in
     # kdePackages.krita          # Digital painting
     # kdePackages.ark            # Archive manager
     # kdePackages.kcalc          # Calculator
-    
+
     # System tools
     # libsForQt5.kio-admin       # Admin file access (Qt5)
     # kdePackages.kio-admin      # Admin file access (Qt6)
@@ -128,13 +128,13 @@ in
 
   # Enable touchpad support (usually enabled by default)
   # services.xserver.libinput.enable = true;
-  
+
   # Wayland-specific tweaks
-  
+
   # Disable screen tearing for Wayland
   # (Usually not needed on Wayland, but can be enabled if issues occur)
   # services.xserver.videoDrivers = [ "modesetting" ];
-  
+
   # Performance optimizations for Wayland
   # services.xserver.displayManager.sddm.settings = {
   #   General = {
