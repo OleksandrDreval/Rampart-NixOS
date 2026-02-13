@@ -1,11 +1,11 @@
 # Centralized flake inputs management
 # This file can be imported into other modules for inputs access
 
-{ inputs, ... }:
+{ inputs, config, lib, ... }:
 
 let
-  # Load centralized variables
-  vars = import ../includes/variables.nix;
+  # Load centralized variables from SOPS secrets
+  vars = import ../modules/security/secrets/vars-compat.nix { inherit config lib; };
 in
 {
   # Re-export inputs for use in modules
