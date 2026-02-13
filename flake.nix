@@ -34,8 +34,9 @@
   # Outputs - what this flake provides
   outputs = { self, nixpkgs, nix-bwrapper, lanzaboote, sops-nix, ... }@inputs:
     let
-      # Load centralized variables
-      vars = import ./modules/includes/variables.nix;
+      # Load public variables (before module system is available)
+      # Note: Full configuration from SOPS secrets is loaded later in configuration.nix
+      vars = import ./modules/includes/flake-public-vars.nix;
 
       # System architecture
       system = vars.system;
