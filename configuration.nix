@@ -11,7 +11,7 @@
 let
   # Load centralized variables
   vars = import ./modules/includes/variables.nix;
-  
+
   # DNS configuration guards
   usingResolved = config.services.resolved.enable or false;
   usingDnsmasq  = config.services.dnsmasq.enable or false;
@@ -32,58 +32,61 @@ in
       # Core System
       ./modules/core/hardware-configuration.nix    # Hardware configuration
       ./modules/options/rampart.nix                # Custom Rampart options declarations
-      
+
+      # Secrets Management
+      ./modules/security/secrets/sops.nix          # SOPS secrets configuration
+
       # Boot (choose ONE)
       ./modules/core/boot.nix                      # Standard systemd-boot
     # ./modules/core/boot-secure.nix               # Secure Boot with Lanzaboote
-      
+
       # System Core
     # ./modules/core/kernel.nix                    # Kernel parameters, modules and sysctl
       ./modules/core/memory.nix                    # Memory management (RAM, swap, hardened malloc)
       ./modules/core/entropy.nix                   # RNG/Entropy configuration
       ./modules/core/filesystems.nix               # Filesystem-related sysctl and NTFS support
-      
+
       # Security
     # ./modules/security/mandatory-access-control/apparmor.nix     # AppArmor MAC
     # ./modules/security/device-control/usbguard.nix               # USB device authorization
       ./modules/security/nixos-permissions.nix                     # Secure /etc/nixos/ permissions
-      
+
       # Privilege Escalation (choose ONE)
       ./modules/security/privilege-escalation/sudo.nix             # Sudo (traditional)
     # ./modules/security/privilege-escalation/doas.nix             # Doas (OpenBSD alternative)
     # ./modules/security/privilege-escalation/run0.nix             # Run0 (systemd-native)
-      
+
       # Networking
       ./modules/networking/networking.nix                          # General networking
-      
+
       # DNS (choose ONE)
       ./modules/networking/dns/classic.nix                         # Classic static DNS
     # ./modules/networking/dns/resolved.nix                        # systemd-resolved + DNSSEC
     # ./modules/networking/dns/dnsmasq.nix                         # dnsmasq + DNSSEC
-      
+
       # Common
       ./modules/common/localization.nix            # Localization settings
       ./modules/common/audio.nix                   # PipeWire audio system
       ./modules/common/users.nix                   # User accounts and permissions
       ./modules/common/packages.nix                # System packages
-      
+
       # Desktop Environment (choose ONE)
       ./modules/desktop/environments/gnome.nix     # GNOME Desktop (Wayland-native)
     # ./modules/desktop/environments/plasma.nix    # KDE Plasma 6 (Wayland-native)
     # ./modules/desktop/environments/cosmic.nix    # COSMIC Desktop (Wayland-only)
-      
+
       # X11 Isolation
       ./modules/desktop/x11-isolation/config.nix   # X11 sandboxing via nix-bwrapper
-      
+
       # Applications
     # ./modules/apps/browsers/chromium.nix         # Chromium browser
       ./modules/apps/browsers/chromium-firejail.nix               # Chromium + Firejail
       ./modules/apps/encryption/veracrypt.nix                     # VeraCrypt disk encryption
-      
+
       # Services
     # ./modules/services/ssh.nix                   # SSH server/client
     # ./modules/services/virtualisation.nix        # Virtualization
-      
+
       # Finalizer (MUST BE LAST)
       ./modules/core/kernel-finalize.nix           # Kernel arrays/sysctl finalizer
     ];
