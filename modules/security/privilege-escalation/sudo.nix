@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 let
-  vars = import ./includes/variables.nix;
+  vars = import ../../security/secrets/vars-compat.nix { inherit config lib; };
 in
 
 {
@@ -63,21 +63,21 @@ in
     # Advanced sudo configuration (appended to /etc/sudoers)
     extraConfig = ''
       # Password & Authentication Settings
-      
+
       # Timeout for password entry (seconds) - user must enter password within this time
       Defaults passwd_timeout=${toString vars.sudoPasswdTimeout}
-      
+
       # Credential cache duration (minutes) - how long sudo remembers successful authentication
       # After this period, password must be re-entered
       Defaults timestamp_timeout=${toString vars.sudoTimestampTimeout}
-      
+
       # Never allow sudo if password is not required (security enforcement)
       Defaults !visiblepw
-      
+
       # Disable password feedback (no asterisks when typing password)
       # Security best practice to prevent revealing password length
       Defaults !pwfeedback
-      
+
       # Maximum number of authentication attempts before failing
       # Protects against brute-force attacks on sudo password
       Defaults passwd_tries=${toString vars.sudoPasswdTries}
@@ -87,85 +87,85 @@ in
       # Use PTY (pseudo-terminal) for all sudo commands
       # Prevents TTY hijacking attacks and ensures proper signal handling
       Defaults use_pty
-      
+
       # Reset environment variables to secure baseline
       # Prevents environment-based privilege escalation attacks
       Defaults env_reset
-      
+
       # Define secure PATH for sudo commands
       # Limits command execution to trusted system directories
       Defaults secure_path="${vars.sudoSecurePath}"
-      
+
       # Restrictive umask for files created by sudo commands
       # Creates files with 600 (rw-------) permissions by default
       Defaults umask=0077
-      
+
       # Prevent root from using sudo (root is already superuser)
       # Reduces attack surface and prevents confusion
       Defaults !root_sudo
-      
+
       # Always ask for password, even if user recently authenticated
       # More secure but less convenient - uncomment for maximum security:
       # Defaults timestamp_type=global
-      
+
       # Disable path info leak via sudo -l
       # Prevents users from discovering available commands
       Defaults !listpw
-      
+
       # Desktop-Specific Hardening
-      
+
       # Disable lecture for wheel group (they already know about sudo)
       # Improves UX without compromising security
       Defaults lecture=never
-      
+
       # Preserve HOME for better desktop integration
       # Some GUI apps expect $HOME to point to user's home
       # Note: This is enabled but env is still reset for security
       Defaults always_set_home
-      
+
       # Environment Variable Control
-      
+
       # Preserve only essential environment variables
       # This is a whitelist approach - only explicitly allowed variables pass through
       # Note: We start with env_reset (above) which clears all variables,
       # then selectively add back necessary ones below
-      
+
       # Add back only necessary variables
       Defaults env_keep+="LANG LC_ADDRESS LC_CTYPE LC_COLLATE LC_IDENTIFICATION"
       Defaults env_keep+="LC_MEASUREMENT LC_MESSAGES LC_MONETARY LC_NAME LC_NUMERIC"
       Defaults env_keep+="LC_PAPER LC_TELEPHONE LC_TIME LC_ALL LANGUAGE LINGUAS"
       Defaults env_keep+="TZ"
-      
+
       # Terminal and display variables (needed for GUI applications on desktop)
       # Essential for desktop systems running GUI apps with sudo
       Defaults env_keep+="DISPLAY XAUTHORITY XAUTHORIZATION"
-      
+
       # Wayland display support (for modern desktop environments)
       Defaults env_keep+="WAYLAND_DISPLAY XDG_RUNTIME_DIR"
-      
+
       # Color terminal support (improves user experience)
       Defaults env_keep+="COLORTERM"
-      
+
       # SSH agent forwarding (useful for desktop development workflows)
       # Allows git operations and SSH commands through sudo
       Defaults env_keep+="SSH_AUTH_SOCK SSH_AGENT_PID"
-      
+
       # Explicitly delete potentially dangerous environment variables
       Defaults env_delete="LD_PRELOAD LD_LIBRARY_PATH"
       Defaults env_delete+="PYTHON* PERL* RUBY*"
       Defaults env_delete+="BASH_ENV CDPATH ENV"
       Defaults env_delete+="TERMCAP"
-      
+
       # Command Execution Security
-      
+
       # Disable running shell escape commands in editors
       # Prevents privilege escalation via editor commands
       Defaults !shell_noargs
-      
+
       # Don't allow sudo to run in background
       # Prevents detached privileged processes
       # Defaults !set_logname
-      
+
       # Restrict maximum command line length (prevents buffer overflows)
       Defaults maxseq=${toString vars.sudoMaxSeq}
 
@@ -175,13 +175,13 @@ in
       # WARNING: This can break systemd services, cron jobs, and SSH automation
       # Uncomment only if you understand the implications:
       # Defaults requiretty
-      
+
       # Auditing & Logging
 
       # Log all sudo usage to dedicated file
       # Format: timestamp, user, command, working directory
       Defaults logfile="${vars.sudoLogFile}"
-      
+
       # Log input and output of sudo commands (I/O logging)
       # WARNING: This can generate large logs and may capture sensitive data
       # Uncomment only if you need detailed command auditing:
@@ -189,18 +189,18 @@ in
       # Defaults log_output
       # Defaults iolog_dir=/var/log/sudo-io
       # Defaults iolog_file=%{seq}
-      
+
       # Send logs to syslog as well (for centralized logging)
       Defaults syslog=auth
       Defaults syslog_goodpri=info
       Defaults syslog_badpri=alert
-      
+
       # Log hostName in sudo log (useful for multi-system management)
       Defaults log_host
-      
+
       # Log year in timestamps (useful for long-term log analysis)
       Defaults log_year
-      
+
       # Send email on security violations (requires mail system)
       # Uncomment and configure if you have mail setup:
       # Defaults mail_badpass
@@ -208,29 +208,29 @@ in
       # Defaults mail_no_host
       # Defaults mail_no_perms
       # Defaults mailto="root"
-      
+
       # Additional Security Restrictions
-      
+
       # Prevent privilege escalation via LD_PRELOAD and similar
       Defaults ignore_dot
-      
+
       # Don't allow sudo with relative paths
       # Uncomment for stricter security (may break some scripts):
       # Defaults requirepass
-      
+
       # Restrict characters allowed in environment variables
       Defaults env_check+=TERMCAP
-      
+
       # User Experience (Desktop Optimized)
 
       # Display humorous insults for incorrect password attempts
       # Provides feedback without revealing whether username is valid
       Defaults insults
-      
+
       # Custom sudo prompt (optional - uncomment to use)
       # More user-friendly prompt for desktop users:
       Defaults passprompt="[sudo] password for %u@%h: "
-      
+
       # Custom insult file (optional - uncomment to use)
       # Defaults insults=/path/to/insults.txt
     '';
@@ -249,7 +249,7 @@ in
     #       }
     #     ];
     #   }
-    #   
+    #
     #   # Allow monitoring user to restart specific service
     #   {
     #     users = [ "monitor" ];
