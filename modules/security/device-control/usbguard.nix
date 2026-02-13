@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 let
-  vars = import ./includes/variables.nix;
+  vars = import ../../security/secrets/vars-compat.nix { inherit config lib; };
   
   # Generate rules string from allowed devices list
   rulesString = lib.concatStringsSep "\n" (
