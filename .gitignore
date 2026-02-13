@@ -15,7 +15,6 @@ result-*
 # Sensitive configuration files
 lie_*.nix
 modules/includes/variables.nix
-modules/core/hardware-configuration.nix
 modules/includes/dnscrypt-configs/dnscrypt-proxy-*.toml
 .scripts/find_*
 .scripts/check_*
