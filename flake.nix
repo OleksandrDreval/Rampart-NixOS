@@ -5,7 +5,7 @@
   inputs = {
     # Main nixpkgs - unstable for latest packages
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    
+
     # Alternatively, pin a stable version:
     # nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
 
@@ -21,33 +21,34 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # sops-nix for secrets management
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Impermanence for ephemeral root (optional)
     # impermanence.url = "github:nix-community/impermanence";
   };
 
   # Outputs - what this flake provides
-  outputs = { self, nixpkgs, nix-bwrapper, lanzaboote, ... }@inputs:
+  outputs = { self, nixpkgs, nix-bwrapper, lanzaboote, sops-nix, ... }@inputs:
     let
       # Load centralized variables
       vars = import ./modules/includes/variables.nix;
-      
+
       # System architecture
       system = vars.system;
-      
+
       # Machine hostName
       hostName = vars.hostName;
-      
+
       # Common arguments for all configurations
       specialArgs = {
-        inherit inputs;
-        inherit system;
-        inherit hostName;
+        inherit inputs system hostName vars;
       };
 
-      # Load centralized overlays
-      overlays = import ./flake/overlays.nix { inherit inputs; };
-
-      # Use pkgs with overlays for devShells and formatter
+      # Use pkgs with overlays
       pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
@@ -57,14 +58,17 @@
       # NixOS configuration
       nixosConfigurations.${hostName} = nixpkgs.lib.nixosSystem {
         inherit system specialArgs;
-        
+
         modules = [
           # Hardware configuration
           ./modules/core/hardware-configuration.nix
-          
+
+          # sops-nix module for secrets management
+          sops-nix.nixosModules.sops
+
           # Main configuration
           ./configuration.nix
-          
+
           # Flake-specific modules
           {
             # Configure nixpkgs with overlays and unfree packages
@@ -72,10 +76,10 @@
             nixpkgs.overlays = [
               nix-bwrapper.overlays.default
             ] ++ overlays;
-            
+
             # Set hostName
             networking.hostName = hostName;
-            
+
             # Enable flakes
             nix.settings.experimental-features = [ "nix-command" "flakes" ];
           }
@@ -90,7 +94,7 @@
           statix            # Nix linter
           deadnix           # Find dead code in Nix
         ];
-        
+
         shellHook = ''
           echo "Rampart-NixOS Development Shell"
           echo "Available commands:"
