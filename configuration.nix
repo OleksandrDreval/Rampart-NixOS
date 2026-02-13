@@ -9,8 +9,8 @@
 # abort evaluation with a clear error message if violated.
 
 let
-  # Load centralized variables
-  vars = import ./modules/includes/variables.nix;
+  # Load centralized variables from SOPS secrets
+  vars = import ./modules/security/secrets/vars-compat.nix { inherit config lib; };
 
   # DNS configuration guards
   usingResolved = config.services.resolved.enable or false;
