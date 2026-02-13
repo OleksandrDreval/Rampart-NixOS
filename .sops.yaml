@@ -1,0 +1,50 @@
+# SOPS Configuration for Rampart-NixOS
+# This file defines encryption rules for secrets management
+
+# Define your keys here for easy reference
+keys:
+  # Your personal age key (for editing secrets on dev machine)
+  # Generate with: age-keygen -o ~/.config/sops/age/keys.txt
+  # After generation, add your public key here:
+  - &admin_you age12zhzvk2vr0tj2t2kjfgn4uxc6javdaug0u60z7v2j24dkdmlec8q09f2ls
+  
+  # Server SSH host key (converted to age format)
+  # Get with: nix-shell -p ssh-to-age --run "ssh-keyscan localhost | ssh-to-age"
+  # Or from existing key: nix-shell -p ssh-to-age --run "cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age"
+  - &server_rampart age1xnjqnt4mxfdrd3myeecx4padnc4ah6rccrjq7lcmmvgzn02jt9lq3cfke8
+
+# Creation rules define which keys can encrypt/decrypt which files
+creation_rules:
+  # Main secrets file - contains all system secrets
+  - path_regex: secrets/secrets\.yaml$
+    age: >-
+      age12zhzvk2vr0tj2t2kjfgn4uxc6javdaug0u60z7v2j24dkdmlec8q09f2ls,
+      age1xnjqnt4mxfdrd3myeecx4padnc4ah6rccrjq7lcmmvgzn02jt9lq3cfke8
+    # Replace with your actual age keys:
+    # First key: your personal key (for editing)
+    # Second key: server's SSH host key converted to age (for decryption)
+
+  # Example for environment-specific secrets
+  # - path_regex: secrets/dev\.yaml$
+  #   age: age1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  
+  # - path_regex: secrets/prod\.yaml$
+  #   age: age1yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+
+# Store configuration
+stores:
+  yaml:
+    indent: 2
+
+# Instructions:
+# 1. Generate your personal age key:
+#    mkdir -p ~/.config/sops/age
+#    age-keygen -o ~/.config/sops/age/keys.txt
+#    
+# 2. Get your server's age key (on NixOS machine):
+#    nix-shell -p ssh-to-age --run "cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age"
+#    
+# 3. Update the 'keys' and 'creation_rules' sections above with actual values
+#
+# 4. Create and encrypt your first secret:
+#    nix-shell -p sops --run "sops secrets/secrets.yaml"
