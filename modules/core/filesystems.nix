@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 let
-  vars = import ./includes/variables.nix;
+  vars = import ../security/secrets/vars-compat.nix { inherit config lib; };
 
   # Rampart filesystems-specific sysctl entries. Aggregated by kernel-finalize.
   rampartFilesystemsSysctl = {
