@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 let
-  vars = import ./includes/variables.nix;
+  vars = import ../security/secrets/vars-compat.nix { inherit config lib; };
 
   # Rampart memory-specific kernel params and sysctl entries. These will be
   # aggregated by `kernel-finalize.nix` together with other `rampart*` values.
