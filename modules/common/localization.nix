@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   vars = import ../security/secrets/vars-compat.nix { inherit config lib; };
