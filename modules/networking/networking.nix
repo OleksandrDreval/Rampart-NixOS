@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 let
-  vars = import ./includes/variables.nix;
+  vars = import ../security/secrets/vars-compat.nix { inherit config lib; };
 
   # Rampart exposure for networking-related kernel settings so the finalizer
   # can aggregate and enforce authoritative defaults.
