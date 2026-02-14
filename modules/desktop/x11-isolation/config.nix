@@ -44,9 +44,10 @@
     disableCompositorXwayland = false;  # Set true after testing all X11 apps
     
     # Default isolation settings for x11-launch wrapper
+    # NOTE: Wayland socket is automatically enabled for xwayland-satellite
+    # xwayland-satellite needs it to create isolated X11 servers
     isolationSettings = {
       allowAudio = true;           # PulseAudio/PipeWire access
-      allowWayland = false;        # Pure X11 mode
       privateTmp = true;           # Isolated /tmp with X11 socket
       dbusAccess = [               # Minimal D-Bus access
         "org.freedesktop.portal.*"
@@ -87,8 +88,9 @@
         # Audio for interface sounds
         allowAudio = true;
         
-        # Disable Wayland fallback
-        allowWayland = false;
+        # NOTE: Wayland socket is automatically enabled for xwayland-satellite
+        # xwayland-satellite needs wayland compositor to create isolated X11 server
+        # GDK_BACKEND=x11 ensures GIMP uses X11, not Wayland directly
         
         # Filesystem access - read-write for image editing
         readWritePaths = [
