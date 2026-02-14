@@ -9,23 +9,31 @@ let
   # Import public variables (used by flake.nix outputs)
   publicVars = import ../../includes/flake-public-vars.nix;
 
-  # Helper to read secret file content
+  # Helper to get secret placeholder (for string values)
+  # SOPS replaces placeholders with actual values during system activation
+  # This allows using secrets in configuration without reading files during evaluation
   readSecret = secretPath:
-    lib.strings.fileContents config.sops.secrets.${secretPath}.path;
+    config.sops.placeholder.${secretPath};
+
+  # Helper to read secret file content directly (for runtime-parsed values)
+  # Note: This requires --impure and only works after secrets are decrypted
+  readSecretFile = secretPath:
+    config.sops.secrets.${secretPath}.path;
 
   # Helper to read secret and parse as integer
+  # For typed values, we must read from file path (not placeholder)
   readSecretInt = secretPath:
-    lib.strings.toInt (lib.strings.trim (readSecret secretPath));
+    lib.strings.toInt (lib.strings.trim (builtins.readFile (readSecretFile secretPath)));
 
   # Helper to read secret and parse as boolean
   readSecretBool = secretPath:
-    let value = lib.strings.trim (readSecret secretPath);
+    let value = lib.strings.trim (builtins.readFile (readSecretFile secretPath));
     in value == "true" || value == "1";
 
   # Helper to read secret and parse as list (YAML array stored as newline-separated)
   readSecretList = secretPath:
     let
-      content = lib.strings.trim (readSecret secretPath);
+      content = lib.strings.trim (builtins.readFile (readSecretFile secretPath));
     in
       if content == "" || content == "[]" || content == "[ ]"
       then []
