@@ -38,9 +38,12 @@ let
     # - Program CANNOT SEE other X11 displays (including compositor's Xwayland :0)
     # - Access only to its isolated display via xwayland-satellite
     # - /tmp/.X11-unix contains ONLY this application's socket
+    #
+    # IMPORTANT: xwayland-satellite ITSELF needs wayland socket to create X11 server!
+    # Even for X11-only apps, xwayland-satellite requires wayland compositor access
     sockets = {
       x11 = true;  # Automatically launches xwayland-satellite per-app + X11 socket isolation
-      wayland = appConfig.allowWayland or false;  # Fallback to Wayland if supported
+      wayland = true;  # REQUIRED for xwayland-satellite to work! It's X11→Wayland bridge
       pulseaudio = appConfig.allowAudio or true;
       pipewire = appConfig.allowAudio or true;
     };
@@ -185,11 +188,9 @@ in
             example = [ "--no-remote" "--profile" "/custom/profile" ];
           };
 
-          allowWayland = mkOption {
-            type = types.bool;
-            default = false;
-            description = "Allow Wayland socket access (fallback if app supports both)";
-          };
+          # NOTE: Wayland socket is always enabled for xwayland-satellite
+          # xwayland-satellite needs wayland compositor to create isolated X11 servers
+          # The X11 application itself only sees X11 (controlled by env vars like GDK_BACKEND)
 
           allowAudio = mkOption {
             type = types.bool;
@@ -392,7 +393,8 @@ in
               categories = [ "Network" "WebBrowser" ];
               readWritePaths = [ "$HOME/Downloads" ];
               allowAudio = true;
-              allowWayland = false;  # Pure X11 mode
+              # NOTE: Wayland socket automatically enabled for xwayland-satellite
+              # Use GDK_BACKEND=x11 in env to force X11 backend
             }
           ];
           # Optional: disable shared Xwayland for maximum security
@@ -400,7 +402,7 @@ in
         };
       
       Advanced Options:
-      - env: Custom environment variables
+      - env: Custom environment variables (e.g., GDK_BACKEND=x11 to force X11)
       - execArgs: Additional CLI arguments
       - readOnlyPaths/readWritePaths: Fine-grained filesystem access
       - sandboxPaths: Path remapping (e.g., fake $HOME)
