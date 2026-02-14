@@ -13,7 +13,7 @@ let
   # SOPS replaces placeholders with actual values during system activation
   # This allows using secrets in configuration without reading files during evaluation
   readSecret = secretPath:
-    config.sops.placeholder.${secretPath};
+    builtins.getAttr secretPath config.sops.placeholder;
 
   # Helper to read secret file content directly (for runtime-parsed values)
   # Note: This requires --impure and only works after secrets are decrypted
