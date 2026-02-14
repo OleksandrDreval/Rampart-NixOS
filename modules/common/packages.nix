@@ -6,10 +6,12 @@
   # NOTE: using `lib.mkForce` ensures this is applied before package evaluation.
   nixpkgs.config.allowUnfree = lib.mkForce true;
 
-  # Install only "out" output by default (exclude "man", "doc", etc.)
-  # This prevents errors when packages have incorrect meta.outputsToInstall
-  # Some packages (especially in GNOME) claim to have "man" output but don't actually provide it
-  environment.outputsToInstall = [ "out" ];
+  # Disable man pages, info pages, and documentation
+  # Some packages (especially in GNOME) have incorrect meta.outputsToInstall
+  # and claim to have "man" output when they don't - this causes build errors
+  documentation.man.enable = false;
+  documentation.info.enable = false;
+  documentation.doc.enable = false;
 
   # System-wide packages
   environment.systemPackages = lib.mkDefault (with pkgs; [
