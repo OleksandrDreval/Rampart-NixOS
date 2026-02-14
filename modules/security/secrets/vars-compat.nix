@@ -9,16 +9,15 @@ let
   # Import public variables (used by flake.nix outputs)
   publicVars = import ../../includes/flake-public-vars.nix;
 
-  # Helper to get secret placeholder (for string values)
-  # SOPS replaces placeholders with actual values during system activation
-  # This allows using secrets in configuration without reading files during evaluation
-  readSecret = secretPath:
-    builtins.getAttr secretPath config.sops.placeholder;
-
-  # Helper to read secret file content directly (for runtime-parsed values)
-  # Note: This requires --impure and only works after secrets are decrypted
+  # Helper to read secret file path (for ALL values - strings, ints, bools, lists)
+  # Note: This requires reading files during evaluation
+  # Use --impure flag when building: nixos-rebuild build --impure --flake .#
   readSecretFile = secretPath:
     config.sops.secrets.${secretPath}.path;
+
+  # Helper to read secret as string
+  readSecret = secretPath:
+    lib.strings.trim (lib.strings.fileContents (readSecretFile secretPath));
 
   # Helper to read secret and parse as integer
   # For typed values, we must read from file path (not placeholder)
