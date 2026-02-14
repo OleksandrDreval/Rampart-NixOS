@@ -9,16 +9,11 @@ let
   # Import public variables (used by flake.nix outputs)
   publicVars = import ../../includes/flake-public-vars.nix;
 
-  # Helper to get secret placeholder (for string values)s
+  # Helper to get secret placeholder (for string values)
   # SOPS replaces placeholders with actual values during system activation
   # This allows using secrets in configuration without reading files during evaluation
-  # Note: Placeholders use '-' instead of '/' for nested paths
   readSecret = secretPath:
-    let
-      # Convert path separators: "boot/luksRootUUID" → "boot-luksRootUUID"
-      placeholderPath = builtins.replaceStrings ["/"] ["-"] secretPath;
-    in
-      config.sops.placeholder.${placeholderPath};
+    config.sops.placeholder.${secretPath};
 
   # Helper to read secret file content directly (for runtime-parsed values)
   # Note: This requires --impure and only works after secrets are decrypted
