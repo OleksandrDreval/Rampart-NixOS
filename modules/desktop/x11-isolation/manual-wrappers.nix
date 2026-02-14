@@ -20,18 +20,20 @@ let
 
   # Create sandboxed X11 application via nix-bwrapper
   # Each X11 application gets its own Xorg server via xwayland-satellite
-  mkSandboxedX11App = appConfig: pkgs.mkBwrapper {
+  mkSandboxedX11App = appConfig: pkgs.mkBwrapper ({
     # Basic application configuration
     app = {
       package = appConfig.package;
       id = appConfig.id;
       env = appConfig.env or {};
-      execArgs = appConfig.execArgs or [];
-    };
+    } // (lib.optionalAttrs ((appConfig.execArgs or []) != []) {
+      # Convert list of args to space-separated string
+      execArgs = lib.concatStringsSep " " (appConfig.execArgs or []);
+    });
 
     # X11 isolation: each application gets a separate Xorg via xwayland-satellite
     # This completely isolates X11 applications from each other
-    # 
+    #
     # SECURITY MECHANISM:
     # - sockets.x11 = true activates automatic isolation via nix-bwrapper
     # - nix-bwrapper creates a separate X11 socket only for this application
@@ -93,7 +95,7 @@ let
       unshareUser = false;  # Usually false for FHS apps
       unshareUts = true;
     };
-  });
+  }));
 
   # Generate desktop entry for sandboxed application
   generateDesktopEntry = appConfig: wrappedPkg: pkgs.makeDesktopItem {
@@ -108,9 +110,9 @@ let
 
   # Create wrapped packages for all configured apps
   wrappedApps = map mkSandboxedX11App cfg.isolatedApps;
-  
+
   # Create desktop entries for all wrapped apps
-  desktopEntries = lib.imap0 (i: appConfig: 
+  desktopEntries = lib.imap0 (i: appConfig:
     generateDesktopEntry appConfig (builtins.elemAt wrappedApps i)
   ) cfg.isolatedApps;
 
@@ -132,40 +134,40 @@ in
             description = "Application package to wrap";
             example = literalExpression "pkgs.firefox-esr";
           };
-          
+
           id = mkOption {
             type = types.str;
             description = "Unique application identifier (used for paths and naming)";
             example = "firefox-esr";
           };
-          
+
           desktopName = mkOption {
             type = types.str;
             description = "Display name for the application";
             example = "Firefox ESR";
           };
-          
+
           icon = mkOption {
             type = types.str;
             default = "";
             description = "Icon name";
             example = "firefox-esr";
           };
-          
+
           comment = mkOption {
             type = types.str;
             default = "";
             description = "Application description";
             example = "Legacy X11 Web Browser";
           };
-          
+
           categories = mkOption {
             type = types.listOf types.str;
             default = [ "Application" ];
             description = "Desktop entry categories";
             example = [ "Network" "WebBrowser" ];
           };
-          
+
           terminal = mkOption {
             type = types.bool;
             default = false;
@@ -173,7 +175,7 @@ in
           };
 
           # Advanced sandboxing options
-          
+
           env = mkOption {
             type = types.attrsOf types.str;
             default = {};
@@ -274,7 +276,7 @@ in
         List of X11 legacy applications that should be automatically isolated.
         Each application gets its own X server via xwayland-satellite, preventing
         X11-based attacks like keylogging, window injection, and screenshots.
-        
+
         Files are stored in $HOME/.bwrapper/{app.id}/
       '';
       example = literalExpression ''
@@ -298,12 +300,12 @@ in
       default = false;
       description = ''
         Completely disable compositor's Xwayland for maximum security.
-        
+
         With nix-bwrapper + xwayland-satellite, each X11 app gets its own
         isolated Xorg server, so the compositor's shared Xwayland is not needed.
-        
+
         Only enable this if ALL your X11 applications are configured in isolatedApps.
-        
+
         Warning: This will break X11 applications that are not explicitly sandboxed.
       '';
     };
@@ -317,14 +319,14 @@ in
     # to avoid conflicts between multiple isolation modules
 
     # Security warnings and information
-    warnings = 
+    warnings =
       # Warning: X11 isolation enabled with compositor's Xwayland still active
       lib.optional (cfg.enable && !cfg.disableXwayland && (builtins.length cfg.isolatedApps) > 0) ''
         X11 isolation is enabled via xwayland-satellite (per-app X servers).
-        
+
         For maximum security, consider disabling the compositor's shared Xwayland:
           security.x11Isolation.disableXwayland = true
-        
+
         Only do this after configuring ALL X11 applications in isolatedApps.
       ''
       ++
@@ -348,11 +350,11 @@ in
     maintainers = [ "Rampart-NixOS" ];
     doc = ''
       X11 Legacy Application Isolation Module
-      
+
       This module provides comprehensive isolation for legacy X11 applications
       that cannot run natively on Wayland. Using nix-bwrapper + xwayland-satellite,
       each X11 application runs in its own isolated environment with:
-      
+
       Security Features:
       - Per-app X servers via xwayland-satellite (prevents X11 spying)
       - Filesystem sandboxing (private $HOME/.bwrapper/{app-id}/)
@@ -360,26 +362,26 @@ in
       - Network isolation (optional)
       - Private /tmp directory
       - Sandboxed user namespaces
-      
+
       Architecture:
       - nix-bwrapper: NixOS wrapper for bubblewrap sandboxing
       - xwayland-satellite: Per-application X11 server implementation
       - No shared Xwayland: Each app has dedicated Xorg instance
       - XDG Portals: Controlled resource access (files, screenshots, etc.)
-      
+
       Advantages over traditional Xpra:
       - Full filesystem and D-Bus sandboxing (not just X11)
       - Declarative NixOS configuration (no shell scripts)
       - Better integration with Wayland compositors
       - Modern sandboxing via bubblewrap (used by Flatpak)
       - Automatic desktop entry generation
-      
+
       Usage:
       1. Enable the module: security.x11Isolation.enable = true;
       2. Configure X11 apps in isolatedApps with full permissions
       3. Applications get "(X11 Isolated)" desktop entries
       4. Data stored in $HOME/.bwrapper/{app-id}/
-      
+
       Example Configuration:
         security.x11Isolation = {
           enable = true;
@@ -400,7 +402,7 @@ in
           # Optional: disable shared Xwayland for maximum security
           # disableXwayland = true;
         };
-      
+
       Advanced Options:
       - env: Custom environment variables (e.g., GDK_BACKEND=x11 to force X11)
       - execArgs: Additional CLI arguments
@@ -409,12 +411,12 @@ in
       - dbus: D-Bus service access control
       - useFHS: FHS environment for non-Nix binaries
       - isolateNetwork: Complete network isolation
-      
+
       Security Best Practice:
       After configuring all X11 apps, set disableXwayland = true to completely
       disable the compositor's shared Xwayland server. This prevents any
       unconfigured X11 apps from running and eliminates the X11 attack surface.
-      
+
       Documentation:
       - GitHub: https://github.com/Naxdy/nix-bwrapper
       - Interactive Options Search: https://naxdy.github.io/nix-bwrapper/
