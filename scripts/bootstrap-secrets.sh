@@ -60,31 +60,39 @@ fi
 log_info "Creating secrets directory structure..."
 sudo mkdir -p "$SECRETS_DIR"/{boot,user,security,nix,locale,usbguard}
 
-log_info "Decrypting and populating secrets..."
+log_info "Decrypting secrets file (once)..."
 
-# Helper function to extract and write secret
+# Decrypt the entire secrets file once to avoid repeated decryption calls
+readonly DECRYPTED_FILE=$(mktemp)
+cleanup() {
+    rm -f "$DECRYPTED_FILE"
+}
+trap cleanup EXIT
+
+if ! sops -d "$SECRETS_FILE" > "$DECRYPTED_FILE"; then
+    log_error "Failed to decrypt $SECRETS_FILE"
+    exit 1
+fi
+
+log_info "Populating secrets..."
+
+# Helper function to extract and write a single secret value
+# Works with scalars (string/int/bool) and multiline strings (lists stored as |-blocks)
 extract_secret() {
     local yaml_path="$1"
     local output_file="$2"
-    local is_array="${3:-false}"
 
     local tmp_file
     tmp_file=$(mktemp)
 
-    if [[ "$is_array" == "true" ]]; then
-        sops -d "$SECRETS_FILE" | yq -r "$yaml_path | join(\"\n\")" > "$tmp_file"
-    else
-        sops -d "$SECRETS_FILE" | yq -r "$yaml_path" > "$tmp_file"
-    fi
-
-    if [[ $? -eq 0 ]]; then
-        sudo mv "$tmp_file" "$output_file"
-        log_info "[OK] $(basename $(dirname $output_file))/$(basename $output_file)"
-    else
+    if ! yq -r "$yaml_path" "$DECRYPTED_FILE" > "$tmp_file"; then
         log_error "[FAILED] Failed to extract: $yaml_path"
         rm -f "$tmp_file"
         return 1
     fi
+
+    sudo mv "$tmp_file" "$output_file"
+    log_info "[OK] $(basename "$(dirname "$output_file")")/$(basename "$output_file")"
 }
 
 # Boot secrets
@@ -114,15 +122,15 @@ extract_secret '.security.shadowHashRounds' "$SECRETS_DIR/security/shadowHashRou
 
 # Nix secrets
 log_info "Nix secrets..."
-extract_secret '.nix.experimentalFeatures' "$SECRETS_DIR/nix/experimentalFeatures" true
+extract_secret '.nix.experimentalFeatures' "$SECRETS_DIR/nix/experimentalFeatures"
 extract_secret '.nix.autoOptimiseStore' "$SECRETS_DIR/nix/autoOptimiseStore"
-extract_secret '.nix.trustedUsers' "$SECRETS_DIR/nix/trustedUsers" true
-extract_secret '.nix.allowedUsers' "$SECRETS_DIR/nix/allowedUsers" true
+extract_secret '.nix.trustedUsers' "$SECRETS_DIR/nix/trustedUsers"
+extract_secret '.nix.allowedUsers' "$SECRETS_DIR/nix/allowedUsers"
 extract_secret '.nix.allowUnfree' "$SECRETS_DIR/nix/allowUnfree"
-extract_secret '.nix.permittedInsecurePackages' "$SECRETS_DIR/nix/permittedInsecurePackages" true
-extract_secret '.nix.allowUnfreeList' "$SECRETS_DIR/nix/allowUnfreeList" true
-extract_secret '.nix.substituters' "$SECRETS_DIR/nix/substituters" true
-extract_secret '.nix.trustedPublicKeys' "$SECRETS_DIR/nix/trustedPublicKeys" true
+extract_secret '.nix.permittedInsecurePackages' "$SECRETS_DIR/nix/permittedInsecurePackages"
+extract_secret '.nix.allowUnfreeList' "$SECRETS_DIR/nix/allowUnfreeList"
+extract_secret '.nix.substituters' "$SECRETS_DIR/nix/substituters"
+extract_secret '.nix.trustedPublicKeys' "$SECRETS_DIR/nix/trustedPublicKeys"
 extract_secret '.nix.gcAutomatic' "$SECRETS_DIR/nix/gcAutomatic"
 extract_secret '.nix.gcDates' "$SECRETS_DIR/nix/gcDates"
 extract_secret '.nix.gcOptions' "$SECRETS_DIR/nix/gcOptions"
@@ -136,7 +144,7 @@ extract_secret '.locale.keyboardLayout' "$SECRETS_DIR/locale/keyboardLayout"
 
 # USBGuard secrets
 log_info "USBGuard secrets..."
-extract_secret '.usbguard.allowedDevices' "$SECRETS_DIR/usbguard/allowedDevices" true
+extract_secret '.usbguard.allowedDevices' "$SECRETS_DIR/usbguard/allowedDevices"
 
 # Set proper permissions
 log_info "Setting permissions..."
