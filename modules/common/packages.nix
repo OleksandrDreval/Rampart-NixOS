@@ -6,12 +6,25 @@
   # NOTE: using `lib.mkForce` ensures this is applied before package evaluation.
   nixpkgs.config.allowUnfree = lib.mkForce true;
 
-  # Disable man pages, info pages, and documentation
-  # Some packages (especially in GNOME) have incorrect meta.outputsToInstall
-  # and claim to have "man" output when they don't - this causes build errors
-  documentation.man.enable = false;
-  documentation.info.enable = false;
-  documentation.doc.enable = false;
+  # Install ONLY main "out" output for ALL packages (ignore man/doc/info/dev/debug)
+  # This saves disk space (10-50 GB) and prevents errors when packages have broken output metadata
+  # For minimal/hardened systems, only the main executables and libraries are needed
+
+  # Override meta.outputsToInstall to ["out"] for every package in the system
+  # This ensures ONLY the main output is installed, regardless of package defaults
+  nixpkgs.overlays = [
+    (final: prev:
+      lib.mapAttrs (name: pkg:
+        if lib.isDerivation pkg && pkg ? meta then
+          pkg.overrideAttrs (old: {
+            meta = (old.meta or {}) // {
+              outputsToInstall = [ "out" ];  # Force ONLY "out", ignore everything else
+            };
+          })
+        else pkg
+      ) prev
+    )
+  ];
 
   # System-wide packages
   environment.systemPackages = lib.mkDefault (with pkgs; [
