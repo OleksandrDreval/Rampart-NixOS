@@ -27,10 +27,10 @@
     git           # Required for flakes
     vim           # Text editor
     wget          # File downloader
-    curl          # Another downloader
+  # curl          # Another downloader
     htop          # Process monitor
     tree          # Directory structure viewer
-    file          # File type detection
+  # file          # File type detection
 
     # Compression tools
     unzip
@@ -39,7 +39,7 @@
     # System info
     lshw
     pciutils
-    usbutils
+  # usbutils
   ] ++ (config.environment.systemPackages or []));
 
   # Some programs need SUID wrappers, can be configured further or are
