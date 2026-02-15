@@ -71,12 +71,12 @@ in
       ./modules/common/packages.nix                # System packages
 
       # Desktop Environment (choose ONE)
-      ./modules/desktop/environments/gnome.nix     # GNOME Desktop (Wayland-native)
-    # ./modules/desktop/environments/plasma.nix    # KDE Plasma 6 (Wayland-native)
+    # ./modules/desktop/environments/gnome.nix     # GNOME Desktop (Wayland-native)
+      ./modules/desktop/environments/plasma.nix    # KDE Plasma 6 (Wayland-native)
     # ./modules/desktop/environments/cosmic.nix    # COSMIC Desktop (Wayland-only)
 
       # X11 Isolation
-      ./modules/desktop/x11-isolation/config.nix   # X11 sandboxing via nix-bwrapper
+    # ./modules/desktop/x11-isolation/config.nix   # X11 sandboxing via nix-bwrapper
 
       # Applications
     # ./modules/apps/browsers/chromium.nix         # Chromium browser
