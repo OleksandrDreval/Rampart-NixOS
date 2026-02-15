@@ -6,25 +6,20 @@
   # NOTE: using `lib.mkForce` ensures this is applied before package evaluation.
   nixpkgs.config.allowUnfree = lib.mkForce true;
 
-  # Install ONLY main "out" output for ALL packages (ignore man/doc/info/dev/debug)
-  # This saves disk space (10-50 GB) and prevents errors when packages have broken output metadata
-  # For minimal/hardened systems, only the main executables and libraries are needed
+  # Disable ALL documentation outputs for minimal/hardened system
+  # This prevents "attribute 'man' missing" errors caused by NixOS
+  # appending "man" to every package's meta.outputsToInstall via
+  # documentation.man.enable = true (default), even for packages
+  # that don't have a "man" output
+  documentation.enable = lib.mkForce false;
+  documentation.man.enable = lib.mkForce false;
+  documentation.doc.enable = lib.mkForce false;
+  documentation.info.enable = lib.mkForce false;
+  documentation.dev.enable = lib.mkForce false;
+  documentation.nixos.enable = lib.mkForce false;
 
-  # Override meta.outputsToInstall to ["out"] for every package in the system
-  # This ensures ONLY the main output is installed, regardless of package defaults
-  nixpkgs.overlays = [
-    (final: prev:
-      lib.mapAttrs (name: pkg:
-        if lib.isDerivation pkg && pkg ? meta then
-          pkg.overrideAttrs (old: {
-            meta = (old.meta or {}) // {
-              outputsToInstall = [ "out" ];  # Force ONLY "out", ignore everything else
-            };
-          })
-        else pkg
-      ) prev
-    )
-  ];
+  # Ensure no extra outputs (man/doc/info/dev) are appended to systemPackages
+  environment.extraOutputsToInstall = lib.mkForce [];
 
   # System-wide packages
   environment.systemPackages = lib.mkDefault (with pkgs; [
