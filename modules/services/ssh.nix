@@ -26,6 +26,7 @@
 
       # Security hardening: disable unnecessary features
       AllowTcpForwarding = false;
+      PermitTunnel = false;
 
       # Only Encrypt-then-MAC (EtM) to prevent side-channel attacks (Lucky Thirteen)
       Macs = [
