@@ -3,13 +3,13 @@
 {
   # SSH server configuration
   # Currently disabled for security - enable only if remote access is needed
-  
+
   services.openssh = {
-    enable = false;  # Set to true to enable SSH server    
+    enable = false;  # Set to true to enable SSH server
     # Security settings (apply when enabled)
     settings = {
       PermitRootLogin = "no";                      # Disable root login via SSH
-    #   PasswordAuthentication = false;            # Only SSH keys, no passwords
+      PasswordAuthentication = false;              # Only SSH keys, no passwords
     #   KbdInteractiveAuthentication = false;      # Disable keyboard-interactive auth
     #   X11Forwarding = false;                     # Disable X11/Wayland forwarding
     #   MaxAuthTries = 3;                          # Maximum authentication attempts
@@ -22,10 +22,10 @@
     #   AllowGroups = [ ];                         # Specify allowed groups
     #   DenyGroups = [ ];                          # Specify denied groups
     };
-    
+
     # Port configuration (default is 22)
     # ports = [ 22 ];
-    
+
     # Listen addresses (default is all interfaces)
     # listenAddresses = [
     #   {
@@ -33,7 +33,7 @@
     #     port = 22;
     #   }
     # ];
-    
+
     # Host keys (automatically generated if not specified)
     # hostKeys = [
     #   {
@@ -46,17 +46,17 @@
     #     bits = 4096;
     #   }
     # ];
-    
+
     # Banner (message displayed before login)
     # banner = ''
     #   Unauthorized access is prohibited.
     #   All connections are logged and monitored.
     # '';
   };
-  
+
   # Firewall configuration for SSH (when enabled)
   # networking.firewall.allowedTCPPorts = [ 22 ];
-  
+
   # Fail2ban integration (optional, for SSH protection)
   # services.fail2ban = {
   #   enable = true;
