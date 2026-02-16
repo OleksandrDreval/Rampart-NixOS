@@ -118,5 +118,13 @@
     # Private namespace for /tmp and mounts/devices
     PrivateTmp = true;
     PrivateMounts = true;
+
+    # System call restrictions
+    SystemCallFilter = [
+      "~@module"           # Block loading kernel modules
+      "~@obsolete"         # Block obsolete/insecure syscalls
+      "~@cpu-emulation"    # Block CPU emulation syscalls
+      "~@clock"            # Block changing system time
+    ];
   };
 }
