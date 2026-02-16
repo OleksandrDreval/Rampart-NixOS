@@ -28,6 +28,11 @@
         "hmac-sha2-256-etm@openssh.com"
         "umac-128-etm@openssh.com"
       ];
+      Ciphers = [
+        "chacha20-poly1305@openssh.com"
+        "aes256-gcm@openssh.com"
+        "aes128-gcm@openssh.com"
+      ];
     };
 
     # Port configuration (default is 22)
