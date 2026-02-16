@@ -24,6 +24,9 @@
     #   DenyGroups = [ ];                          # Specify denied groups
       StrictModes = true;                          # Check file permissions for security
 
+      # Security hardening: disable unnecessary features
+      AllowTcpForwarding = false;
+
       # Only Encrypt-then-MAC (EtM) to prevent side-channel attacks (Lucky Thirteen)
       Macs = [
         "hmac-sha2-512-etm@openssh.com"
