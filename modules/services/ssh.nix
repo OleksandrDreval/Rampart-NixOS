@@ -31,6 +31,7 @@
 
       # Session timeouts: automatically close inactive connections
       ClientAliveInterval = 300;                   # 5 minutes
+      ClientAliveCountMax = 0;                     # Disconnect immediately if client is unresponsive
 
       # Only Encrypt-then-MAC (EtM) to prevent side-channel attacks (Lucky Thirteen)
       Macs = [
