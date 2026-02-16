@@ -98,4 +98,9 @@
   #     bantime = 3600;
   #   };
   # };
+
+  systemd.services.sshd.serviceConfig = {
+    # Harden the daemon while allowing transition to session initialization
+    NoNewPrivileges = false; # Allow sudo/doas/run0
+  };
 }
