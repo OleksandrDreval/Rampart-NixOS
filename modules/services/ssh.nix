@@ -68,18 +68,13 @@
     #   }
     # ];
 
-    # Host keys (automatically generated if not specified)
-    # hostKeys = [
-    #   {
-    #     path = "/etc/ssh/ssh_host_ed25519_key";
-    #     type = "ed25519";
-    #   }
-    #   {
-    #     path = "/etc/ssh/ssh_host_rsa_key";
-    #     type = "rsa";
-    #     bits = 4096;
-    #   }
-    # ];
+    # Host keys - using only modern Ed25519
+    hostKeys = [
+      {
+        path = "/etc/ssh/ssh_host_ed25519_key";
+        type = "ed25519";
+      }
+    ];
 
     # Banner (message displayed before login)
     # banner = ''
