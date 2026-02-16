@@ -103,6 +103,10 @@
     # Harden the daemon while allowing transition to session initialization
     NoNewPrivileges = false; # Allow sudo/doas/run0
 
+    # System resource isolation
+    ProtectSystem = "full";  # Make /usr, /boot, /etc read-only
+    ProtectHome = false;     # Allow users to write to Home (otherwise SSH is useless)
+
     # Private namespace for /tmp and mounts/devices
     PrivateTmp = true;
     PrivateMounts = true;
