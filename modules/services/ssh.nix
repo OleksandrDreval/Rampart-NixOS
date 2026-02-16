@@ -102,5 +102,9 @@
   systemd.services.sshd.serviceConfig = {
     # Harden the daemon while allowing transition to session initialization
     NoNewPrivileges = false; # Allow sudo/doas/run0
+
+    # Private namespace for /tmp and mounts/devices
+    PrivateTmp = true;
+    PrivateMounts = true;
   };
 }
