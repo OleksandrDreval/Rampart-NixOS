@@ -107,6 +107,14 @@
     ProtectSystem = "full";  # Make /usr, /boot, /etc read-only
     ProtectHome = false;     # Allow users to write to Home (otherwise SSH is useless)
 
+    # Deny access to deep kernel structures
+    ProtectClock = true;
+    ProtectKernelTunables = true;
+    ProtectKernelModules = true;
+    ProtectKernelLogs = true;
+    ProtectControlGroups = true;
+    ProtectProc = "invisible";
+
     # Private namespace for /tmp and mounts/devices
     PrivateTmp = true;
     PrivateMounts = true;
