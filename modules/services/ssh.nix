@@ -29,6 +29,9 @@
       PermitTunnel = false;
       AllowAgentForwarding = false;
 
+      # Session timeouts: automatically close inactive connections
+      ClientAliveInterval = 300;                   # 5 minutes
+
       # Only Encrypt-then-MAC (EtM) to prevent side-channel attacks (Lucky Thirteen)
       Macs = [
         "hmac-sha2-512-etm@openssh.com"
