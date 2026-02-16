@@ -132,5 +132,6 @@
     # Other restrictions
     RestrictRealtime = true;
     RestrictSUIDSGID = false; # Needed for sudo/doas
+    LockPersonality = true;
   };
 }
