@@ -10,7 +10,7 @@
     settings = {
       PermitRootLogin = "no";                      # Disable root login via SSH
       PasswordAuthentication = false;              # Only SSH keys, no passwords
-    #   KbdInteractiveAuthentication = false;      # Disable keyboard-interactive auth
+      KbdInteractiveAuthentication = false;        # Disable keyboard-interactive auth
     #   X11Forwarding = false;                     # Disable X11/Wayland forwarding
     #   MaxAuthTries = 3;                          # Maximum authentication attempts
     #   PubkeyAuthentication = true;               # Enable public key authentication
