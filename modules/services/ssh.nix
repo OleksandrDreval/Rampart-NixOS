@@ -126,5 +126,7 @@
       "~@cpu-emulation"    # Block CPU emulation syscalls
       "~@clock"            # Block changing system time
     ];
+
+    SystemCallArchitectures = "native";
   };
 }
