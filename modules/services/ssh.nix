@@ -128,5 +128,9 @@
     ];
 
     SystemCallArchitectures = "native";
+
+    # Other restrictions
+    RestrictRealtime = true;
+    RestrictSUIDSGID = false; # Needed for sudo/doas
   };
 }
