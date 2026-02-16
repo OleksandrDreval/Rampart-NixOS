@@ -22,6 +22,7 @@
     #   DenyUsers = [ ];                           # Specify denied users
     #   AllowGroups = [ ];                         # Specify allowed groups
     #   DenyGroups = [ ];                          # Specify denied groups
+      StrictModes = true;                          # Check file permissions for security
     };
 
     # Port configuration (default is 22)
