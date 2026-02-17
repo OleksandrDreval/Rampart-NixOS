@@ -313,6 +313,9 @@ in
     ProtectClock = true;          # Prevents changing system clock
     ProtectHostname = true;       # Prevents changing hostname
     LockPersonality = true;       # Prevent personality changes (emulation)
+
+    # Network & Process Isolation
+    ProtectProc = "invisible";  # Restrict access to /proc (other processes invisible)
   };
 
   # Export rampart networking sysctl values for finalizer
