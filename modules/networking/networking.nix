@@ -202,6 +202,11 @@ in
     NoNewPrivileges = true;   # Disallow gaining new privileges
     RestrictSUIDSGID = true;  # Disable SUID/SGID bits
     RestrictRealtime = true;  # Disable realtime scheduling
+
+    # Filesystem Isolation
+    ProtectSystem = "full";  # Mount /usr, /boot, and /etc read-only
+    ProtectHome = true;      # Home directory isolation
+    PrivateTmp = true;       # Isolated /tmp directory
   };
 
   # Export rampart networking sysctl values for finalizer
