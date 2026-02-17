@@ -14,8 +14,8 @@
       X11Forwarding = false;                       # Disable X11/Wayland forwarding
       MaxAuthTries = 3;                            # Maximum authentication attempts
       MaxSessions = 2;                             # Limit concurrent sessions per connection
-    #   PubkeyAuthentication = true;               # Enable public key authentication
-    #   AuthenticationMethods = "publickey";       # Only public key auth allowed
+      PubkeyAuthentication = true;                 # Enable public key authentication
+      AuthenticationMethods = "publickey";         # Only public key auth allowed
       LogLevel = "VERBOSE";                        # Detailed logging
     #   UsePAM = true;                             # Use PAM for authentication
     #   AllowUsers = [ ];                          # Specify allowed users (empty = all)
