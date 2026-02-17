@@ -296,6 +296,9 @@ in
   systemd.services.iwd.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true; # Disallow gaining new privileges
+    CapabilityBoundingSet = "CAP_NET_ADMIN CAP_NET_RAW"; # Limit root capabilities to networking
+    RestrictSUIDSGID = true; # Disable SUID/SGID bits
+    RestrictRealtime = true; # Disable realtime scheduling
   };
 
   # Export rampart networking sysctl values for finalizer
