@@ -316,6 +316,7 @@ in
 
     # Network & Process Isolation
     ProtectProc = "invisible";  # Restrict access to /proc (other processes invisible)
+    RestrictNamespaces = true;  # Disable creation of new namespaces
   };
 
   # Export rampart networking sysctl values for finalizer
