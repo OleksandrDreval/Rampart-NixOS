@@ -295,16 +295,24 @@ in
   # iwd is the modern wireless backend used in Rampart
   systemd.services.iwd.serviceConfig = {
     # Privilege & Capability Restrictions
-    NoNewPrivileges = true; # Disallow gaining new privileges
-    CapabilityBoundingSet = "CAP_NET_ADMIN CAP_NET_RAW"; # Limit root capabilities to networking
-    RestrictSUIDSGID = true; # Disable SUID/SGID bits
-    RestrictRealtime = true; # Disable realtime scheduling
+    NoNewPrivileges = true;   # Disallow gaining new privileges
+    CapabilityBoundingSet = "CAP_NET_ADMIN CAP_NET_RAW";  # Limit root capabilities to networking
+    RestrictSUIDSGID = true;  # Disable SUID/SGID bits
+    RestrictRealtime = true;  # Disable realtime scheduling
 
     # Filesystem Isolation
-    ProtectSystem = "full"; # Mount /usr, /boot, and /etc read-only
-    ProtectHome = true; # Home directory isolation
-    PrivateTmp = true; # Isolated /tmp directory
-    PrivateMounts = true; # Private mount namespace
+    ProtectSystem = "full";  # Mount /usr, /boot, and /etc read-only
+    ProtectHome = true;      # Home directory isolation
+    PrivateTmp = true;       # Isolated /tmp directory
+    PrivateMounts = true;    # Private mount namespace
+
+    # Kernel & Hardware Protection
+    ProtectKernelModules = true;  # Prevents loading/unloading kernel modules
+    ProtectKernelLogs = true;     # Prevents reading kernel logs
+    ProtectControlGroups = true;  # Makes cgroups read-only
+    ProtectClock = true;          # Prevents changing system clock
+    ProtectHostname = true;       # Prevents changing hostname
+    LockPersonality = true;       # Prevent personality changes (emulation)
   };
 
   # Export rampart networking sysctl values for finalizer
