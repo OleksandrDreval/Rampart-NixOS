@@ -144,6 +144,10 @@ in
         DisablePeriodicScan = true;  # Disable periodic scanning to reduce background radio activity and probe leaks
       };
 
+      IPv4 = {
+        SendHostname = false;  # Don't send hostname to DHCP server (privacy)
+      };
+
       Settings = {
         AlwaysRandomizeAddress = true;  # Always randomize address for maximum privacy
       };
