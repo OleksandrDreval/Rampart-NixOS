@@ -291,6 +291,13 @@ in
     ];
   };
 
+  # Hardening iwd (Intel Wireless Daemon) service
+  # iwd is the modern wireless backend used in Rampart
+  systemd.services.iwd.serviceConfig = {
+    # Privilege & Capability Restrictions
+    NoNewPrivileges = true; # Disallow gaining new privileges
+  };
+
   # Export rampart networking sysctl values for finalizer
   rampart = {
     networkingSysctl = rampartNetworkingSysctl;
