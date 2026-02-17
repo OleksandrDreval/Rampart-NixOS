@@ -207,6 +207,14 @@ in
     ProtectSystem = "full";  # Mount /usr, /boot, and /etc read-only
     ProtectHome = true;      # Home directory isolation
     PrivateTmp = true;       # Isolated /tmp directory
+
+    # Kernel & Hardware Protection
+    ProtectKernelModules = true;  # Prevents loading/unloading kernel modules
+    ProtectKernelLogs = true;     # Prevents reading kernel logs
+    ProtectControlGroups = true;  # Makes cgroups read-only
+    ProtectClock = true;          # Prevents changing system clock
+    ProtectHostname = true;       # Prevents changing hostname
+    LockPersonality = true;       # Prevent personality changes (emulation)
   };
 
   # Export rampart networking sysctl values for finalizer
