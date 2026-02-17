@@ -324,6 +324,9 @@ in
        "AF_INET6"    # IPv6
        "AF_PACKET"   # Direct network access
     ];
+
+    # Memory & System Call Filtering
+    MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
   };
 
   # Export rampart networking sysctl values for finalizer
