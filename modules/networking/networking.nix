@@ -200,6 +200,8 @@ in
   systemd.services.NetworkManager.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
+    RestrictSUIDSGID = true;  # Disable SUID/SGID bits
+    RestrictRealtime = true;  # Disable realtime scheduling
   };
 
   # Export rampart networking sysctl values for finalizer
