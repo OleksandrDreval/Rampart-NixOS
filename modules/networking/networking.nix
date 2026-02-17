@@ -131,6 +131,9 @@ in
       General = {
         AddressRandomization = "network";    # Randomize MAC per-network (different MAC for each SSID)
         AddressRandomizationRange = "full";  # Randomize all 6 octets of the MAC address (hides vendor OUI)
+        ManagementFrameProtection = 1;       # Enable Management Frame Protection (802.11w) if AP supports it
+        ControlPortOverNL80211 = true;       # Send EAPoL packets over NL80211 for better security
+        DisableOCV = false;                  # Enable Operating Channel Validation (OCV)
       };
 
       Network = {
