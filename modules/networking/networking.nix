@@ -230,6 +230,16 @@ in
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
     SystemCallArchitectures = "native";  # Allow only native syscalls
+    SystemCallFilter = [
+      "~@mount"          # Filesystem mounting
+      "~@module"         # Kernel module operations
+      "~@swap"           # Swap management
+      "~@obsolete"       # Obsolete calls
+      "~@cpu-emulation"  # CPU emulation
+      "~@privileged"     # Privileged calls
+      "~@clock"          # Clock configuration
+      "ptrace"           # Process tracing
+    ];
   };
 
   # Export rampart networking sysctl values for finalizer
