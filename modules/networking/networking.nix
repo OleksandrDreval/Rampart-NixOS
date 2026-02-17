@@ -242,6 +242,13 @@ in
     ];
   };
 
+  # Hardening NetworkManager-dispatcher service
+  # Based on: https://github.com/wallago/nix-system-services-hardened
+  systemd.services.NetworkManager-dispatcher.serviceConfig = {
+    # Privilege & Capability Restrictions
+    NoNewPrivileges = true;   # Disallow gaining new privileges
+  };
+
   # Export rampart networking sysctl values for finalizer
   rampart = {
     networkingSysctl = rampartNetworkingSysctl;
