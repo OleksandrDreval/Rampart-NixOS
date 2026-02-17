@@ -109,6 +109,7 @@
 
     # Deny access to deep kernel structures
     ProtectClock = true;
+    ProtectHostname = true;
     ProtectKernelTunables = true;
     ProtectKernelModules = true;
     ProtectKernelLogs = true;
