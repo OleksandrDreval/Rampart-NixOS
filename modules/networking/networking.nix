@@ -129,8 +129,8 @@ in
     enable = true;
     settings = {
       General = {
-        # Randomize MAC per-network (different MAC for each SSID)
-        AddressRandomization = "network";
+        AddressRandomization = "network";    # Randomize MAC per-network (different MAC for each SSID)
+        AddressRandomizationRange = "full";  # Randomize all 6 octets of the MAC address (hides vendor OUI)
       };
 
       Network = {
