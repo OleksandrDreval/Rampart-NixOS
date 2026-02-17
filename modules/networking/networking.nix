@@ -250,6 +250,12 @@ in
     CapabilityBoundingSet = "CAP_NET_ADMIN CAP_NET_RAW";  # Limit root capabilities to networking
     RestrictSUIDSGID = true;  # Disable SUID/SGID bits
     RestrictRealtime = true;  # Disable realtime scheduling
+
+    # Filesystem Isolation
+    ProtectSystem = "full";  # Mount /usr, /boot, and /etc read-only
+    ProtectHome = true;      # Home directory isolation
+    PrivateTmp = true;       # Isolated /tmp directory
+    PrivateMounts = true;    # Private mount namespace
   };
 
   # Export rampart networking sysctl values for finalizer
