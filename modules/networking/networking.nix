@@ -132,9 +132,13 @@ in
         # Randomize MAC per-network (different MAC for each SSID)
         AddressRandomization = "network";
       };
+
+      Network = {
+        NameResolvingService = "systemd";  # Integration with systemd-resolved
+      };
+
       Settings = {
-        # Always randomize address for maximum privacy
-        AlwaysRandomizeAddress = true;
+        AlwaysRandomizeAddress = true;  # Always randomize address for maximum privacy
       };
     };
   };
