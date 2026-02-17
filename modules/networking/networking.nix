@@ -140,6 +140,10 @@ in
         NameResolvingService = "systemd";  # Integration with systemd-resolved
       };
 
+      Scan = {
+        DisablePeriodicScan = true;  # Disable periodic scanning to reduce background radio activity and probe leaks
+      };
+
       Settings = {
         AlwaysRandomizeAddress = true;  # Always randomize address for maximum privacy
       };
