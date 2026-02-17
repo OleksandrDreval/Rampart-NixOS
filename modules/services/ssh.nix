@@ -126,6 +126,8 @@
       "~@obsolete"         # Block obsolete/insecure syscalls
       "~@cpu-emulation"    # Block CPU emulation syscalls
       "~@clock"            # Block changing system time
+      "~@keyring"          # Block kernel keyring access
+      "~@swap"             # Block swap manipulations
     ];
 
     SystemCallArchitectures = "native";
