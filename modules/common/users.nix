@@ -147,9 +147,10 @@ in
     LockPersonality = true;       # Prevent personality changes (emulation)
 
     # Network & Process Isolation
-    PrivateNetwork = true;     # Completely disable network access
-    ProtectProc = "invisible"; # Hide processes of other users
-    RestrictNamespaces = true; # Disable creation of new namespaces
+    PrivateNetwork = true;      # Completely disable network access
+    ProtectProc = "invisible";  # Hide processes of other users
+    RestrictNamespaces = true;  # Disable creation of new namespaces
+    RemoveIPC = true;           # Clean up Inter-Process Communication objects on exit
     RestrictAddressFamilies = [
       "AF_UNIX"  # Allow only local communication (D-Bus)
     ];
