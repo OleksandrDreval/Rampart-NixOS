@@ -91,5 +91,8 @@ in
     # Kernel & Hardware Protection
     ProtectClock = true;           # Prevent user from changing system clock
     ProtectHostname = true;        # Prevent user from changing hostname
+    ProtectKernelTunables = true;  # Make kernel variables (/proc/sys) read-only
+    ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
+    ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
   };
 }
