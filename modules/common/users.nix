@@ -111,5 +111,14 @@ in
     # Privilege & Capability Restrictions
     RestrictRealtime = true;  # Prevent abuse of real-time scheduling
     RestrictSUIDSGID = true;  # Disable SUID/SGID bits in the session
+
+    # Memory & System Call Filtering
+    SystemCallArchitectures = "native";  # Allow only native syscalls (prevents 32-bit exploitation)
+    SystemCallFilter = [
+      "~@swap"           # Block swap management
+      "~@module"         # Block kernel module calls
+      "~@obsolete"       # Block deprecated/legacy syscalls
+      "~@cpu-emulation"  # Block non-native CPU emulation
+    ];
   };
 }
