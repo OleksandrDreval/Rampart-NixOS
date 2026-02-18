@@ -146,6 +146,10 @@ in
     # Network & Process Isolation
     PrivateNetwork = true;     # Completely disable network access
     ProtectProc = "invisible"; # Hide processes of other users
+    RestrictNamespaces = true; # Disable creation of new namespaces
+    RestrictAddressFamilies = [
+      "AF_UNIX"  # Allow only local communication (D-Bus)
+    ];
 
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
