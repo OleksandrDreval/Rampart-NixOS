@@ -24,5 +24,9 @@
     ProtectKernelLogs = true;     # Prevent reading kernel messages from dmesg
     ProtectControlGroups = true;  # Mount cgroups hierarchy as read-only
     ProtectClock = true;          # Prevent modification of system clock or RTC
+
+    # Process & Identity Isolation
+    ProtectProc = "invisible";   # Hidden processes of other users in /proc
+    RestrictNamespaces = true;   # Prohibit creation of any new namespaces
   };
 }
