@@ -56,5 +56,8 @@
 
     RestrictSUIDSGID = true;  # Disable SUID/SGID bits within the service
     RestrictRealtime = true;  # Prevent abuse of real-time scheduling
+
+    # System Call Filtering
+    SystemCallArchitectures = "native";  # Block non-native syscalls (e.g., 32-bit on 64-bit)
   };
 }
