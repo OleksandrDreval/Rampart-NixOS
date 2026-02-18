@@ -107,5 +107,9 @@ in
       "AF_INET"     # IPv4 access
       "AF_INET6"    # IPv6 access
     ];
+
+    # Privilege & Capability Restrictions
+    RestrictRealtime = true;  # Prevent abuse of real-time scheduling
+    RestrictSUIDSGID = true;  # Disable SUID/SGID bits in the session
   };
 }
