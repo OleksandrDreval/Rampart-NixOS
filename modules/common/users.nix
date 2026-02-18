@@ -125,6 +125,13 @@ in
   # Hardening accounts-daemon service
   # This service manages user account information (/var/lib/AccountsService)
   systemd.services.accounts-daemon.serviceConfig = {
+    # Environment restrictions (disabling remote VFS and FUSE)
+    Environment = [
+      "GVFS_DISABLE_FUSE=1"                  # Disable GVFS FUSE support
+      "GIO_USE_VFS=local"                    # Force local VFS for GIO
+      "GVFS_REMOTE_VOLUME_MONITOR_IGNORE=1"  # Ignore remote volume monitoring
+    ];
+
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
     RestrictSUIDSGID = true;  # Disable SUID/SGID bits
