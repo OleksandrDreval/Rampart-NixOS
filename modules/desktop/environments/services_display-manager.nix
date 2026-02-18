@@ -28,5 +28,9 @@
       "AF_INET"     # IPv4 (required for some seat/session logic)
       "AF_INET6"    # IPv6 (required for some seat/session logic)
     ];
+
+    # Kernel & Hardware Protection
+    ProtectClock = true;          # Prevent changing system clock
+    ProtectKernelModules = true;  # Prevent loading/unloading kernel modules
   };
 }
