@@ -70,5 +70,8 @@
       "~@raw-io"         # Block raw I/O access
       "~@debug"          # Block debugging/tracing syscalls
     ];
+
+    # Restrict namespacing (only allow necessary ones)
+    RestrictNamespaces = [ "~cgroup" ];
   };
 }
