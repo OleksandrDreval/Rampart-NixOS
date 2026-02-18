@@ -94,5 +94,10 @@ in
     ProtectKernelTunables = true;  # Make kernel variables (/proc/sys) read-only
     ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
     ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
+
+    # Process & File System Isolation
+    ProtectSystem = "full";     # Mount /usr, /boot, and /etc read-only
+    ProtectProc = "invisible";  # Hide processes of other users
+    PrivateTmp = true;          # Use isolated /tmp for each user session
   };
 }
