@@ -15,5 +15,9 @@
     NoNewPrivileges = true;   # Disallow gaining new privileges via setuid/setgid
     # Block specific capabilities while allowing others for device management
     CapabilityBoundingSet = "~CAP_SYS_PTRACE ~CAP_SYS_PACCT";
+
+    # Filesystem Isolation
+    ProtectSystem = "strict";  # Mount the entire filesystem read-only
+    ProtectHome = true;        # Make /home and /root completely inaccessible
   };
 }
