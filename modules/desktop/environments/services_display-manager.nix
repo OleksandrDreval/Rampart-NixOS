@@ -53,5 +53,8 @@
       "CAP_SETFCAP"          # Forced capabilities
       "CAP_CHOWN"            # Changing file ownership
     ];
+
+    RestrictSUIDSGID = true;  # Disable SUID/SGID bits within the service
+    RestrictRealtime = true;  # Prevent abuse of real-time scheduling
   };
 }
