@@ -35,5 +35,23 @@
     LockPersonality = true;       # Prevent personality changes (emulation)
     KeyringMode = "private";      # Isolated kernel keyring for the service
     PrivateIPC = true;            # Isolated Inter-Process Communication
+
+    # Privilege & Capability Restrictions
+    # We strip all capabilities except those strictly necessary for a DM to function.
+    CapabilityBoundingSet = [
+      "CAP_SYS_ADMIN"        # Seat and session management
+      "CAP_SETUID"           # Switching to user sessions
+      "CAP_SETGID"           # Switching to user session groups
+      "CAP_SETPCAP"          # Capability management
+      "CAP_KILL"             # Terminating sessions
+      "CAP_SYS_TTY_CONFIG"   # TTY/VT switching
+      "CAP_DAC_OVERRIDE"     # Resource access (required for various DM tasks)
+      "CAP_DAC_READ_SEARCH"  # Resource reading
+      "CAP_FOWNER"           # File ownership management
+      "CAP_IPC_OWNER"        # IPC ownership
+      "CAP_FSETID"           # Set ID on execution
+      "CAP_SETFCAP"          # Forced capabilities
+      "CAP_CHOWN"            # Changing file ownership
+    ];
   };
 }
