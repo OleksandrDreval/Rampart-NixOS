@@ -18,5 +18,9 @@
     ProtectControlGroups = true;  # Restrict access to cgroup configuration
     PrivateMounts = true;         # Use a private mount namespace
     UMask = 0077;                 # Ensure files created by DM are private
+
+    # Network Isolation (Zero Trust)
+    # Display managers should never need network access.
+    IPAddressDeny = [ "0.0.0.0/0" "::/0" ];
   };
 }
