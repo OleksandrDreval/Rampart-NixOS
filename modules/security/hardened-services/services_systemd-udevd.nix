@@ -13,5 +13,7 @@
   systemd.services.systemd-udevd.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges via setuid/setgid
+    # Block specific capabilities while allowing others for device management
+    CapabilityBoundingSet = "~CAP_SYS_PTRACE ~CAP_SYS_PACCT";
   };
 }
