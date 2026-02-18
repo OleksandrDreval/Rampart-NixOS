@@ -143,7 +143,8 @@ in
     ProtectClock = true;       # Prevent changing system clock
     ProtectHostname = true;    # Prevent changing hostname
 
-    # Process Isolation
+    # Network & Process Isolation
+    PrivateNetwork = true;     # Completely disable network access
     ProtectProc = "invisible"; # Hide processes of other users
 
     # Memory & System Call Filtering
