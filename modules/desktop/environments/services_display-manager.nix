@@ -12,5 +12,11 @@
     GPU acceleration or session switching.
   */
 
-  systemd.services.display-manager.serviceConfig = { };
+  systemd.services.display-manager.serviceConfig = {
+    # File System Isolation
+    ProtectSystem = "full";       # Protect /usr, /boot, and /etc from writes
+    ProtectControlGroups = true;  # Restrict access to cgroup configuration
+    PrivateMounts = true;         # Use a private mount namespace
+    UMask = 0077;                 # Ensure files created by DM are private
+  };
 }
