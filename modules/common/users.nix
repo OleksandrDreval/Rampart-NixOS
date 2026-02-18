@@ -139,5 +139,8 @@ in
     ProtectKernelLogs = true;  # Prevent reading kernel logs
     ProtectClock = true;       # Prevent changing system clock
     ProtectHostname = true;    # Prevent changing hostname
+
+    # Process Isolation
+    ProtectProc = "invisible"; # Hide processes of other users
   };
 }
