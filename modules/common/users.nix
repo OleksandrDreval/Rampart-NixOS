@@ -134,5 +134,10 @@ in
     StateDirectory = "AccountsService";  # Allow write access to /var/lib/AccountsService
     ProtectHome = true;                  # Make /home and /root inaccessible
     PrivateTmp = true;                   # Use isolated /tmp directory
+
+    # Kernel & Hardware Protection
+    ProtectKernelLogs = true;  # Prevent reading kernel logs
+    ProtectClock = true;       # Prevent changing system clock
+    ProtectHostname = true;    # Prevent changing hostname
   };
 }
