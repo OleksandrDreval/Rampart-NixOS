@@ -127,5 +127,6 @@ in
   systemd.services.accounts-daemon.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
+    RestrictSUIDSGID = true;  # Disable SUID/SGID bits
   };
 }
