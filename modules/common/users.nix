@@ -121,4 +121,11 @@ in
       "~@cpu-emulation"  # Block non-native CPU emulation
     ];
   };
+
+  # Hardening accounts-daemon service
+  # This service manages user account information (/var/lib/AccountsService)
+  systemd.services.accounts-daemon.serviceConfig = {
+    # Privilege & Capability Restrictions
+    NoNewPrivileges = true;   # Disallow gaining new privileges
+  };
 }
