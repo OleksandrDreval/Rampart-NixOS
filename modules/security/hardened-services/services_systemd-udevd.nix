@@ -10,5 +10,8 @@
     and kernel capabilities to minimize the risk of privilege escalation.
   */
 
-  systemd.services.systemd-udevd.serviceConfig = { };
+  systemd.services.systemd-udevd.serviceConfig = {
+    # Privilege & Capability Restrictions
+    NoNewPrivileges = true;   # Disallow gaining new privileges via setuid/setgid
+  };
 }
