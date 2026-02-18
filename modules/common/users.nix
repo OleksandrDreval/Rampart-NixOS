@@ -142,5 +142,19 @@ in
 
     # Process Isolation
     ProtectProc = "invisible"; # Hide processes of other users
+
+    # Memory & System Call Filtering
+    SystemCallArchitectures = "native";  # Allow only native syscalls
+    SystemCallFilter = [
+      "~@swap"           # Block swap management
+      "~@resources"      # Block resource limit changes
+      "~@raw-io"         # Block raw I/O access
+      "~@mount"          # Block filesystem mounting
+      "~@module"         # Block kernel module calls
+      "~@reboot"         # Block system reboot
+      "~@debug"          # Block debugging calls
+      "~@cpu-emulation"  # Block non-native CPU emulation
+      "~@clock"          # Block clock configuration
+    ];
   };
 }
