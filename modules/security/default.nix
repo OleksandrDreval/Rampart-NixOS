@@ -6,7 +6,7 @@
 {
   options.rampart.security = {
     enable = lib.mkEnableOption "Enable security hardening modules";
-    
+
     level = lib.mkOption {
       type = lib.types.enum [ "minimal" "standard" "paranoid" ];
       default = "standard";
@@ -35,8 +35,11 @@
 
   config = lib.mkIf config.rampart.security.enable {
     imports = lib.mkMerge [
-      # Always import permissions module
-      [ ./nixos-permissions.nix ]
+      # Always import permissions and hardened services
+      [
+        ./nixos-permissions.nix
+        ./hardened-services
+      ]
 
       # Conditional security modules
       (lib.mkIf config.rampart.security.apparmor [
@@ -63,7 +66,7 @@
       polkit.enable = true;
       rtkit.enable = true;
     };
-    
+
     # System hardening based on level
     boot.kernel.sysctl = lib.mkMerge [
       {
