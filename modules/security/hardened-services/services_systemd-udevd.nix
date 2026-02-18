@@ -19,5 +19,10 @@
     # Filesystem Isolation
     ProtectSystem = "strict";  # Mount the entire filesystem read-only
     ProtectHome = true;        # Make /home and /root completely inaccessible
+
+    # Kernel & Hardware Protection
+    ProtectKernelLogs = true;     # Prevent reading kernel messages from dmesg
+    ProtectControlGroups = true;  # Mount cgroups hierarchy as read-only
+    ProtectClock = true;          # Prevent modification of system clock or RTC
   };
 }
