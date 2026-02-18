@@ -60,5 +60,15 @@
     # System Call Filtering
     SystemCallArchitectures = "native";  # Block non-native syscalls (e.g., 32-bit on 64-bit)
     SystemCallErrorNumber = "EPERM";     # Return 'Permission Denied' instead of SIGSYS
+    SystemCallFilter = [
+      "~@obsolete"       # Block deprecated syscalls
+      "~@cpu-emulation"  # Block non-native CPU emulation
+      "~@clock"          # Block clock configuration
+      "~@swap"           # Block swap management
+      "~@module"         # Block kernel module operations
+      "~@reboot"         # Block system reboot
+      "~@raw-io"         # Block raw I/O access
+      "~@debug"          # Block debugging/tracing syscalls
+    ];
   };
 }
