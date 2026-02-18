@@ -22,5 +22,11 @@
     # Network Isolation (Zero Trust)
     # Display managers should never need network access.
     IPAddressDeny = [ "0.0.0.0/0" "::/0" ];
+    RestrictAddressFamilies = [
+      "AF_UNIX"     # Local IPC (Wayland/X11/DBus)
+      "AF_NETLINK"  # Network status monitoring
+      "AF_INET"     # IPv4 (required for some seat/session logic)
+      "AF_INET6"    # IPv6 (required for some seat/session logic)
+    ];
   };
 }
