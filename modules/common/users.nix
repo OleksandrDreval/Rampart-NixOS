@@ -139,9 +139,12 @@ in
     ProtectControlGroups = true;         # Make cgroups read-only
 
     # Kernel & Hardware Protection
-    ProtectKernelLogs = true;  # Prevent reading kernel logs
-    ProtectClock = true;       # Prevent changing system clock
-    ProtectHostname = true;    # Prevent changing hostname
+    ProtectKernelTunables = true; # Make kernel variables (/proc/sys) read-only
+    ProtectKernelModules = true;  # Prevent loading/unloading kernel modules
+    ProtectKernelLogs = true;     # Prevent reading kernel logs
+    ProtectClock = true;          # Prevent changing system clock
+    ProtectHostname = true;       # Prevent changing hostname
+    LockPersonality = true;       # Prevent personality changes (emulation)
 
     # Network & Process Isolation
     PrivateNetwork = true;     # Completely disable network access
