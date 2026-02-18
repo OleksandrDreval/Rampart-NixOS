@@ -32,5 +32,8 @@
     # Kernel & Hardware Protection
     ProtectClock = true;          # Prevent changing system clock
     ProtectKernelModules = true;  # Prevent loading/unloading kernel modules
+    LockPersonality = true;       # Prevent personality changes (emulation)
+    KeyringMode = "private";      # Isolated kernel keyring for the service
+    PrivateIPC = true;            # Isolated Inter-Process Communication
   };
 }
