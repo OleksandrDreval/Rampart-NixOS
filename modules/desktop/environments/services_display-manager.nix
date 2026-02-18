@@ -59,5 +59,6 @@
 
     # System Call Filtering
     SystemCallArchitectures = "native";  # Block non-native syscalls (e.g., 32-bit on 64-bit)
+    SystemCallErrorNumber = "EPERM";     # Return 'Permission Denied' instead of SIGSYS
   };
 }
