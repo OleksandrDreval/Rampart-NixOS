@@ -128,5 +128,11 @@ in
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
     RestrictSUIDSGID = true;  # Disable SUID/SGID bits
+
+    # Filesystem Isolation
+    ProtectSystem = "strict";            # Mount entire filesystem read-only
+    StateDirectory = "AccountsService";  # Allow write access to /var/lib/AccountsService
+    ProtectHome = true;                  # Make /home and /root inaccessible
+    PrivateTmp = true;                   # Use isolated /tmp directory
   };
 }
