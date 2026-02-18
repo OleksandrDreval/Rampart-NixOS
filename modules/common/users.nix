@@ -19,7 +19,7 @@ in
     # Empty file = root cannot login from any TTY
     # Root must be accessed via: sudo -i or sudo su
   '';
-  
+
   # PAM securetty enforcement (prevents root login on TTY even if hashedPassword is set)
   security.pam.services.login.rules.auth.securetty = {
     enable = true;
@@ -70,7 +70,7 @@ in
   # - PTY enforcement
   # - Environment hardening
   # - Audit logging
-  
+
   # Configure number of rounds for the Unix shadow password hashing algorithm.
   # Higher values increase the computational cost of offline hash cracking attacks.
   security.pam.services.passwd.rules.password."unix".settings.rounds = toString vars.shadowHashRounds;
@@ -78,9 +78,18 @@ in
   # Add a delay after failed interactive login attempts to slow brute-force attacks.
   # Value is in microseconds (e.g. 5000000 = 5s) and applies per failed authentication.
   security.pam.services."system-login".failDelay.delay = toString vars.loginFailDelay;
-  
+
   # Nix daemon access control
   # Limit nix commands to wheel group (sudoers) only
   # Prevents unprivileged users from installing packages or using nix-shell
   nix.settings.allowed-users = vars.nixAllowedUsers;
+
+  # Hardening the user session manager (user@.service)
+  # This service manages the user's systemd instance and all session processes.
+  # We apply a balanced security profile that doesn't break desktop applications.
+  systemd.services."user@".serviceConfig = {
+    # Kernel & Hardware Protection
+    ProtectClock = true;           # Prevent user from changing system clock
+    ProtectHostname = true;        # Prevent user from changing hostname
+  };
 }
