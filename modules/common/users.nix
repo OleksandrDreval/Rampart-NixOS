@@ -134,6 +134,8 @@ in
     StateDirectory = "AccountsService";  # Allow write access to /var/lib/AccountsService
     ProtectHome = true;                  # Make /home and /root inaccessible
     PrivateTmp = true;                   # Use isolated /tmp directory
+    PrivateDevices = true;               # Make /dev inaccessible
+    ProtectControlGroups = true;         # Make cgroups read-only
 
     # Kernel & Hardware Protection
     ProtectKernelLogs = true;  # Prevent reading kernel logs
