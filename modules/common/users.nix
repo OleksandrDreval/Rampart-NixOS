@@ -99,5 +99,13 @@ in
     ProtectSystem = "full";     # Mount /usr, /boot, and /etc read-only
     ProtectProc = "invisible";  # Hide processes of other users
     PrivateTmp = true;          # Use isolated /tmp for each user session
+
+    # Network & IPC isolation
+    RestrictAddressFamilies = [
+      "AF_UNIX"     # Local IPC (Wayland/X11/DBus)
+      "AF_NETLINK"  # Network status updates
+      "AF_INET"     # IPv4 access
+      "AF_INET6"    # IPv6 access
+    ];
   };
 }
