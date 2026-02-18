@@ -144,6 +144,7 @@ in
     ProtectProc = "invisible"; # Hide processes of other users
 
     # Memory & System Call Filtering
+    MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
     SystemCallArchitectures = "native";  # Allow only native syscalls
     SystemCallFilter = [
       "~@swap"           # Block swap management
