@@ -12,7 +12,7 @@
     ./iwd.nix
     ./NetworkManager.nix
     ./NetworkManager-dispatcher.nix
-    ./services_systemd-udevd.nix
+    ./systemd-udevd.nix
     ./sshd.nix
     ./user-session.nix
   ];
