@@ -11,5 +11,8 @@
     while ensuring state persistence using a dedicated StateDirectory.
   */
 
-  systemd.services.systemd-rfkill.serviceConfig = { };
+  systemd.services.systemd-rfkill.serviceConfig = {
+    # Privilege & Capability Restrictions
+    NoNewPrivileges = true;   # Disallow gaining new privileges via setuid/setgid
+  };
 }
