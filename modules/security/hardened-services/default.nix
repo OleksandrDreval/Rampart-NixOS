@@ -12,6 +12,7 @@
     ./iwd.nix
     ./NetworkManager.nix
     ./NetworkManager-dispatcher.nix
+    ./systemd-rfkill.nix
     ./systemd-udevd.nix
     ./sshd.nix
     ./user-session.nix
