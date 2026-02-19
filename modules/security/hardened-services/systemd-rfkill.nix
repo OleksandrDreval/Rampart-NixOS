@@ -27,5 +27,12 @@
     ProtectHome = true;      # Make /home and /root completely inaccessible
     StateDirectory = "systemd/rfkill";  # Allow persistent storage in /var/lib/systemd/rfkill
     PrivateTmp = true;       # Use a private and isolated /tmp directory
+
+    # Kernel & Hardware Protection
+    ProtectKernelLogs = true;     # Prevent reading kernel messages from dmesg
+    ProtectControlGroups = true;  # Mount cgroups hierarchy as read-only
+    ProtectClock = true;          # Prevent modification of system clock or RTC
+    ProtectHostname = true;       # Prevent changing system hostname
+    LockPersonality = true;       # Prevent execution domain changes (personalities)
   };
 }
