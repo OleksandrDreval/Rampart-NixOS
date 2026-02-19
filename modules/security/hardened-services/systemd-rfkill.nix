@@ -25,5 +25,7 @@
     # Filesystem Isolation
     ProtectSystem = "full";  # Protect core system directories (/usr, /boot, /etc)
     ProtectHome = true;      # Make /home and /root completely inaccessible
+    StateDirectory = "systemd/rfkill";  # Allow persistent storage in /var/lib/systemd/rfkill
+    PrivateTmp = true;       # Use a private and isolated /tmp directory
   };
 }
