@@ -40,5 +40,7 @@
     PrivateUsers = true;        # Map service UID/GID to a private user namespace
     ProtectProc = "invisible";  # Hide processes of other users in /proc
     RestrictNamespaces = true;  # Prohibit creation of any new namespaces
+    # Limit allowed network address families (local IPC only)
+    RestrictAddressFamilies = [ "AF_UNIX" ];
   };
 }
