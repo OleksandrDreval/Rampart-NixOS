@@ -16,5 +16,10 @@
     NoNewPrivileges = true;   # Disallow gaining new privileges via setuid/setgid
     RestrictSUIDSGID = true;  # Disable SUID/SGID bits within the service
     RestrictRealtime = true;  # Prevent abuse of real-time scheduling
+    # Restrict root capabilities to the bare minimum
+    CapabilityBoundingSet = [
+      "~CAP_SYS_PTRACE"
+      "~CAP_SYS_PACCT"
+    ];
   };
 }
