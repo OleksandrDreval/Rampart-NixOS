@@ -21,5 +21,9 @@
       "~CAP_SYS_PTRACE"
       "~CAP_SYS_PACCT"
     ];
+
+    # Filesystem Isolation
+    ProtectSystem = "full";  # Protect core system directories (/usr, /boot, /etc)
+    ProtectHome = true;      # Make /home and /root completely inaccessible
   };
 }
