@@ -34,5 +34,11 @@
     ProtectClock = true;          # Prevent modification of system clock or RTC
     ProtectHostname = true;       # Prevent changing system hostname
     LockPersonality = true;       # Prevent execution domain changes (personalities)
+
+    # Network & Process Isolation
+    PrivateNetwork = true;      # Completely isolate the service from the network
+    PrivateUsers = true;        # Map service UID/GID to a private user namespace
+    ProtectProc = "invisible";  # Hide processes of other users in /proc
+    RestrictNamespaces = true;  # Prohibit creation of any new namespaces
   };
 }
