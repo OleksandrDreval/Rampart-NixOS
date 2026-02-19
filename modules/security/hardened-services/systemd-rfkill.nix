@@ -14,5 +14,7 @@
   systemd.services.systemd-rfkill.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges via setuid/setgid
+    RestrictSUIDSGID = true;  # Disable SUID/SGID bits within the service
+    RestrictRealtime = true;  # Prevent abuse of real-time scheduling
   };
 }
