@@ -23,10 +23,10 @@
     ];
 
     # Filesystem Isolation
-    ProtectSystem = "full";  # Protect core system directories (/usr, /boot, /etc)
-    ProtectHome = true;      # Make /home and /root completely inaccessible
+    ProtectSystem = "strict";  # Mount the entire filesystem read-only
+    ProtectHome = true;        # Make /home and /root completely inaccessible
     StateDirectory = "systemd/rfkill";  # Allow persistent storage in /var/lib/systemd/rfkill
-    PrivateTmp = true;       # Use a private and isolated /tmp directory
+    PrivateTmp = true;         # Use a private and isolated /tmp directory
 
     # Kernel & Hardware Protection
     ProtectKernelLogs = true;     # Prevent reading kernel messages from dmesg
