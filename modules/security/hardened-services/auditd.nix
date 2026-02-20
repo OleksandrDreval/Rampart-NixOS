@@ -11,5 +11,10 @@
     audit trails while remaining protected from subversion.
   */
 
-  systemd.services.auditd.serviceConfig = { };
+  systemd.services.auditd.serviceConfig = {
+    # Privilege & Capability Restrictions
+    NoNewPrivileges = true;   # Disallow gaining new privileges
+    RestrictSUIDSGID = true;  # Disable SUID/SGID bits
+    RestrictRealtime = true;  # Prevent abuse of real-time scheduling
+  };
 }
