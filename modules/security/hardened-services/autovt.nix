@@ -42,5 +42,6 @@
 
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
+    SystemCallErrorNumber = "EPERM";     # Return EPERM for blocked calls
   };
 }
