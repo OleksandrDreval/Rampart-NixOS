@@ -51,5 +51,8 @@
       "~@swap"           # Block swap management
       "~@cpu-emulation"  # Block non-native CPU emulation
     ];
+
+    # Other Security Settings
+    DevicePolicy = "closed";  # Allow access only to /dev/null, /dev/zero, etc.
   };
 }
