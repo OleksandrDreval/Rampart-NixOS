@@ -49,5 +49,17 @@
       "~AF_INET"
       "~AF_PACKET"
     ];
+
+    # Memory & System Call Filtering
+    MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
+    SystemCallArchitectures = "native";  # Use only native system calls
+    SystemCallFilter = [
+      "~@clock"          # Block clock configuration
+      "~@module"         # Block kernel module operations
+      "~@mount"          # Block filesystem mounting
+      "~@swap"           # Block swap management
+      "~@obsolete"       # Block deprecated system calls
+      "~@cpu-emulation"  # Block non-native CPU emulation
+    ];
   };
 }
