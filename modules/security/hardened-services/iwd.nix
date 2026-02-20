@@ -18,10 +18,11 @@
     RestrictRealtime = true;  # Disable realtime scheduling
 
     # Filesystem Isolation
-    ProtectSystem = "full";  # Mount /usr, /boot, and /etc read-only
-    ProtectHome = true;      # Home directory isolation
-    PrivateTmp = true;       # Isolated /tmp directory
-    PrivateMounts = true;    # Private mount namespace
+    ProtectSystem = "strict"; # Mount entire filesystem hierarchy read-only
+    StateDirectory = "iwd";   # Writable /var/lib/iwd for network profiles
+    ProtectHome = true;       # Home directory isolation
+    PrivateTmp = true;        # Isolated /tmp directory
+    PrivateMounts = true;     # Private mount namespace
 
     # Kernel & Hardware Protection
     ProtectKernelModules = true;  # Prevents loading/unloading kernel modules
