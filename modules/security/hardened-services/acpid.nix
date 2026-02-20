@@ -16,5 +16,11 @@
     NoNewPrivileges = true;   # Disallow gaining new privileges
     RestrictSUIDSGID = true;  # Disable SUID/SGID bits
     RestrictRealtime = true;  # Prevent abuse of real-time scheduling
+    # Block specific capabilities that are not needed for ACPI events
+    CapabilityBoundingSet = [
+      "~CAP_CHOWN"
+      "~CAP_FSETID"
+      "~CAP_SETFCAP"
+    ];
   };
 }
