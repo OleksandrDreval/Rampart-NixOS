@@ -27,5 +27,8 @@
     ProtectKernelTunables = true;  # Make kernel variables (/proc/sys) read-only
     ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
     ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
+    ProtectClock = true;           # Prevent modification of system clock
+    ProtectHostname = true;        # Prevent changing system hostname
+    LockPersonality = true;        # Prevent execution domain changes
   };
 }
