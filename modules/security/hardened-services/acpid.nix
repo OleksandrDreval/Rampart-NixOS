@@ -38,5 +38,9 @@
     ProtectControlGroups = true;   # Mount cgroups hierarchy as read-only
     ProtectHostname = true;        # Prevent changing system hostname
     LockPersonality = true;        # Prevent execution domain changes
+
+    # Network Isolation
+    PrivateNetwork = true;      # Completely isolate the service from the network
+    RestrictNamespaces = true;  # Prohibit creation of any new namespaces
   };
 }
