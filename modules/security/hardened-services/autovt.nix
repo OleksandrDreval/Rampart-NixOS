@@ -10,5 +10,8 @@
     privileges or leak system state information.
   */
 
-  systemd.services."autovt@".serviceConfig = { };
+  systemd.services."autovt@".serviceConfig = {
+    # Privilege & Capability Restrictions
+    NoNewPrivileges = true;   # Disallow gaining new privileges
+  };
 }
