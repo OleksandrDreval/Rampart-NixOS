@@ -52,5 +52,8 @@
       "~@clock"          # Block clock configuration
       "~@cpu-emulation"  # Block non-native CPU emulation
     ];
+
+    # Other Security Settings
+    UMask = 0077;  # Ensure console related files stay private
   };
 }
