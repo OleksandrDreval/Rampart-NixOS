@@ -54,5 +54,6 @@
 
     # Other Security Settings
     DevicePolicy = "closed";  # Allow access only to /dev/null, /dev/zero, etc.
+    UMask = 0077;             # Ensure files created are private
   };
 }
