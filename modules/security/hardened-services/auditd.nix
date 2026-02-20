@@ -22,5 +22,14 @@
       "~CAP_FSETID"
       "~CAP_SETFCAP"
     ];
+
+    # Filesystem Isolation
+    ProtectSystem = "strict";     # Mount entire filesystem hierarchy read-only
+    LogsDirectory = "audit";      # Writable /var/log/audit for audit trails
+    ProtectHome = true;           # Make /home and /root completely inaccessible
+    PrivateTmp = true;            # Use a private and isolated /tmp directory
+    PrivateMounts = true;         # Use a private file system namespace
+    PrivateDevices = true;        # Make /dev inaccessible (except standard ones)
+    ProtectControlGroups = true;  # Mount cgroups hierarchy as read-only
   };
 }
