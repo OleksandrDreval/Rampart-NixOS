@@ -22,5 +22,10 @@
     PrivateTmp = true;            # Use a private and isolated /tmp directory
     PrivateMounts = true;         # Use a private file system namespace
     ProtectControlGroups = true;  # Mount cgroups hierarchy as read-only
+
+    # Kernel & Hardware Protection
+    ProtectKernelTunables = true;  # Make kernel variables (/proc/sys) read-only
+    ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
+    ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
   };
 }
