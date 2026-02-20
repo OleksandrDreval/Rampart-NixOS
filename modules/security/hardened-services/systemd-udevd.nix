@@ -22,9 +22,10 @@
     ProtectHome = true;         # Make /home and /root completely inaccessible
 
     # Kernel & Hardware Protection
-    ProtectKernelLogs = true;     # Prevent reading kernel messages from dmesg
-    ProtectControlGroups = true;  # Mount cgroups hierarchy as read-only
-    ProtectClock = true;          # Prevent modification of system clock or RTC
+    ProtectKernelLogs = true;  # Prevent reading kernel messages from dmesg
+    ProtectClock = true;       # Prevent modification of system clock or RTC
+    # NOTE: ProtectControlGroups intentionally omitted — upstream udevd uses
+    # Delegate=pids + DelegateSubgroup=udev for worker cgroup management
 
     # Process & Identity Isolation
     ProtectProc = "invisible";   # Hidden processes of other users in /proc
