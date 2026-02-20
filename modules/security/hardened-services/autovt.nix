@@ -44,5 +44,13 @@
     MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
     SystemCallArchitectures = "native";  # Use only native system calls
     SystemCallErrorNumber = "EPERM";     # Return EPERM for blocked calls
+    SystemCallFilter = [
+      "~@obsolete"       # Block deprecated system calls
+      "~@debug"          # Block debugging system calls
+      "~@reboot"         # Block system reboot
+      "~@swap"           # Block swap management
+      "~@clock"          # Block clock configuration
+      "~@cpu-emulation"  # Block non-native CPU emulation
+    ];
   };
 }
