@@ -29,5 +29,14 @@
     ProtectProc = "invisible";  # Hidden processes of other users in /proc
     PrivateTmp = true;          # Use a private and isolated /tmp directory
     PrivateMounts = true;       # Use a private file system namespace
+
+    # Kernel & Hardware Protection
+    # acpid needs to interact with /proc/acpi and /sys, so we are careful
+    ProtectKernelTunables = true;  # Make kernel variables (/proc/sys) read-only
+    ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
+    ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
+    ProtectControlGroups = true;   # Mount cgroups hierarchy as read-only
+    ProtectHostname = true;        # Prevent changing system hostname
+    LockPersonality = true;        # Prevent execution domain changes
   };
 }
