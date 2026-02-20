@@ -39,5 +39,8 @@
       "AF_UNIX"
       "AF_NETLINK"
     ];
+
+    # Memory & System Call Filtering
+    MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
   };
 }
