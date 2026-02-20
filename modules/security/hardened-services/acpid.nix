@@ -11,5 +11,10 @@
     exposing a large attack surface.
   */
 
-  systemd.services.acpid.serviceConfig = { };
+  systemd.services.acpid.serviceConfig = {
+    # Privilege & Capability Restrictions
+    NoNewPrivileges = true;   # Disallow gaining new privileges
+    RestrictSUIDSGID = true;  # Disable SUID/SGID bits
+    RestrictRealtime = true;  # Prevent abuse of real-time scheduling
+  };
 }
