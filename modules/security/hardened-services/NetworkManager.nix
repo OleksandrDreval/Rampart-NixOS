@@ -17,9 +17,12 @@
     RestrictRealtime = true;  # Disable realtime scheduling
 
     # Filesystem Isolation
-    ProtectSystem = "full";  # Mount /usr, /boot, and /etc read-only
-    ProtectHome = true;      # Home directory isolation
-    PrivateTmp = true;       # Isolated /tmp directory
+    ProtectSystem = "strict";                   # Mount entire filesystem hierarchy read-only
+    StateDirectory = "NetworkManager";          # Writable /var/lib/NetworkManager for persistent state
+    RuntimeDirectory = "NetworkManager";        # Writable /run/NetworkManager for runtime data
+    ConfigurationDirectory = "NetworkManager";  # Writable /etc/NetworkManager for connection profiles
+    ProtectHome = true;                         # Home directory isolation
+    PrivateTmp = true;                          # Isolated /tmp directory
 
     # Kernel & Hardware Protection
     ProtectKernelModules = true;  # Prevents loading/unloading kernel modules
