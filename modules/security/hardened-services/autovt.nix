@@ -34,5 +34,10 @@
     # Network & Process Isolation
     IPAddressDeny = [ "0.0.0.0/0" "::/0" ];  # Zero trust network isolation
     RestrictNamespaces = true;               # Prohibit creation of any new namespaces
+    # Limit allowed network address families (terminal does not need network)
+    RestrictAddressFamilies = [
+      "AF_UNIX"
+      "AF_NETLINK"
+    ];
   };
 }
