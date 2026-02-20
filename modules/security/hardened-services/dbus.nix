@@ -31,5 +31,6 @@
     ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
     ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
     ProtectHostname = true;        # Prevent changing system hostname
+    LockPersonality = true;        # Prevent execution domain changes
   };
 }
