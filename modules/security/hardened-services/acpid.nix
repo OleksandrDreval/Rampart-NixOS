@@ -48,5 +48,8 @@
       "~AF_INET"
       "~AF_PACKET"
     ];
+
+    # Memory & System Call Filtering
+    MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
   };
 }
