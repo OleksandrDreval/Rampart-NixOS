@@ -25,5 +25,11 @@
     PrivateDevices = true;        # Make /dev inaccessible (except standard pseudo-devices)
     PrivateMounts = true;         # Use a private file system namespace
     ProtectControlGroups = true;  # Mount cgroups hierarchy as read-only
+
+    # Kernel & Hardware Protection
+    ProtectKernelTunables = true;  # Make kernel variables (/proc/sys) read-only
+    ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
+    ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
+    ProtectHostname = true;        # Prevent changing system hostname
   };
 }
