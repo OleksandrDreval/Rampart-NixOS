@@ -42,5 +42,11 @@
     # Network Isolation
     PrivateNetwork = true;      # Completely isolate the service from the network
     RestrictNamespaces = true;  # Prohibit creation of any new namespaces
+    # Limit allowed network address families
+    RestrictAddressFamilies = [
+      "~AF_INET6"
+      "~AF_INET"
+      "~AF_PACKET"
+    ];
   };
 }
