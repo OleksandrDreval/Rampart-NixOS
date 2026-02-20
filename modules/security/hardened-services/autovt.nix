@@ -30,5 +30,9 @@
     ProtectClock = true;           # Prevent modification of system clock
     ProtectHostname = true;        # Prevent changing system hostname
     LockPersonality = true;        # Prevent execution domain changes
+
+    # Network & Process Isolation
+    IPAddressDeny = [ "0.0.0.0/0" "::/0" ];  # Zero trust network isolation
+    RestrictNamespaces = true;               # Prohibit creation of any new namespaces
   };
 }
