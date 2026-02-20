@@ -32,5 +32,9 @@
     ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
     ProtectHostname = true;        # Prevent changing system hostname
     LockPersonality = true;        # Prevent execution domain changes
+
+    # Network & Process Isolation
+    IPAddressDeny = [ "0.0.0.0/0" "::/0" ];  # Zero trust network isolation
+    RestrictNamespaces = true;               # Prohibit creation of any new namespaces
   };
 }
