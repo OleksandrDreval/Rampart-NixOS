@@ -17,8 +17,9 @@
     CapabilityBoundingSet = "~CAP_SYS_PTRACE ~CAP_SYS_PACCT";
 
     # Filesystem Isolation
-    ProtectSystem = "full";  # Protect core system directories (/usr, /boot, /etc) while ensuring stability
-    ProtectHome = true;      # Make /home and /root completely inaccessible
+    ProtectSystem = "strict";   # Mount entire filesystem hierarchy read-only
+    RuntimeDirectory = "udev";  # Writable /run/udev for device database and runtime state
+    ProtectHome = true;         # Make /home and /root completely inaccessible
 
     # Kernel & Hardware Protection
     ProtectKernelLogs = true;     # Prevent reading kernel messages from dmesg
