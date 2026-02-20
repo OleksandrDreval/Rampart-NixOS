@@ -38,5 +38,10 @@
     ProtectHostname = true;        # Prevent changing system hostname
     ProtectClock = true;           # Prevent changing system clock
     LockPersonality = true;        # Prevent execution domain changes
+
+    # Network & Process Isolation
+    PrivateNetwork = true;      # Completely isolate the service from the network
+    ProtectProc = "invisible";  # Hidden processes of other users in /proc
+    RestrictNamespaces = true;  # Prohibit creation of any new namespaces
   };
 }
