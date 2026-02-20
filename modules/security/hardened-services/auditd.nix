@@ -43,5 +43,11 @@
     PrivateNetwork = true;      # Completely isolate the service from the network
     ProtectProc = "invisible";  # Hidden processes of other users in /proc
     RestrictNamespaces = true;  # Prohibit creation of any new namespaces
+    # Disable network address families
+    RestrictAddressFamilies = [
+      "~AF_INET6"
+      "~AF_INET"
+      "~AF_PACKET"
+    ];
   };
 }
