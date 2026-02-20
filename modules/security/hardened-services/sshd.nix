@@ -15,8 +15,9 @@
     NoNewPrivileges = false;  # Allow sudo/doas/run0
 
     # System resource isolation
-    ProtectSystem = "full";   # Make /usr, /boot, /etc read-only
-    ProtectHome = false;      # Allow users to write to Home (otherwise SSH is useless)
+    ProtectSystem = "strict";   # Mount entire filesystem hierarchy read-only
+    RuntimeDirectory = "sshd";  # Writable /run/sshd for privilege separation
+    ProtectHome = false;        # Allow users to write to Home (otherwise SSH is useless)
 
     # Deny access to deep kernel structures
     ProtectClock = true;           # Prevent changing system clock
