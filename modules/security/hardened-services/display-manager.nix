@@ -21,7 +21,7 @@
 
     # Network Isolation (Zero Trust)
     # Display managers should never need network access.
-    IPAddressDeny = [ "0.0.0.0/0" "::/0" ];
+    IPAddressDeny = [ "0.0.0.0/0" "::/0" ];  # Block all external network traffic
     RestrictAddressFamilies = [
       "AF_UNIX"     # Local IPC (Wayland/X11/DBus)
       "AF_NETLINK"  # Network status monitoring
@@ -72,6 +72,6 @@
     ];
 
     # Restrict namespacing (only allow necessary ones)
-    RestrictNamespaces = [ "~cgroup" ];
+    RestrictNamespaces = [ "~cgroup" ];  # Block cgroup namespace creation
   };
 }
