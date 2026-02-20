@@ -16,5 +16,14 @@
     NoNewPrivileges = true;   # Disallow gaining new privileges via setuid/setgid
     RestrictSUIDSGID = true;  # Disable SUID/SGID bits within the service
     RestrictRealtime = true;  # Prevent abuse of real-time scheduling
+
+    # Filesystem Isolation
+    # Using "strict" combined with systemd internal handling for dbus sockets
+    ProtectSystem = "strict";     # Mount the entire filesystem read-only
+    ProtectHome = true;           # Make /home and /root completely inaccessible
+    PrivateTmp = true;            # Use a private and isolated /tmp directory
+    PrivateDevices = true;        # Make /dev inaccessible (except standard pseudo-devices)
+    PrivateMounts = true;         # Use a private file system namespace
+    ProtectControlGroups = true;  # Mount cgroups hierarchy as read-only
   };
 }
