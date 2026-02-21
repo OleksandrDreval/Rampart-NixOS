@@ -34,6 +34,7 @@
     ProtectClock = true;           # Prevent changing system clock
 
     # Memory & System Call Filtering
+    MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
     SystemCallFilter = [
       "~@debug"          # Block debugging system calls
       "~@raw-io"         # Block raw I/O access
