@@ -19,5 +19,10 @@
     AmbientCapabilities = "CAP_NET_BIND_SERVICE";
     RestrictSUIDSGID = true;  # Disable SUID/SGID bits
     RestrictRealtime = true;  # Prevent abuse of real-time scheduling
+
+    # Filesystem & Process Isolation
+    ProtectSystem = "strict";   # Mount entire filesystem hierarchy read-only
+    ProtectHome = true;         # Make /home and /root completely inaccessible
+    ProtectProc = "invisible";  # Hidden processes of other users in /proc
   };
 }
