@@ -20,6 +20,8 @@
     ProtectSystem = "strict";             # Mount entire filesystem hierarchy read-only
     ProtectHome = true;                   # Make /home and /root completely inaccessible
     ProtectProc = "invisible";  # Hidden processes of other users in /proc
+    PrivateTmp = true;          # Use a private and isolated /tmp directory
+    PrivateMounts = true;       # Use a private file system namespace
 
     # Kernel & Hardware Protection
     ProtectKernelModules = true;  # Prevent loading/unloading kernel modules
