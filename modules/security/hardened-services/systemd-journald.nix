@@ -14,5 +14,8 @@
   systemd.services.systemd-journald.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;  # Disallow gaining new privileges
+
+    # Process & Identity Isolation
+    PrivateMounts = true;       # Use a private file system namespace
   };
 }
