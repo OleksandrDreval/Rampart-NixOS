@@ -16,6 +16,8 @@
     NoNewPrivileges = true;  # Disallow gaining new privileges
 
     # Process & Identity Isolation
+    ProtectProc = "invisible";  # Hidden processes of other users in /proc
+    ProtectHostname = true;     # Prevent changing system hostname
     PrivateMounts = true;       # Use a private file system namespace
   };
 }
