@@ -30,6 +30,7 @@
     ProtectKernelTunables = true;  # Make kernel variables (/proc/sys) read-only
     ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
     ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
+    LockPersonality = true;        # Prevent execution domain changes
 
     ProtectProc = "invisible";  # Hidden processes of other users in /proc
     RestrictNamespaces = true;  # Prohibit creation of any new namespaces
