@@ -14,5 +14,15 @@
   systemd.services.bluetooth.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;  # Disallow gaining new privileges
+
+    # Memory & System Call Filtering
+    SystemCallArchitectures = "native";  # Use only native system calls
+    SystemCallFilter = [
+      "~@obsolete"       # Block deprecated system calls
+      "~@cpu-emulation"  # Block non-native CPU emulation
+      "~@swap"           # Block swap management
+      "~@reboot"         # Block system reboot
+      "~@mount"          # Block filesystem mounting
+    ];
   };
 }
