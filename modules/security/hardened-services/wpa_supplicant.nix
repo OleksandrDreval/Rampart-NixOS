@@ -15,5 +15,8 @@
   systemd.services.wpa_supplicant.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
+
+    # Memory & System Call Filtering
+    SystemCallArchitectures = "native";  # Use only native system calls
   };
 }
