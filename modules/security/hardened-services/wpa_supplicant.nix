@@ -16,6 +16,11 @@
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
 
+    # Filesystem & Process Isolation
+    ProtectSystem = "strict";             # Mount entire filesystem hierarchy read-only
+    ProtectHome = true;                   # Make /home and /root completely inaccessible
+    ProtectProc = "invisible";  # Hidden processes of other users in /proc
+
     # Kernel & Hardware Protection
     ProtectKernelModules = true;  # Prevent loading/unloading kernel modules
     ProtectKernelLogs = true;     # Prevent reading kernel logs (dmesg)
