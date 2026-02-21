@@ -19,6 +19,7 @@
     ProtectKernelTunables = true;  # Make kernel variables (/proc/sys) read-only
     ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
     ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
+    ProtectClock = true;           # Prevent changing system clock
 
     # Memory & System Call Filtering
     SystemCallArchitectures = "native";  # Use only native system calls
