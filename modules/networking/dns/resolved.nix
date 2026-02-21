@@ -66,10 +66,8 @@
   environment.systemPackages = lib.mkDefault (with pkgs; [ dnscrypt-proxy ] ++ (config.environment.systemPackages or []));
 
   # Run dnscrypt-proxy as a systemd service dedicated for forwarding to
-  # systemd-resolved. We configure conservative hardening options on the
-  # unit (NoNewPrivileges, PrivateTmp, ProtectSystem, etc.). If you need
-  # to change these, override the unit in `systemd.services` at a higher
-  # priority.
+  # systemd-resolved. Hardening is applied centrally via
+  # modules/security/hardened-services/dnscrypt-proxy-resolved.nix.
   systemd.services.dnscrypt-proxy-resolved = {
     description = "dnscrypt-proxy for systemd-resolved (DoH/DoT/DNSCrypt forwarder)";
     wantedBy = [ "network-online.target" "multi-user.target" ];
@@ -77,22 +75,13 @@
       ExecStart = "${pkgs.dnscrypt-proxy}/bin/dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy-resolved.toml";
       Restart = "on-failure";
       RestartSec = 5;
-      NoNewPrivileges = "true";
-      ProtectSystem = "full";
-      ProtectHome = "read-only";
-      PrivateTmp = "true";
-      PrivateDevices = "true";
-      ProtectControlGroups = "true";
-      ProtectKernelTunables = "true";
-      ProtectKernelModules = "true";
-      CapabilityBoundingSet = "CAP_NET_BIND_SERVICE";
     };
   };
 
   # Provide external TOML to avoid escaping/formatting issues inside Nix
   # modules. The file is kept in `includes/dnscrypt-configs`.
   environment.etc."dnscrypt-proxy/dnscrypt-proxy-resolved.toml".source = ./includes/dnscrypt-configs/dnscrypt-proxy-resolved.toml;
-  
+
   # Let systemd-resolved integrate with NetworkManager. This makes
   # NetworkManager push per-connection DNS settings to resolved rather
   # than writing /etc/resolv.conf directly.
