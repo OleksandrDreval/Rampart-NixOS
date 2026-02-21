@@ -13,5 +13,8 @@
   systemd.services.nscd.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
+
+    # Memory & System Call Filtering
+    MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
   };
 }
