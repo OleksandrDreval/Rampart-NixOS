@@ -26,6 +26,7 @@
     # Process & File System Isolation
     ProtectProc = "invisible";     # Hidden processes of other users in /proc
     ProtectSystem = "strict";      # Mount entire filesystem hierarchy read-only
+    PrivateTmp = true;             # Use a private and isolated /tmp directory
 
     # Memory & System Call Filtering
     SystemCallArchitectures = "native";  # Use only native system calls
