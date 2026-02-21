@@ -14,6 +14,8 @@
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
 
+    PrivateTmp = true;          # Use a private and isolated /tmp directory
+
     LockPersonality = true;        # Prevent execution domain changes
 
     # Memory & System Call Filtering
