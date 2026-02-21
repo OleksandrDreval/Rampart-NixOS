@@ -25,6 +25,9 @@
     StateDirectory = "blocky";  # Writable /var/lib/blocky for persistent data
     ProtectHome = true;         # Make /home and /root completely inaccessible
     ProtectProc = "invisible";  # Hidden processes of other users in /proc
+    PrivateTmp = true;          # Use a private and isolated /tmp directory
+    PrivateMounts = true;       # Use a private file system namespace
+    PrivateDevices = true;      # Deny access to hardware devices
     UMask = "0077";             # Strict file creation permissions
   };
 }
