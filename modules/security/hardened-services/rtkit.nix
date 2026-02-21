@@ -14,6 +14,7 @@
   systemd.services.rtkit-daemon.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
+    RestrictSUIDSGID = true;  # Disable SUID/SGID bits within the service
 
     # Filesystem Isolation
     ProtectSystem = "strict";  # Mount the entire filesystem read-only
