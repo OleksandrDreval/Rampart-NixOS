@@ -19,5 +19,8 @@
     # Filesystem Isolation
     ProtectSystem = "strict";  # Mount the entire filesystem read-only
     ProtectHome = true;        # Make /home and /root completely inaccessible
+    PrivateTmp = true;         # Use a private and isolated /tmp directory
+    PrivateMounts = true;      # Use a private file system namespace
+    PrivateDevices = true;     # Make /dev inaccessible (except standard ones)
   };
 }
