@@ -14,6 +14,11 @@
   systemd.services.docker.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
+    CapabilityBoundingSet = [
+      "~CAP_SYS_RAWIO"   # Prevent raw I/O access
+      "~CAP_SYS_PTRACE"  # Prevent process tracing
+      "~CAP_SYS_BOOT"    # Prevent system reboot
+    ];
 
     # Kernel & Hardware Protection
     ProtectKernelTunables = true;  # Make kernel variables (/proc/sys) read-only
