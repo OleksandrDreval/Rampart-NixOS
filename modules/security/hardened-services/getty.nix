@@ -34,6 +34,11 @@
     # Network & Process Isolation
     IPAddressDeny = [ "0.0.0.0/0" "::/0" ];  # Zero trust network isolation
     RestrictNamespaces = true;               # Prohibit creation of any new namespaces
+    # Limit allowed network address families
+    RestrictAddressFamilies = [
+      "AF_UNIX"
+      "AF_NETLINK"
+    ];
 
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
