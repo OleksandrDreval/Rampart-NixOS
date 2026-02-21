@@ -34,5 +34,6 @@
 
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;  # Prevent W^X memory regions
+    DevicePolicy = "closed";        # Allow access only to /dev/null, /dev/zero, etc.
   };
 }
