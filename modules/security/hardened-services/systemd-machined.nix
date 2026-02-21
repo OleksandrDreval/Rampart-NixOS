@@ -22,6 +22,7 @@
     ProtectHome = true;           # Make /home and /root completely inaccessible
     PrivateTmp = true;            # Use a private and isolated /tmp directory
     PrivateMounts = true;         # Use a private file system namespace
+    ProtectControlGroups = true;  # Mount cgroups hierarchy as read-only
 
     ProtectProc = "invisible";  # Hidden processes of other users in /proc
     RestrictNamespaces = true;  # Prohibit creation of any new namespaces
