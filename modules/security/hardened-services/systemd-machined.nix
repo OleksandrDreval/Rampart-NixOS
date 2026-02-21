@@ -17,5 +17,8 @@
 
     ProtectProc = "invisible";  # Hidden processes of other users in /proc
     RestrictNamespaces = true;  # Prohibit creation of any new namespaces
+
+    # Memory & System Call Filtering
+    MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
   };
 }
