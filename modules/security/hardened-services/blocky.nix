@@ -17,5 +17,7 @@
     # Allow only port binding; no root-level system access
     CapabilityBoundingSet = "CAP_NET_BIND_SERVICE";
     AmbientCapabilities = "CAP_NET_BIND_SERVICE";
+    RestrictSUIDSGID = true;  # Disable SUID/SGID bits
+    RestrictRealtime = true;  # Prevent abuse of real-time scheduling
   };
 }
