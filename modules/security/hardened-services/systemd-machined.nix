@@ -24,6 +24,11 @@
     PrivateMounts = true;         # Use a private file system namespace
     ProtectControlGroups = true;  # Mount cgroups hierarchy as read-only
 
+    # Kernel & Hardware Protection
+    ProtectKernelTunables = true;  # Make kernel variables (/proc/sys) read-only
+    ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
+    ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
+
     ProtectProc = "invisible";  # Hidden processes of other users in /proc
     RestrictNamespaces = true;  # Prohibit creation of any new namespaces
 
