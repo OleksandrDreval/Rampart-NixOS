@@ -18,6 +18,7 @@
 
     # Filesystem & Process Isolation
     ProtectSystem = "strict";             # Mount entire filesystem hierarchy read-only
+    RuntimeDirectory = "wpa_supplicant";  # Writable /run/wpa_supplicant for control socket
     ProtectHome = true;                   # Make /home and /root completely inaccessible
     ProtectProc = "invisible";  # Hidden processes of other users in /proc
     PrivateTmp = true;          # Use a private and isolated /tmp directory
