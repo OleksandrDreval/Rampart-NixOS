@@ -33,6 +33,8 @@
     LockPersonality = true;        # Prevent execution domain changes
 
     # Network & Process Isolation
+    # rtkit does not need network access at all
+    RestrictNamespaces = true;  # Prohibit creation of any new namespaces
     RestrictAddressFamilies = [
       "~AF_INET6"   # Disable IPv6
       "~AF_INET"    # Disable IPv4
