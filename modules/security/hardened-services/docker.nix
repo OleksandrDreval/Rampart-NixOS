@@ -14,6 +14,8 @@
   systemd.services.docker.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
+    RestrictRealtime = true;  # Prevent abuse of real-time scheduling
+    # Block specific capabilities that are highly dangerous or unused by the daemon
     CapabilityBoundingSet = [
       "~CAP_SYS_RAWIO"   # Prevent raw I/O access
       "~CAP_SYS_PTRACE"  # Prevent process tracing
