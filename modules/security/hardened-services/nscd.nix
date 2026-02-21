@@ -14,6 +14,12 @@
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
     RestrictRealtime = true;  # Prevent abuse of real-time scheduling
+    # Block specific capabilities that are not needed for name caching
+    CapabilityBoundingSet = [
+      "~CAP_CHOWN"
+      "~CAP_FSETID"
+      "~CAP_SETFCAP"
+    ];
 
     # Filesystem & Process Isolation
     ProtectSystem = "strict";   # Mount entire filesystem hierarchy read-only
