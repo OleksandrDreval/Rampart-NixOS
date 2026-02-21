@@ -35,6 +35,15 @@
     ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
     ProtectControlGroups = true;   # Mount cgroups hierarchy as read-only
     ProtectClock = true;           # Prevent changing system clock
+
+    # Network & Process Isolation
+    # Docker needs access to several address families for container networking
+    RestrictAddressFamilies = [
+      "AF_UNIX"     # Local IPC communication
+      "AF_NETLINK"  # Kernel-user communication
+      "AF_INET"     # IPv4 for container networking
+      "AF_INET6"    # IPv6 for container networking
+    ];
     # Docker needs namespaces to create containers
     RestrictNamespaces = [ "~user" ];  # Block user namespaces if possible, allow others
 
