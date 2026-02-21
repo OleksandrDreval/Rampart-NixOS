@@ -17,6 +17,8 @@
     # Filesystem & Process Isolation
     ProtectSystem = "strict";   # Mount entire filesystem hierarchy read-only
     RuntimeDirectory = "nscd";  # Writable /run/nscd for socket and PID file
+    ProtectHome = true;         # Make /home and /root completely inaccessible
+    ProtectProc = "invisible";  # Hidden processes of other users in /proc
     PrivateTmp = true;          # Use a private and isolated /tmp directory
 
     # Kernel & Hardware Protection
