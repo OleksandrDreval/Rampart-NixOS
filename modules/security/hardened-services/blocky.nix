@@ -29,5 +29,14 @@
     PrivateMounts = true;       # Use a private file system namespace
     PrivateDevices = true;      # Deny access to hardware devices
     UMask = "0077";             # Strict file creation permissions
+
+    # Kernel & Hardware Protection
+    ProtectKernelTunables = true;  # Protect /proc/sys, /sys, etc.
+    ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
+    ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
+    ProtectControlGroups = true;   # Mount cgroups hierarchy as read-only
+    ProtectClock = true;           # Prevent changing system clock
+    ProtectHostname = true;        # Prevent changing system hostname
+    LockPersonality = true;        # Prevent execution domain changes
   };
 }
