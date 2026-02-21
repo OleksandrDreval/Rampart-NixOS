@@ -13,5 +13,9 @@
   systemd.services."getty@".serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
+
+    # Network & Process Isolation
+    IPAddressDeny = [ "0.0.0.0/0" "::/0" ];  # Zero trust network isolation
+    RestrictNamespaces = true;               # Prohibit creation of any new namespaces
   };
 }
