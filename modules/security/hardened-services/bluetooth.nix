@@ -23,6 +23,10 @@
     ProtectControlGroups = true;   # Mount cgroups hierarchy as read-only
     ProtectClock = true;           # Prevent changing system clock
 
+    # Process & File System Isolation
+    ProtectProc = "invisible";     # Hidden processes of other users in /proc
+    ProtectSystem = "strict";      # Mount entire filesystem hierarchy read-only
+
     # Memory & System Call Filtering
     SystemCallArchitectures = "native";  # Use only native system calls
     SystemCallFilter = [
