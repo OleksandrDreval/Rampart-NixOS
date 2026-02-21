@@ -32,6 +32,13 @@
     ProtectControlGroups = true;   # Mount cgroups hierarchy as read-only
     LockPersonality = true;        # Prevent execution domain changes
 
+    # Network & Process Isolation
+    RestrictAddressFamilies = [
+      "~AF_INET6"   # Disable IPv6
+      "~AF_INET"    # Disable IPv4
+      "~AF_PACKET"  # Disable raw packet access
+    ];
+
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;  # Prevent W^X memory regions
     DevicePolicy = "closed";        # Allow access only to /dev/null, /dev/zero, etc.
