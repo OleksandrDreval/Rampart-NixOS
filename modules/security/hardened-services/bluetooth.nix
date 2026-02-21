@@ -26,6 +26,7 @@
     # Process & File System Isolation
     ProtectProc = "invisible";     # Hidden processes of other users in /proc
     ProtectSystem = "strict";      # Mount entire filesystem hierarchy read-only
+    StateDirectory = "bluetooth";  # Writable /var/lib/bluetooth for device pairings
     ProtectHome = true;            # Make /home and /root completely inaccessible
     PrivateTmp = true;             # Use a private and isolated /tmp directory
 
