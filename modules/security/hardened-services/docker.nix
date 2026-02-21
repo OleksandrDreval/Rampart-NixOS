@@ -14,5 +14,12 @@
   systemd.services.docker.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
+
+    # Kernel & Hardware Protection
+    ProtectKernelTunables = true;  # Make kernel variables (/proc/sys) read-only
+    ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
+    ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
+    ProtectControlGroups = true;   # Mount cgroups hierarchy as read-only
+    ProtectClock = true;           # Prevent changing system clock
   };
 }
