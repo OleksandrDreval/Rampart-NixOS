@@ -14,5 +14,8 @@
   systemd.services.systemd-machined.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
+
+    ProtectProc = "invisible";  # Hidden processes of other users in /proc
+    RestrictNamespaces = true;  # Prohibit creation of any new namespaces
   };
 }
