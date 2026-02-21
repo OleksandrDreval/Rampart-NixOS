@@ -43,5 +43,9 @@
     # Blocky needs network access to serve DNS queries
     RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" ];
     RestrictNamespaces = true;  # Prohibit creation of any new namespaces
+
+    # Memory & System Call Filtering
+    MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
+    SystemCallArchitectures = "native";  # Use only native system calls
   };
 }
