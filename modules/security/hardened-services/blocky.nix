@@ -39,8 +39,9 @@
     ProtectHostname = true;        # Prevent changing system hostname
     LockPersonality = true;        # Prevent execution domain changes
 
-    # Network
+    # Network & Process Isolation
     # Blocky needs network access to serve DNS queries
     RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" ];
+    RestrictNamespaces = true;  # Prohibit creation of any new namespaces
   };
 }
