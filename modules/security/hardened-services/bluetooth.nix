@@ -20,6 +20,7 @@
     ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
     ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
     ProtectHostname = true;        # Prevent changing system hostname
+    ProtectControlGroups = true;   # Mount cgroups hierarchy as read-only
     ProtectClock = true;           # Prevent changing system clock
 
     # Memory & System Call Filtering
