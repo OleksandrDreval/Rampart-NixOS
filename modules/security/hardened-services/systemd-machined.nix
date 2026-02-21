@@ -17,6 +17,10 @@
     RestrictSUIDSGID = true;  # Disable SUID/SGID bits
     RestrictRealtime = true;  # Prevent abuse of real-time scheduling
 
+    # Filesystem Isolation
+    PrivateTmp = true;            # Use a private and isolated /tmp directory
+    PrivateMounts = true;         # Use a private file system namespace
+
     ProtectProc = "invisible";  # Hidden processes of other users in /proc
     RestrictNamespaces = true;  # Prohibit creation of any new namespaces
 
