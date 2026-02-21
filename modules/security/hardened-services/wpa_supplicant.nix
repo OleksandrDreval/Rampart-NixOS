@@ -16,6 +16,15 @@
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
 
+    # Network & Process Isolation
+    RestrictAddressFamilies = [
+      "AF_UNIX"     # Local IPC communication
+      "AF_NETLINK"  # Kernel-user communication
+      "AF_INET"     # IPv4 network access
+      "AF_INET6"    # IPv6 network access
+      "AF_PACKET"   # Direct network access for wireless
+    ];
+
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
     SystemCallArchitectures = "native";  # Use only native system calls
