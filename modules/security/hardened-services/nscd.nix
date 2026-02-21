@@ -14,6 +14,8 @@
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
 
+    # Filesystem & Process Isolation
+    RuntimeDirectory = "nscd";  # Writable /run/nscd for socket and PID file
     PrivateTmp = true;          # Use a private and isolated /tmp directory
 
     LockPersonality = true;        # Prevent execution domain changes
