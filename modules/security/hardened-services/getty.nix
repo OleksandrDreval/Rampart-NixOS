@@ -16,6 +16,10 @@
     RestrictSUIDSGID = true;  # Disable SUID/SGID bits
     RestrictRealtime = true;  # Prevent abuse of real-time scheduling
 
+    # Filesystem Isolation
+    PrivateTmp = true;            # Use a private and isolated /tmp directory
+    PrivateMounts = true;         # Use a private file system namespace
+
     # Kernel & Hardware Protection
     ProtectKernelTunables = true;  # Make kernel variables (/proc/sys) read-only
     ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
