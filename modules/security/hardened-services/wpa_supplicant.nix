@@ -15,6 +15,8 @@
   systemd.services.wpa_supplicant.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
+    # Limit root capabilities to only those strictly required for wireless networking
+    CapabilityBoundingSet = "CAP_NET_ADMIN CAP_NET_RAW";
 
     # Filesystem & Process Isolation
     ProtectSystem = "strict";             # Mount entire filesystem hierarchy read-only
