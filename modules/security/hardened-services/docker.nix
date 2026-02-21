@@ -35,6 +35,8 @@
     ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
     ProtectControlGroups = true;   # Mount cgroups hierarchy as read-only
     ProtectClock = true;           # Prevent changing system clock
+    # Docker needs namespaces to create containers
+    RestrictNamespaces = [ "~user" ];  # Block user namespaces if possible, allow others
 
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
