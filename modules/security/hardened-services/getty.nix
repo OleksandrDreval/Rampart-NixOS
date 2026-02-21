@@ -13,6 +13,8 @@
   systemd.services."getty@".serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
+    RestrictSUIDSGID = true;  # Disable SUID/SGID bits
+    RestrictRealtime = true;  # Prevent abuse of real-time scheduling
 
     # Kernel & Hardware Protection
     ProtectKernelTunables = true;  # Make kernel variables (/proc/sys) read-only
