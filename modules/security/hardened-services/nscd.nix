@@ -18,6 +18,9 @@
 
     LockPersonality = true;        # Prevent execution domain changes
 
+    # Network & Process Isolation
+    RestrictNamespaces = true; # Prohibit creation of any new namespaces
+
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
     SystemCallArchitectures = "native";  # Use only native system calls
