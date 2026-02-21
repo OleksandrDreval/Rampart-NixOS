@@ -24,5 +24,6 @@
     ProtectSystem = "strict";   # Mount entire filesystem hierarchy read-only
     ProtectHome = true;         # Make /home and /root completely inaccessible
     ProtectProc = "invisible";  # Hidden processes of other users in /proc
+    UMask = "0077";             # Strict file creation permissions
   };
 }
