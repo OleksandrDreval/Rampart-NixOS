@@ -14,5 +14,8 @@
   systemd.services.blocky.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
+    # Allow only port binding; no root-level system access
+    CapabilityBoundingSet = "CAP_NET_BIND_SERVICE";
+    AmbientCapabilities = "CAP_NET_BIND_SERVICE";
   };
 }
