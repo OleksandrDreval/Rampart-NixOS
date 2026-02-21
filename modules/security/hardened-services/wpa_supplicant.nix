@@ -24,6 +24,7 @@
       "AF_INET6"    # IPv6 network access
       "AF_PACKET"   # Direct network access for wireless
     ];
+    RestrictNamespaces = true; # Prohibit creation of any new namespaces
 
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
