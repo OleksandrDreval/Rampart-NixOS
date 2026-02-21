@@ -38,6 +38,7 @@
 
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
+    SystemCallArchitectures = "native";  # Use only native system calls
     SystemCallFilter = [
       "~@debug"          # Block debugging system calls
       "~@raw-io"         # Block raw I/O access
