@@ -14,6 +14,13 @@
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
 
+    # Kernel & Hardware Protection
+    ProtectKernelTunables = true;  # Make kernel variables (/proc/sys) read-only
+    ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
+    ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
+    ProtectClock = true;           # Prevent modification of system clock
+    ProtectHostname = true;        # Prevent changing system hostname
+
     # Network & Process Isolation
     IPAddressDeny = [ "0.0.0.0/0" "::/0" ];  # Zero trust network isolation
     RestrictNamespaces = true;               # Prohibit creation of any new namespaces
