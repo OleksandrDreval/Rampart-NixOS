@@ -27,5 +27,6 @@
       "/run/log/journal"      # Writable volatile journal storage
       "/run/systemd/journal"  # Writable journal communication sockets
     ];
+    ProtectHome = true;  # Make /home and /root completely inaccessible
   };
 }
