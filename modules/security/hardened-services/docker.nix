@@ -23,6 +23,9 @@
     ];
 
     # Filesystem & Process Isolation
+    ProtectSystem = "full";     # Protect /usr, /boot, and /etc from writes
+    ProtectHome = true;         # Make /home and /root completely inaccessible
+    ProtectProc = "invisible";  # Hidden processes not related to containers
     PrivateTmp = true;          # Use a private and isolated /tmp directory
     PrivateMounts = true;       # Use a private file system namespace
 
