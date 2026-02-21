@@ -34,6 +34,8 @@
 
     ProtectProc = "invisible";  # Hidden processes of other users in /proc
     RestrictNamespaces = true;  # Prohibit creation of any new namespaces
+    # Limit allowed network address families (local IPC only)
+    RestrictAddressFamilies = [ "AF_UNIX" ];
 
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
