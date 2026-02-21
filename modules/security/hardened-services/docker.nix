@@ -30,5 +30,17 @@
     ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
     ProtectControlGroups = true;   # Mount cgroups hierarchy as read-only
     ProtectClock = true;           # Prevent changing system clock
+
+    # Memory & System Call Filtering
+    SystemCallFilter = [
+      "~@debug"          # Block debugging system calls
+      "~@raw-io"         # Block raw I/O access
+      "~@reboot"         # Block system reboot
+      "~@clock"          # Block clock configuration
+      "~@module"         # Block kernel module operations
+      "~@swap"           # Block swap management
+      "~@obsolete"       # Block deprecated system calls
+      "~@cpu-emulation"  # Block non-native CPU emulation
+    ];
   };
 }
