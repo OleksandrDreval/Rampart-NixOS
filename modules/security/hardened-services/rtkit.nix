@@ -14,5 +14,9 @@
   systemd.services.rtkit-daemon.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
+
+    # Filesystem Isolation
+    ProtectSystem = "strict";  # Mount the entire filesystem read-only
+    ProtectHome = true;        # Make /home and /root completely inaccessible
   };
 }
