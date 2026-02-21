@@ -44,5 +44,13 @@
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;  # Prevent W^X memory regions
     DevicePolicy = "closed";        # Allow access only to /dev/null, /dev/zero, etc.
+    SystemCallFilter = [
+      "~@keyring"        # Block kernel keyring access
+      "~@swap"           # Block swap management
+      "~@clock"          # Block clock configuration
+      "~@module"         # Block kernel module operations
+      "~@obsolete"       # Block deprecated system calls
+      "~@cpu-emulation"  # Block non-native CPU emulation
+    ];
   };
 }
