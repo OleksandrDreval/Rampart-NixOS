@@ -18,6 +18,13 @@
     RuntimeDirectory = "nscd";  # Writable /run/nscd for socket and PID file
     PrivateTmp = true;          # Use a private and isolated /tmp directory
 
+    # Kernel & Hardware Protection
+    ProtectKernelTunables = true;  # Make kernel variables (/proc/sys) read-only
+    ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
+    ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
+    ProtectControlGroups = true;   # Mount cgroups hierarchy as read-only
+    ProtectClock = true;           # Prevent changing system clock
+    ProtectHostname = true;        # Prevent changing system hostname
     LockPersonality = true;        # Prevent execution domain changes
 
     # Network & Process Isolation
