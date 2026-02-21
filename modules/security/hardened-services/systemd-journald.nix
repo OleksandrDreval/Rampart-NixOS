@@ -22,6 +22,7 @@
 
     # Filesystem & Storage
     ProtectSystem = "strict";   # Mount entire filesystem hierarchy read-only
+    LogsDirectory = "journal";  # Writable /var/log/journal for persistent logs
     ReadWritePaths = [
       "/run/log/journal"      # Writable volatile journal storage
       "/run/systemd/journal"  # Writable journal communication sockets
