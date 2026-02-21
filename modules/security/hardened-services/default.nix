@@ -2,8 +2,10 @@
 
 {
   /*
-    Hardened services
-    Based on: https://github.com/wallago/nix-system-services-hardened
+    Coordinator module for centralized service hardening.
+    Imports specialized security profiles for various system services.
+
+    Mostly based on templates from: https://github.com/wallago/nix-system-services-hardened
   */
 
   imports = [
