@@ -25,6 +25,8 @@
     ProtectControlGroups = true;  # Mount cgroups hierarchy as read-only
 
     # Kernel & Hardware Protection
+    ProtectClock = true;           # Prevent modification of system clock
+    ProtectHostname = true;        # Prevent changing system hostname
     ProtectKernelTunables = true;  # Make kernel variables (/proc/sys) read-only
     ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
     ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
