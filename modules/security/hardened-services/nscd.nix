@@ -13,6 +13,7 @@
   systemd.services.nscd.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
+    RestrictRealtime = true;  # Prevent abuse of real-time scheduling
 
     # Filesystem & Process Isolation
     ProtectSystem = "strict";   # Mount entire filesystem hierarchy read-only
