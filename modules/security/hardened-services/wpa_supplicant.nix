@@ -16,6 +16,14 @@
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
 
+    # Kernel & Hardware Protection
+    ProtectKernelModules = true;  # Prevent loading/unloading kernel modules
+    ProtectKernelLogs = true;     # Prevent reading kernel logs (dmesg)
+    ProtectControlGroups = true;  # Mount cgroups hierarchy as read-only
+    ProtectClock = true;          # Prevent changing system clock
+    ProtectHostname = true;       # Prevent changing system hostname
+    LockPersonality = true;       # Prevent execution domain changes
+
     # Network & Process Isolation
     RestrictAddressFamilies = [
       "AF_UNIX"     # Local IPC communication
