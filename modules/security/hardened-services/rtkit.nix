@@ -22,5 +22,14 @@
     PrivateTmp = true;         # Use a private and isolated /tmp directory
     PrivateMounts = true;      # Use a private file system namespace
     PrivateDevices = true;     # Make /dev inaccessible (except standard ones)
+
+    # Kernel & Hardware Protection
+    ProtectClock = true;           # Prevent modification of system clock
+    ProtectHostname = true;        # Prevent changing system hostname
+    ProtectKernelTunables = true;  # Make kernel variables (/proc/sys) read-only
+    ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
+    ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
+    ProtectControlGroups = true;   # Mount cgroups hierarchy as read-only
+    LockPersonality = true;        # Prevent execution domain changes
   };
 }
