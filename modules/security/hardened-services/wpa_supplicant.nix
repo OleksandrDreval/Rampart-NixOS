@@ -17,6 +17,8 @@
     NoNewPrivileges = true;   # Disallow gaining new privileges
     # Limit root capabilities to only those strictly required for wireless networking
     CapabilityBoundingSet = "CAP_NET_ADMIN CAP_NET_RAW";
+    RestrictSUIDSGID = true;  # Disable SUID/SGID bits
+    RestrictRealtime = true;  # Prevent abuse of real-time scheduling
 
     # Filesystem & Process Isolation
     ProtectSystem = "strict";             # Mount entire filesystem hierarchy read-only
