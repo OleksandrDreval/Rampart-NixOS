@@ -31,5 +31,8 @@
     ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
     ProtectControlGroups = true;   # Mount cgroups hierarchy as read-only
     LockPersonality = true;        # Prevent execution domain changes
+
+    # Memory & System Call Filtering
+    MemoryDenyWriteExecute = true;  # Prevent W^X memory regions
   };
 }
