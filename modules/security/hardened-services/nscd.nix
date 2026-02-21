@@ -26,5 +26,12 @@
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
     SystemCallArchitectures = "native";  # Use only native system calls
+    SystemCallFilter = [
+      "~@mount"          # Block filesystem mounting
+      "~@swap"           # Block swap management
+      "~@clock"          # Block clock configuration
+      "~@obsolete"       # Block deprecated system calls
+      "~@cpu-emulation"  # Block non-native CPU emulation
+    ];
   };
 }
