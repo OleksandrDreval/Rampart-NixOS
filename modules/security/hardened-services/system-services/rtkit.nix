@@ -15,9 +15,10 @@
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
     RestrictSUIDSGID = true;  # Disable SUID/SGID bits within the service
-    # rtkit uses CAP_SYS_NICE to grant realtime priority to audio clients
+    # rtkit needs CAP_SYS_NICE to grant realtime priority to audio clients
+    # and CAP_DAC_READ_SEARCH so it can read /proc/*/limits and verify resource limits
     RestrictRealtime = false;  # NixOS upstream: rtkit MUST manage realtime scheduling for clients
-    CapabilityBoundingSet = [ "CAP_SYS_NICE" ];  # Only capability needed
+    CapabilityBoundingSet = [ "CAP_SYS_NICE" "CAP_DAC_READ_SEARCH" ];  # Minimal required capabilities
 
     # Filesystem Isolation
     ProtectSystem = "strict";     # Mount the entire filesystem read-only
