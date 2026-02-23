@@ -36,9 +36,7 @@
     # rtkit does not need network access at all
     RestrictNamespaces = true;  # Prohibit creation of any new namespaces
     RestrictAddressFamilies = [
-      "~AF_INET6"   # Disable IPv6
-      "~AF_INET"    # Disable IPv4
-      "~AF_PACKET"  # Disable raw packet access
+      "AF_UNIX"  # D-Bus communication
     ];
 
     # Memory & System Call Filtering
