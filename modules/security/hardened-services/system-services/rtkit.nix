@@ -62,5 +62,9 @@
       "~@debug"          # Block debugging syscalls
       "~@raw-io"         # Block raw I/O operations
     ];
+
+    # Other Security Settings
+    PrivateIPC = true;        # Private IPC namespace
+    RemoveIPC = true;         # Clean up IPC objects on service stop
   };
 }
