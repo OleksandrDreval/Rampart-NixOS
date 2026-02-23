@@ -57,6 +57,10 @@
       "~@module"         # Block kernel module operations
       "~@obsolete"       # Block deprecated system calls
       "~@cpu-emulation"  # Block non-native CPU emulation
+      # ~@mount intentionally NOT blocked — NixOS upstream: rtkit uses chroot(1) which requires @mount
+      "~@reboot"         # Block system reboot
+      "~@debug"          # Block debugging syscalls
+      "~@raw-io"         # Block raw I/O operations
     ];
   };
 }
