@@ -26,6 +26,7 @@
     PrivateTmp = "disconnected";  # NixOS upstream: enhanced isolation without mount propagation
     PrivateMounts = true;         # Use a private file system namespace
     PrivateDevices = true;        # Make /dev inaccessible (except standard ones)
+    PrivateUsers = true;          # NixOS upstream: user/group ID mapping isolation
 
     # Kernel & Hardware Protection
     ProtectClock = true;              # Prevent modification of system clock
