@@ -49,8 +49,10 @@
     ];
 
     # Memory & System Call Filtering
-    MemoryDenyWriteExecute = true;  # Prevent W^X memory regions
-    DevicePolicy = "closed";        # Allow access only to /dev/null, /dev/zero, etc.
+    MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
+    DevicePolicy = "closed";             # Allow access only to /dev/null, /dev/zero, etc.
+    SystemCallArchitectures = "native";  # Allow only native system calls
+    SystemCallErrorNumber = "EPERM";     # Return EPERM for blocked syscalls
     SystemCallFilter = [
       "~@keyring"        # Block kernel keyring access
       "~@swap"           # Block swap management
