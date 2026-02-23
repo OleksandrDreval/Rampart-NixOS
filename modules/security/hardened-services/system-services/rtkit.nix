@@ -18,7 +18,11 @@
     # rtkit needs CAP_SYS_NICE to grant realtime priority to audio clients
     # and CAP_DAC_READ_SEARCH so it can read /proc/*/limits and verify resource limits
     RestrictRealtime = false;  # NixOS upstream: rtkit MUST manage realtime scheduling for clients
-    CapabilityBoundingSet = [ "CAP_SYS_NICE" "CAP_DAC_READ_SEARCH" ];  # Minimal required capabilities
+    CapabilityBoundingSet = [
+      # Minimal required capabilities
+      "CAP_SYS_NICE"         # Needed for obvious reasons (rtkit-daemon.c)
+      "CAP_DAC_READ_SEARCH"  # Needed so that we can verify resource limits (rtkit-daemon.c)
+    ];
 
     # Filesystem Isolation
     ProtectSystem = "strict";     # Mount the entire filesystem read-only
