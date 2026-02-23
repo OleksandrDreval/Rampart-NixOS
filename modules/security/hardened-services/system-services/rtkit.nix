@@ -37,6 +37,7 @@
 
     # Network & Process Isolation
     # rtkit does not need network access at all
+    PrivateNetwork = true;      # Disable all network access
     RestrictNamespaces = true;  # Prohibit creation of any new namespaces
     RestrictAddressFamilies = [
       "AF_UNIX"  # D-Bus communication
