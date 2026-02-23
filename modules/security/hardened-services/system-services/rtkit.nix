@@ -20,11 +20,11 @@
     CapabilityBoundingSet = [ "CAP_SYS_NICE" ];  # Only capability needed
 
     # Filesystem Isolation
-    ProtectSystem = "strict";  # Mount the entire filesystem read-only
-    ProtectHome = true;        # Make /home and /root completely inaccessible
-    PrivateTmp = true;         # Use a private and isolated /tmp directory
-    PrivateMounts = true;      # Use a private file system namespace
-    PrivateDevices = true;     # Make /dev inaccessible (except standard ones)
+    ProtectSystem = "strict";     # Mount the entire filesystem read-only
+    ProtectHome = true;           # Make /home and /root completely inaccessible
+    PrivateTmp = "disconnected";  # NixOS upstream: enhanced isolation without mount propagation
+    PrivateMounts = true;         # Use a private file system namespace
+    PrivateDevices = true;        # Make /dev inaccessible (except standard ones)
 
     # Kernel & Hardware Protection
     ProtectClock = true;              # Prevent modification of system clock
