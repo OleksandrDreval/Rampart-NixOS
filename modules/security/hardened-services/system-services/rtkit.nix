@@ -27,13 +27,13 @@
     PrivateDevices = true;     # Make /dev inaccessible (except standard ones)
 
     # Kernel & Hardware Protection
-    ProtectClock = true;           # Prevent modification of system clock
-    ProtectHostname = true;        # Prevent changing system hostname
-    ProtectKernelTunables = true;  # Make kernel variables (/proc/sys) read-only
-    ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
-    ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
-    ProtectControlGroups = true;   # Mount cgroups hierarchy as read-only
-    LockPersonality = true;        # Prevent execution domain changes
+    ProtectClock = true;              # Prevent modification of system clock
+    ProtectHostname = true;           # Prevent changing system hostname
+    ProtectKernelTunables = true;     # Make kernel variables (/proc/sys) read-only
+    ProtectKernelModules = true;      # Prevent loading/unloading kernel modules
+    ProtectKernelLogs = true;         # Prevent reading kernel logs (dmesg)
+    ProtectControlGroups = "strict";  # NixOS upstream: stricter than bool true
+    LockPersonality = true;           # Prevent execution domain changes
 
     # Network & Process Isolation
     # rtkit does not need network access at all
