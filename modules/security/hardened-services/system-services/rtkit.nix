@@ -39,6 +39,8 @@
     # rtkit does not need network access at all
     PrivateNetwork = true;      # Disable all network access
     IPAddressDeny = "any";      # Explicitly deny all IP traffic
+    ProtectProc = "default";    # NixOS upstream: rtkit MUST see /proc of other processes to adjust scheduling
+    ProcSubset = "all";         # NixOS upstream: rtkit MUST see all PIDs to manage their realtime priority
     RestrictNamespaces = true;  # Prohibit creation of any new namespaces
     RestrictAddressFamilies = [
       "AF_UNIX"  # D-Bus communication
