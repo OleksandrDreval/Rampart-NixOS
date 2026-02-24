@@ -29,6 +29,7 @@
     ProtectHome = "read-only";           # Allow reading avatars from home, but no writes
     PrivateTmp = true;                   # Use isolated /tmp directory
     PrivateDevices = true;               # Make /dev inaccessible
+    PrivateMounts = true;                # Private mount namespace
     ProtectControlGroups = true;         # Make cgroups read-only
 
     # Kernel & Hardware Protection
