@@ -61,6 +61,7 @@
       "~@debug"          # Block debugging calls
       "~@cpu-emulation"  # Block non-native CPU emulation
       "~@clock"          # Block clock configuration
+      "~@keyring"        # Block kernel keyring access
     ];
   };
 }
