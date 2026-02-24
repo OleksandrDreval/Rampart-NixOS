@@ -68,5 +68,6 @@
     DevicePolicy = "closed";  # Deny all device access by default
     KeyringMode = "private";  # Isolated kernel keyring
     PrivateIPC = true;        # Private IPC namespace (no System V IPC / POSIX MQ sharing)
+    UMask = "0077";           # Restrictive file creation mask
   };
 }
