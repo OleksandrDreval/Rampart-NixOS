@@ -51,6 +51,7 @@
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
     SystemCallArchitectures = "native";  # Allow only native syscalls
+    SystemCallErrorNumber = "EPERM";     # Return EPERM for blocked syscalls
     SystemCallFilter = [
       "~@swap"           # Block swap management
       "~@resources"      # Block resource limit changes
