@@ -64,7 +64,8 @@
       "~@keyring"        # Block kernel keyring access
     ];
 
-    # Other Security Settingsі
+    # Other Security Settings
+    DevicePolicy = "closed";  # Deny all device access by default
     KeyringMode = "private";  # Isolated kernel keyring
   };
 }
