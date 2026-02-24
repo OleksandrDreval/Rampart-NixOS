@@ -63,5 +63,8 @@
       "~@clock"          # Block clock configuration
       "~@keyring"        # Block kernel keyring access
     ];
+
+    # Other Security Settingsі
+    KeyringMode = "private";  # Isolated kernel keyring
   };
 }
