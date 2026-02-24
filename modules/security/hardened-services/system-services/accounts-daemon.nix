@@ -67,5 +67,6 @@
     # Other Security Settings
     DevicePolicy = "closed";  # Deny all device access by default
     KeyringMode = "private";  # Isolated kernel keyring
+    PrivateIPC = true;        # Private IPC namespace (no System V IPC / POSIX MQ sharing)
   };
 }
