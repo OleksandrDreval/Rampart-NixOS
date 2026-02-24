@@ -41,6 +41,7 @@
 
     # Network & Process Isolation
     PrivateNetwork = true;      # Completely disable network access
+    IPAddressDeny = "any";      # Explicitly block all IP traffic
     ProtectProc = "invisible";  # Hide processes of other users
     ProcSubset = "pid";         # Only show the daemon's own PID
     RestrictNamespaces = true;  # Disable creation of new namespaces
