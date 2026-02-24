@@ -42,6 +42,7 @@
     # Network & Process Isolation
     PrivateNetwork = true;      # Completely disable network access
     ProtectProc = "invisible";  # Hide processes of other users
+    ProcSubset = "pid";         # Only show the daemon's own PID
     RestrictNamespaces = true;  # Disable creation of new namespaces
     RemoveIPC = true;           # Clean up Inter-Process Communication objects on exit
     RestrictAddressFamilies = [
