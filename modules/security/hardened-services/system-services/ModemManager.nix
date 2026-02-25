@@ -35,6 +35,11 @@
     # Filesystem Isolation
     ProtectSystem = "strict";           # Mount entire filesystem read-only
 
+    # Kernel & Hardware Protection
+    ProtectKernelTunables = true;  # MM does not write to /proc/sys
+    ProtectKernelModules = true;   # MM does not load kernel modules
+    ProtectKernelLogs = true;      # MM does not read kernel logs (dmesg)
+
     # Network & Process Isolation
     ProtectProc = "invisible";  # Hide processes of other users in /proc
     ProcSubset = "pid";         # Only show the daemon's own PID
