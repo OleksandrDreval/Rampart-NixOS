@@ -52,7 +52,7 @@
     ];
 
     # Memory & System Call Filtering
-    MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
+    MemoryDenyWriteExecute = true;       # Shell scripts do not use JIT
     SystemCallArchitectures = "native";  # Allow only native syscalls
     SystemCallFilter = [
       "~@mount"          # Filesystem mounting
