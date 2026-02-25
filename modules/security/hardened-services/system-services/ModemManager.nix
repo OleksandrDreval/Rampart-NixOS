@@ -48,6 +48,7 @@
     ProtectKernelTunables = true;  # MM does not write to /proc/sys
     ProtectKernelModules = true;   # MM does not load kernel modules
     ProtectKernelLogs = true;      # MM does not read kernel logs (dmesg)
+    ProtectHostname = true;        # MM does not change hostname
 
     # Network & Process Isolation
     ProtectProc = "invisible";  # Hide processes of other users in /proc
