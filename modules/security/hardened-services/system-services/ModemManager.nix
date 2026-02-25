@@ -31,6 +31,10 @@
     NoNewPrivileges = true;   # Upstream: NoNewPrivileges=true
     RestrictSUIDSGID = true;  # MM does not create SUID/SGID files
     RestrictRealtime = true;  # MM does not use real-time scheduling
+    CapabilityBoundingSet = [
+      "CAP_SYS_ADMIN"
+      "CAP_NET_ADMIN"
+    ];
 
     # Filesystem Isolation
     ProtectSystem = "strict";           # Mount entire filesystem read-only
