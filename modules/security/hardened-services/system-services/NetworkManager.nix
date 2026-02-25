@@ -37,11 +37,11 @@
     PrivateTmp = true;          # Isolated /tmp directory
 
     # Kernel & Hardware Protection
-    ProtectKernelModules = true;  # Prevents loading/unloading kernel modules
-    ProtectKernelLogs = true;     # Prevents reading kernel logs
-    ProtectControlGroups = true;  # Makes cgroups read-only
-    ProtectClock = true;          # Prevents changing system clock
-    ProtectHostname = true;       # Prevents changing hostname
+    # ProtectKernelModules intentionally NOT set — NM needs CAP_SYS_MODULE (upstream)
+    ProtectKernelLogs = true;     # NM does not read kernel logs (dmesg)
+    ProtectControlGroups = true;  # NM does not modify cgroups
+    ProtectClock = true;          # NM does not modify system clock
+    # ProtectHostname intentionally NOT set — NM sets hostname via DHCP
     LockPersonality = true;       # Prevent personality changes (emulation)
 
     # Network & Process Isolation
