@@ -74,6 +74,9 @@
       "/etc/shadow"
       "/etc/group"
       "/etc/gshadow"
+      "/var/log/lastlog"
+      "/var/log/tallylog"
+      "/var/mail/"
     ];
 
     # Other Security Settings
