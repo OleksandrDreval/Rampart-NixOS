@@ -62,6 +62,8 @@
     SystemCallArchitectures = "native";  # Allow only native system calls
     SystemCallErrorNumber = "EPERM";     # Return EPERM for blocked syscalls
     SystemCallFilter = [
+      "@system-service"  # Base allow-list (UPower upstream)
+      "ioprio_get"       # Base allow-list (UPower upstream)
       "~@mount"          # Block filesystem mounting
       "~@reboot"         # Block system reboot
       "~@swap"           # Block swap management
