@@ -82,8 +82,8 @@
     ];
 
     ReadOnlyPaths = [
-      "/usr/share/accountsservice/interfaces/"
-      "/usr/share/dbus-1/interfaces/"
+      "${config.system.path}/share/accountsservice/interfaces/"
+      "${config.system.path}/share/dbus-1/interfaces/"
       "/var/log/wtmp"
       "/run/systemd/seats/"
     ];
