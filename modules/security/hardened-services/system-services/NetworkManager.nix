@@ -70,7 +70,7 @@
     ];
 
     # Memory & System Call Filtering
-    MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
+    MemoryDenyWriteExecute = true;       # NM is C code, no JIT
     SystemCallArchitectures = "native";  # Allow only native syscalls
     SystemCallFilter = [
       "~@mount"          # NM does not mount filesystems
