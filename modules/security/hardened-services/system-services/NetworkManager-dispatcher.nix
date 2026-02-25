@@ -4,9 +4,19 @@
   /*
     Rampart NetworkManager Dispatcher Hardening Module
 
-    This module enforces strict isolation for the NetworkManager dispatcher service,
-    which executes custom scripts on network events. It limits the service's
-    capabilities and ensures that scripts run in a highly restricted environment.
+    This module applies conservative hardening to the NM dispatcher service,
+    which executes custom scripts on network events (connect, disconnect, etc.).
+    Upstream NM-dispatcher has zero hardening (only KillMode=process).
+
+    IMPORTANT — dispatcher runs ARBITRARY user scripts from
+    /etc/NetworkManager/dispatcher.d/. Scripts may restart services, update
+    DNS, flush routes, set hostname, or use SUID helpers. Therefore:
+    - NoNewPrivileges MUST NOT be true — scripts may use SUID helpers
+    - CapabilityBoundingSet MUST NOT restrict — scripts may need broad caps
+    - ~@privileged MUST NOT be in SystemCallFilter — scripts may call
+      sethostname, chroot, and other privileged operations
+    - ProtectHostname MUST NOT be set — scripts often set hostname on events
+    - RestrictNamespaces MUST NOT be set — scripts may create namespaces
   */
 
   systemd.services.NetworkManager-dispatcher.serviceConfig = {
