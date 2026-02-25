@@ -24,11 +24,11 @@
 
   systemd.services.NetworkManager.serviceConfig = {
     # Privilege & Capability Restrictions
-    NoNewPrivileges = true;   # Disallow gaining new privileges
-    RestrictSUIDSGID = true;  # Disable SUID/SGID bits
-    RestrictRealtime = true;  # Disable realtime scheduling
+    NoNewPrivileges = true;   # NM does not need SUID child processes
+    RestrictSUIDSGID = true;  # NM does not create SUID files
+    RestrictRealtime = true;  # NM does not use real-time scheduling
 
-    # Filesystem Isolation
+    # Filesystem Isolation — matches upstream levels
     ProtectSystem = "strict";                   # Mount entire filesystem hierarchy read-only
     StateDirectory = "NetworkManager";          # Writable /var/lib/NetworkManager for persistent state
     RuntimeDirectory = "NetworkManager";        # Writable /run/NetworkManager for runtime data
