@@ -79,5 +79,8 @@
       "~@swap"           # Block swap management
       "~@keyring"        # Block kernel keyring access
     ];
+
+    # Other Security Settings
+    UMask = "0077";           # Restrictive file creation mask
   };
 }
