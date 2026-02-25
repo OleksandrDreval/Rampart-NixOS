@@ -81,6 +81,8 @@
     ];
 
     # Other Security Settings
+    PrivateIPC = true;        # Private IPC namespace
+    RemoveIPC = true;         # Clean up IPC objects on service stop
     UMask = "0077";           # Restrictive file creation mask
   };
 }
