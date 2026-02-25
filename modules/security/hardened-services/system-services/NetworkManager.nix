@@ -72,6 +72,7 @@
 
     # Other Security Settings
     KeyringMode = "private";  # NM does not use user keyrings
+    PrivateIPC = true;         # NM does not use System V IPC
     UMask = "0077";           # Restrictive file creation mask
   };
 }
