@@ -33,8 +33,8 @@
     StateDirectory = "NetworkManager";          # Writable /var/lib/NetworkManager for persistent state
     RuntimeDirectory = "NetworkManager";        # Writable /run/NetworkManager for runtime data
     ConfigurationDirectory = "NetworkManager";  # Writable /etc/NetworkManager for connection profiles
-    ProtectHome = true;                         # Home directory isolation
-    PrivateTmp = true;                          # Isolated /tmp directory
+    ProtectHome = "read-only";  # Upstream: read-only (NM reads WiFi certs from ~/)
+    PrivateTmp = true;          # Isolated /tmp directory
 
     # Kernel & Hardware Protection
     ProtectKernelModules = true;  # Prevents loading/unloading kernel modules
