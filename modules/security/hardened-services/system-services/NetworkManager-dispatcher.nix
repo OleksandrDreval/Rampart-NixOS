@@ -66,7 +66,8 @@
     ];
 
     # Other Security Settings
-    PrivateIPC = true;         # Private IPC namespace
+    KeyringMode = "private";  # Isolated kernel keyring
+    PrivateIPC = true;        # Private IPC namespace
     UMask = "0077";           # Restrictive file creation mask
   };
 }
