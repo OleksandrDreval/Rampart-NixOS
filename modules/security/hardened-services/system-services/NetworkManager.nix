@@ -72,6 +72,7 @@
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;       # NM is C code, no JIT
     SystemCallArchitectures = "native";  # Allow only native syscalls
+    SystemCallErrorNumber = "EPERM";     # Return EPERM for blocked syscalls
     SystemCallFilter = [
       "~@mount"          # NM does not mount filesystems
       "~@swap"           # NM does not manage swap
