@@ -44,6 +44,7 @@
     ProtectProc = "invisible";  # Hide processes of other users in /proc
     ProcSubset = "pid";         # Only show the daemon's own PID
     IPAddressDeny = "any";      # MM does not use IP networking directly
+    RestrictNamespaces = true;  # MM does not create namespaces
     RestrictAddressFamilies = [
       "AF_UNIX"     # D-Bus communication
       "AF_NETLINK"  # Udev device discovery
