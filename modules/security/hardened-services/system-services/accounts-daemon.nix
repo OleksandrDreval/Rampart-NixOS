@@ -81,6 +81,13 @@
       "/var/lib/AccountsService/icons/"
     ];
 
+    ReadOnlyPaths = [
+      "/usr/share/accountsservice/interfaces/"
+      "/usr/share/dbus-1/interfaces/"
+      "/var/log/wtmp"
+      "/run/systemd/seats/"
+    ];
+
     # Other Security Settings
     DevicePolicy = "closed";  # Deny all device access by default
     KeyringMode = "private";  # Isolated kernel keyring
