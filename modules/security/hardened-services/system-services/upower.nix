@@ -75,7 +75,8 @@
       "~@keyring"        # Block kernel keyring access
     ];
 
-    DevicePolicy = "auto";  # Allow reading opened device nodes (HID batteries)
-    LimitMEMLOCK = 0;       # Disallow memory locking (upstream uses this)
+    DevicePolicy = "auto";    # Allow reading opened device nodes (HID batteries)
+    KeyringMode = "private";  # Isolated kernel keyring
+    LimitMEMLOCK = 0;         # Disallow memory locking (upstream uses this)
   };
 }
