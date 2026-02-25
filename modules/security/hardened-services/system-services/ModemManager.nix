@@ -38,6 +38,8 @@
 
     # Filesystem Isolation
     ProtectSystem = "strict";           # Mount entire filesystem read-only
+    StateDirectory = "ModemManager";    # Writable /var/lib/ModemManager for device state
+    RuntimeDirectory = "ModemManager";  # Writable /run/ModemManager for runtime data
 
     # Kernel & Hardware Protection
     ProtectKernelTunables = true;  # MM does not write to /proc/sys
