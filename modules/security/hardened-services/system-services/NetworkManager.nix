@@ -9,8 +9,6 @@
     ProtectSystem=true (yes level: /usr, /boot read-only), ProtectHome=read-only.
 
     IMPORTANT constraints per upstream documentation:
-    - ProtectSystem must be "true" (yes), NOT "strict" or "full" — NM writes
-      connection profiles to /etc/NetworkManager/system-connections/
     - ProtectHome must be "read-only" — NM reads WiFi certificates from ~/
     - ProtectKernelModules MUST NOT be set — upstream grants CAP_SYS_MODULE;
       NM loads kernel modules for tun, bridge, vlan, wireguard, etc.
