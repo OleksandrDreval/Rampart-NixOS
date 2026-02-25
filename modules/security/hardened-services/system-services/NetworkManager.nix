@@ -45,8 +45,9 @@
     LockPersonality = true;       # Prevent personality changes (emulation)
 
     # Network & Process Isolation
-    ProtectProc = "invisible";   # Restrict access to /proc (other processes invisible)
-    RestrictNamespaces = true;   # Disable creation of new namespaces
+    ProtectProc = "invisible";  # Hide other users' processes
+    ProcSubset = "pid";         # Only show the daemon's own PID
+    # RestrictNamespaces intentionally NOT set — NM may create namespaces for VPN
     RestrictAddressFamilies = [
       "AF_UNIX"     # Local communication
       "AF_NETLINK"  # Kernel-user communication
