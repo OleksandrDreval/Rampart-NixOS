@@ -30,6 +30,11 @@
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Upstream: NoNewPrivileges=true
     IPAddressDeny = "any";      # MM does not use IP networking directly
+    RestrictAddressFamilies = [
+      "AF_UNIX"     # D-Bus communication
+      "AF_NETLINK"  # Udev device discovery
+      "AF_QIPCRTR"  # Qualcomm QMI modem protocol (upstream allows this)
+    ];
 
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;       # C daemon, no JIT
