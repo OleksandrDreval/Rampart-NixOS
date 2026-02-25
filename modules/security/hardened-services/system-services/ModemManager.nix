@@ -29,6 +29,9 @@
   systemd.services.ModemManager.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Upstream: NoNewPrivileges=true
+    # Network & Process Isolation
+    ProtectProc = "invisible";  # Hide processes of other users in /proc
+    ProcSubset = "pid";         # Only show the daemon's own PID
     IPAddressDeny = "any";      # MM does not use IP networking directly
     RestrictAddressFamilies = [
       "AF_UNIX"     # D-Bus communication
