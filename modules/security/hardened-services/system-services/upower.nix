@@ -75,8 +75,10 @@
       "~@keyring"        # Block kernel keyring access
     ];
 
+    # Other Security Settings
     DevicePolicy = "auto";    # Allow reading opened device nodes (HID batteries)
     KeyringMode = "private";  # Isolated kernel keyring
     LimitMEMLOCK = 0;         # Disallow memory locking (upstream uses this)
+    UMask = "0077";           # Restrictive file creation mask
   };
 }
