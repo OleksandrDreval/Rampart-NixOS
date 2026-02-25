@@ -77,6 +77,8 @@
       "/var/log/lastlog"
       "/var/log/tallylog"
       "/var/mail/"
+      "/var/lib/AccountsService/users/"  # covered by StateDirectory but explicit for clarity
+      "/var/lib/AccountsService/icons/"
     ];
 
     # Other Security Settings
