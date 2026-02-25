@@ -28,7 +28,7 @@
       "CAP_NET_RAW"
     ];
     RestrictSUIDSGID = true;  # Disable SUID/SGID bits
-    RestrictRealtime = true;  # Disable realtime scheduling
+    RestrictRealtime = true;  # Dispatcher scripts do not need RT scheduling
 
     # Filesystem Isolation
     ProtectSystem = "full";  # Mount /usr, /boot, and /etc read-only
