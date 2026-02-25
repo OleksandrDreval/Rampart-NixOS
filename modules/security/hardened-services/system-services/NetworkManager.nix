@@ -71,6 +71,7 @@
     ];
 
     # Other Security Settings
+    KeyringMode = "private";  # NM does not use user keyrings
     UMask = "0077";           # Restrictive file creation mask
   };
 }
