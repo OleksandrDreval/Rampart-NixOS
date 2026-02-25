@@ -31,8 +31,8 @@
     RestrictRealtime = true;  # Dispatcher scripts do not need RT scheduling
 
     # Filesystem Isolation
-    ProtectSystem = "full";  # Mount /usr, /boot, and /etc read-only
-    ProtectHome = true;      # Home directory isolation
+    ProtectSystem = "full";  # Protect /usr, /boot, /efi read-only (on NixOS, /etc is immutable anyway)
+    ProtectHome = true;      # Scripts do not need access to home directories
     PrivateTmp = true;       # Isolated /tmp directory
     PrivateMounts = true;    # Private mount namespace
 
