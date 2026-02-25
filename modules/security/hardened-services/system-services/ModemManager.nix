@@ -30,5 +30,8 @@
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Upstream: NoNewPrivileges=true
     IPAddressDeny = "any";      # MM does not use IP networking directly
+
+    # Memory & System Call Filtering
+    MemoryDenyWriteExecute = true;       # C daemon, no JIT
   };
 }
