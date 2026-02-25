@@ -48,6 +48,8 @@
     ProtectKernelTunables = true;  # MM does not write to /proc/sys
     ProtectKernelModules = true;   # MM does not load kernel modules
     ProtectKernelLogs = true;      # MM does not read kernel logs (dmesg)
+    ProtectControlGroups = true;   # MM does not modify cgroups
+    ProtectClock = true;           # MM does not change system clock
     ProtectHostname = true;        # MM does not change hostname
     LockPersonality = true;        # Prevent execution domain changes
 
