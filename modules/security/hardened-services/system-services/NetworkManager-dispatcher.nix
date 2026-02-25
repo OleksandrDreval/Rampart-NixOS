@@ -64,5 +64,8 @@
       "~@clock"          # Clock configuration
       "ptrace"           # Process tracing
     ];
+
+    # Other Security Settings
+    PrivateIPC = true;         # Private IPC namespace
   };
 }
