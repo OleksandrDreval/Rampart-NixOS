@@ -47,7 +47,6 @@
     # Network & Process Isolation
     ProtectProc = "invisible";  # Hide other users' processes
     ProcSubset = "pid";         # Only show the daemon's own PID
-    RestrictNamespaces = true;   # Disable creation of new namespaces
     RestrictAddressFamilies = [
        "AF_UNIX"     # Local communication
        "AF_NETLINK"  # Kernel-user communication
