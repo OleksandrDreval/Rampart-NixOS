@@ -22,7 +22,11 @@
   systemd.services.NetworkManager-dispatcher.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
-    CapabilityBoundingSet = "CAP_NET_ADMIN CAP_NET_RAW";  # Limit root capabilities to networking
+    CapabilityBoundingSet = [
+    # Limit root capabilities to networking
+      "CAP_NET_ADMIN"
+      "CAP_NET_RAW"
+    ];
     RestrictSUIDSGID = true;  # Disable SUID/SGID bits
     RestrictRealtime = true;  # Disable realtime scheduling
 
