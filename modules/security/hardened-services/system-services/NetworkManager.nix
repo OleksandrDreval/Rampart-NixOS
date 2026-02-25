@@ -36,11 +36,11 @@
     ProtectProc = "invisible";   # Restrict access to /proc (other processes invisible)
     RestrictNamespaces = true;   # Disable creation of new namespaces
     RestrictAddressFamilies = [
-       "AF_UNIX"     # Local communication
-       "AF_NETLINK"  # Kernel-user communication
-       "AF_INET"     # IPv4
-       "AF_INET6"    # IPv6
-       "AF_PACKET"   # Direct network access (required for NM)
+      "AF_UNIX"     # Local communication
+      "AF_NETLINK"  # Kernel-user communication
+      "AF_INET"     # IPv4
+      "AF_INET6"    # IPv6
+      "AF_PACKET"   # Direct network access (required for NM)
     ];
 
     # Memory & System Call Filtering
