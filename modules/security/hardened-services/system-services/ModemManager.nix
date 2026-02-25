@@ -29,5 +29,6 @@
   systemd.services.ModemManager.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Upstream: NoNewPrivileges=true
+    IPAddressDeny = "any";      # MM does not use IP networking directly
   };
 }
