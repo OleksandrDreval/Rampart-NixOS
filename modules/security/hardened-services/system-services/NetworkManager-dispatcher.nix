@@ -54,6 +54,7 @@
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;       # Shell scripts do not use JIT
     SystemCallArchitectures = "native";  # Allow only native syscalls
+    SystemCallErrorNumber = "EPERM";     # Return EPERM for blocked syscalls
     SystemCallFilter = [
       "~@mount"          # Filesystem mounting
       "~@module"         # Kernel module operations
