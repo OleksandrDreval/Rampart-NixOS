@@ -81,6 +81,7 @@
     ];
 
     # Other Security Settings
+    DevicePolicy = "auto";    # MM needs access to modem device nodes
     KeyringMode = "private";  # Isolated kernel keyring
     PrivateIPC = true;        # Private IPC namespace
     RemoveIPC = true;         # Clean up IPC objects on service stop
