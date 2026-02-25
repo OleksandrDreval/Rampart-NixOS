@@ -53,5 +53,16 @@
 
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;       # C daemon, no JIT
+    SystemCallFilter = [
+      "~@clock"          # Block clock configuration
+      "~@cpu-emulation"  # Block non-native CPU emulation
+      "~@debug"          # Block debugging syscalls
+      "~@module"         # Block kernel module operations
+      "~@mount"          # Block filesystem mounting
+      "~@obsolete"       # Block deprecated system calls
+      "~@reboot"         # Block system reboot
+      "~@swap"           # Block swap management
+      "~@keyring"        # Block kernel keyring access
+    ];
   };
 }
