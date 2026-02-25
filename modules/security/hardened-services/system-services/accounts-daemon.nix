@@ -68,6 +68,14 @@
       "~@keyring"        # Block kernel keyring access
     ];
 
+    # Explicit paths needed for adduser/usermod operations — narrow vs upstream /etc
+    ReadWritePaths = [
+      "/etc/passwd"
+      "/etc/shadow"
+      "/etc/group"
+      "/etc/gshadow"
+    ];
+
     # Other Security Settings
     DevicePolicy = "closed";  # Deny all device access by default
     KeyringMode = "private";  # Isolated kernel keyring
