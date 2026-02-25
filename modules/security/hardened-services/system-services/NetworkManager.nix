@@ -27,6 +27,19 @@
     NoNewPrivileges = true;   # NM does not need SUID child processes
     RestrictSUIDSGID = true;  # NM does not create SUID files
     RestrictRealtime = true;  # NM does not use real-time scheduling
+    CapabilityBoundingSet = [
+      "CAP_NET_ADMIN"
+      "CAP_DAC_OVERRIDE"
+      "CAP_NET_RAW"
+      "CAP_BPF"
+      "CAP_NET_BIND_SERVICE"
+      "CAP_SETGID"
+      "CAP_SETUID"
+      "CAP_SYS_MODULE"
+      "CAP_AUDIT_WRITE"
+      "CAP_KILL"
+      "CAP_SYS_CHROOT"
+    ];
 
     # Filesystem Isolation — matches upstream levels
     ProtectSystem = "strict";                   # Mount entire filesystem hierarchy read-only
