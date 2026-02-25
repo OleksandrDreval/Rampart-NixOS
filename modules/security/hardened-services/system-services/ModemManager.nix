@@ -53,6 +53,7 @@
 
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;       # C daemon, no JIT
+    SystemCallErrorNumber = "EPERM";     # Return EPERM for blocked syscalls
     SystemCallFilter = [
       "~@clock"          # Block clock configuration
       "~@cpu-emulation"  # Block non-native CPU emulation
