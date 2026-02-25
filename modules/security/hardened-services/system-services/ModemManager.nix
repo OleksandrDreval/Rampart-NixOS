@@ -53,6 +53,7 @@
 
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;       # C daemon, no JIT
+    SystemCallArchitectures = "native";  # Allow only native system calls
     SystemCallErrorNumber = "EPERM";     # Return EPERM for blocked syscalls
     SystemCallFilter = [
       "~@clock"          # Block clock configuration
