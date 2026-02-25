@@ -73,14 +73,14 @@
     MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
     SystemCallArchitectures = "native";  # Allow only native syscalls
     SystemCallFilter = [
-      "~@mount"          # Filesystem mounting
-      "~@module"         # Kernel module operations
-      "~@swap"           # Swap management
-      "~@obsolete"       # Obsolete calls
-      "~@cpu-emulation"  # CPU emulation
-      "~@privileged"     # Privileged calls
-      "~@clock"          # Clock configuration
-      "ptrace"           # Process tracing
+      "~@mount"          # NM does not mount filesystems
+      "~@swap"           # NM does not manage swap
+      "~@obsolete"       # Block deprecated calls
+      "~@cpu-emulation"  # Block CPU emulation
+      "~@debug"          # Block debugging/tracing syscalls
+      "~@raw-io"         # Block raw I/O operations
+      "~@reboot"         # Block system reboot
+      "~@keyring"        # Block kernel keyring access
     ];
 
     # Other Security Settings
