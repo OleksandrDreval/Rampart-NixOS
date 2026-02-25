@@ -5,9 +5,21 @@
     Rampart NetworkManager Hardening Module
 
     This module applies systemd service hardening to the NetworkManager daemon.
-    It isolates the service from sensitive system resources, restricts its
-    capabilities to networking-only tasks, and filters system calls to reduce
-    the attack surface of this critical network-facing component.
+    Upstream NM already provides: CapabilityBoundingSet (including CAP_SYS_MODULE),
+    ProtectSystem=true (yes level: /usr, /boot read-only), ProtectHome=read-only.
+
+    IMPORTANT constraints per upstream documentation:
+    - ProtectSystem must be "true" (yes), NOT "strict" or "full" — NM writes
+      connection profiles to /etc/NetworkManager/system-connections/
+    - ProtectHome must be "read-only" — NM reads WiFi certificates from ~/
+    - ProtectKernelModules MUST NOT be set — upstream grants CAP_SYS_MODULE;
+      NM loads kernel modules for tun, bridge, vlan, wireguard, etc.
+    - ProtectHostname MUST NOT be set — NM sets hostname via DHCP
+      (UseHostname=yes is the default in [DHCPv4] section)
+    - RestrictNamespaces MUST NOT be set — NM may create network namespaces
+      for WireGuard and other VPN types
+    - ~@privileged in SystemCallFilter MUST NOT be used — blocks sethostname,
+      chroot (used by dhclient sandbox), capset, and other NM operations
   */
 
   systemd.services.NetworkManager.serviceConfig = {
