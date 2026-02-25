@@ -29,6 +29,9 @@
   systemd.services.ModemManager.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Upstream: NoNewPrivileges=true
+    RestrictSUIDSGID = true;  # MM does not create SUID/SGID files
+    RestrictRealtime = true;  # MM does not use real-time scheduling
+
     # Network & Process Isolation
     ProtectProc = "invisible";  # Hide processes of other users in /proc
     ProcSubset = "pid";         # Only show the daemon's own PID
