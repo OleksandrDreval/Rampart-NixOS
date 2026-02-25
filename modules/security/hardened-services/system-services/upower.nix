@@ -72,6 +72,7 @@
       "~@raw-io"         # Block raw I/O operations
       "~@clock"          # Block clock configuration
       "~@resources"      # Block resource limit changes
+      "~@keyring"        # Block kernel keyring access
     ];
 
     DevicePolicy = "auto";  # Allow reading opened device nodes (HID batteries)
