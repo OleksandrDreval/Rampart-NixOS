@@ -40,6 +40,9 @@
     ProtectSystem = "strict";           # Mount entire filesystem read-only
     StateDirectory = "ModemManager";    # Writable /var/lib/ModemManager for device state
     RuntimeDirectory = "ModemManager";  # Writable /run/ModemManager for runtime data
+    ProtectHome = true;                 # MM does not access home directories
+    PrivateTmp = true;                  # Isolated /tmp directory
+    PrivateMounts = true;               # Private mount namespace
 
     # Kernel & Hardware Protection
     ProtectKernelTunables = true;  # MM does not write to /proc/sys
