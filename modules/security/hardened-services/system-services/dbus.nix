@@ -35,6 +35,7 @@
     LockPersonality = true;        # Prevent execution domain changes
 
     # Network & Process Isolation
+    PrivateNetwork = true;      # Completely isolate the service from the network
     IPAddressDeny = "any";      # Zero trust network isolation
     RestrictNamespaces = true;               # Prohibit creation of any new namespaces
     # Limit allowed network address families (local IPC only)
