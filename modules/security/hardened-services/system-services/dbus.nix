@@ -35,7 +35,7 @@
     LockPersonality = true;        # Prevent execution domain changes
 
     # Network & Process Isolation
-    IPAddressDeny = [ "0.0.0.0/0" "::/0" ];  # Zero trust network isolation
+    IPAddressDeny = "any";      # Zero trust network isolation
     RestrictNamespaces = true;               # Prohibit creation of any new namespaces
     # Limit allowed network address families (local IPC only)
     RestrictAddressFamilies = [ "AF_UNIX" ];
