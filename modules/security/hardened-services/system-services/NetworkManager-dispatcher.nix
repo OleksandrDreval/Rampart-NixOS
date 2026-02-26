@@ -37,12 +37,12 @@
     PrivateMounts = true;    # Private mount namespace
 
     # Kernel & Hardware Protection
-    ProtectKernelModules = true;  # Prevents loading/unloading kernel modules
-    ProtectKernelLogs = true;     # Prevents reading kernel logs
-    ProtectControlGroups = true;  # Makes cgroups read-only
-    ProtectClock = true;          # Prevents changing system clock
+    ProtectKernelModules = true;  # Scripts do not load kernel modules
+    ProtectKernelLogs = true;     # Scripts do not read dmesg
+    ProtectControlGroups = true;  # Scripts do not modify cgroups
+    ProtectClock = true;          # Scripts do not modify system clock
     ProtectHostname = true;       # Prevents changing hostname
-    LockPersonality = true;       # Prevent personality changes (emulation)
+    LockPersonality = true;       # Prevent personality changes
 
     # Network & Process Isolation
     ProtectProc = "invisible";  # Hide other users' processes
