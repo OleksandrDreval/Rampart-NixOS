@@ -17,8 +17,8 @@
     an emergency prompt. Recovery will strictly REQUIRE a NixOS Live USB.
   */
 
-  boot.initrd.systemd.targets.emergency.enable = lib.mkForce false;
   boot.initrd.systemd.services.emergency.enable = lib.mkForce false;
+  boot.initrd.systemd.targets.emergency.enable = lib.mkForce false;
 
   systemd.services.emergency.enable = lib.mkForce false;
   systemd.targets.emergency.enable = lib.mkForce false;
