@@ -63,6 +63,6 @@
     ];
 
     # Other Security Settings
-    UMask = 0077;  # Ensure console related files stay private
+    UMask = "0077";  # Ensure console related files stay private
   };
 }
