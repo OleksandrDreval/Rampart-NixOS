@@ -17,7 +17,7 @@
     ProtectSystem = "full";       # Protect /usr, /boot, and /etc from writes
     ProtectControlGroups = true;  # Restrict access to cgroup configuration
     PrivateMounts = true;         # Use a private mount namespace
-    UMask = 0077;                 # Ensure files created by DM are private
+    UMask = "0022";               # Use standard permissions (readable, but not writable by others)
 
     # Network Isolation (Zero Trust)
     # Display managers should never need network access.
