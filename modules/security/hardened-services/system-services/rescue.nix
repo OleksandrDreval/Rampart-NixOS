@@ -17,6 +17,9 @@
     booting from a NixOS Live USB or other external media.
   */
 
+  boot.initrd.systemd.services.rescue.enable = lib.mkForce false;
+  boot.initrd.systemd.targets.rescue.enable =  lib.mkForce false;
+
   systemd.services.rescue.enable = lib.mkForce false;
   systemd.targets.rescue.enable = lib.mkForce false;
 }
