@@ -15,6 +15,7 @@
   systemd.services.display-manager.serviceConfig = {
     # File System Isolation
     ProtectSystem = "full";       # Protect /usr, /boot, and /etc from writes
+    ProtectHome = "read-only";    # DM uses AccountsService D-Bus API for user info
     ProtectControlGroups = true;  # Restrict access to cgroup configuration
     PrivateMounts = true;         # Use a private mount namespace
     UMask = "0022";               # Use standard permissions (readable, but not writable by others)
