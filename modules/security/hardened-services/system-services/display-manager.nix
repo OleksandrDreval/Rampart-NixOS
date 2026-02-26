@@ -35,6 +35,7 @@
     ProtectKernelTunables = true;  # DM does not write to /proc/sys
     ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
     ProtectKernelLogs = true;      # DM does not read kernel logs (dmesg)
+    ProtectHostname = true;        # DM does not change system hostname
     LockPersonality = true;        # Prevent personality changes (emulation)
     KeyringMode = "private";       # Isolated kernel keyring for the service
 
