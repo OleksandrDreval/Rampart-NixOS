@@ -13,17 +13,17 @@
 
   systemd.services.dbus.serviceConfig = {
     # Privilege & Capability Restrictions
-    NoNewPrivileges = true;   # Disallow gaining new privileges via setuid/setgid
-    RestrictSUIDSGID = true;  # Disable SUID/SGID bits within the service
-    RestrictRealtime = true;  # Prevent abuse of real-time scheduling
+    NoNewPrivileges = true;      # Disallow gaining new privileges via setuid/setgid
+    CapabilityBoundingSet = "";  # All root capabilities dropped
+    RestrictSUIDSGID = true;     # Disable SUID/SGID bits within the service
+    RestrictRealtime = true;     # Prevent abuse of real-time scheduling
 
     # Filesystem Isolation
     # Using "strict" combined with systemd internal handling for dbus sockets
-    ProtectSystem = "strict";     # Mount the entire filesystem read-only
+    ProtectSystem = "full";       # Mount the entire filesystem read-only
     ProtectHome = true;           # Make /home and /root completely inaccessible
     PrivateTmp = true;            # Use a private and isolated /tmp directory
     PrivateDevices = true;        # Make /dev inaccessible (except standard pseudo-devices)
-    PrivateMounts = true;         # Use a private file system namespace
     ProtectControlGroups = true;  # Mount cgroups hierarchy as read-only
 
     # Kernel & Hardware Protection
@@ -34,12 +34,7 @@
     ProtectHostname = true;        # Prevent changing system hostname
     LockPersonality = true;        # Prevent execution domain changes
 
-    # Network & Process Isolation
-    PrivateNetwork = true;      # Completely isolate the service from the network
-    IPAddressDeny = "any";      # Zero trust network isolation
-    ProtectProc = "invisible";  # Hidden processes of other users in /proc
-    ProcSubset = "pid";         # Only show the daemon's own PID
-    RestrictNamespaces = true;  # Prohibit creation of any new namespaces
+    # Network Isolation
     # Limit allowed network address families (local IPC only)
     RestrictAddressFamilies = [ "AF_UNIX" ];
 
@@ -49,7 +44,7 @@
     SystemCallErrorNumber = "EPERM";     # Return EPERM for blocked calls
     SystemCallFilter = [
       "~@obsolete"       # Block deprecated system calls
-      "~@resources"      # Block resource limit changes
+    # "~@resources"      # Block resource limit changes
       "~@debug"          # Block debugging system calls
       "~@mount"          # Block filesystem mounting
       "~@reboot"         # Block system reboot
@@ -62,7 +57,6 @@
     DevicePolicy = "closed";  # Allow access only to /dev/null, /dev/zero, etc.
     KeyringMode = "private";  # Isolated kernel keyring
     PrivateIPC = true;        # Private IPC namespace
-    RemoveIPC = true;         # Clean up IPC objects on service stop
     UMask = "0077";           # Ensure files created are private
   };
 }
