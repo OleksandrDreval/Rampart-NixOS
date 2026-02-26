@@ -52,6 +52,7 @@
       "~@reboot"         # Block system reboot
       "~@swap"           # Block swap management
       "~@cpu-emulation"  # Block non-native CPU emulation
+      "~@raw-io"         # Block raw I/O access
     ];
 
     # Other Security Settings
