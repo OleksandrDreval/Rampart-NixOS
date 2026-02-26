@@ -31,11 +31,12 @@
     ];
 
     # Kernel & Hardware Protection
-    ProtectClock = true;          # Prevent changing system clock
-    ProtectKernelModules = true;  # Prevent loading/unloading kernel modules
-    LockPersonality = true;       # Prevent personality changes (emulation)
-    KeyringMode = "private";      # Isolated kernel keyring for the service
-    PrivateIPC = true;            # Isolated Inter-Process Communication
+    ProtectClock = true;           # Prevent changing system clock
+    ProtectKernelTunables = true;  # DM does not write to /proc/sys
+    ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
+    ProtectKernelLogs = true;      # DM does not read kernel logs (dmesg)
+    LockPersonality = true;        # Prevent personality changes (emulation)
+    KeyringMode = "private";       # Isolated kernel keyring for the service
 
     # Privilege & Capability Restrictions
     # We strip all capabilities except those strictly necessary for a DM to function.
