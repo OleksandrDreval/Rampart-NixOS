@@ -5,9 +5,18 @@
     Rampart Getty Terminal Hardening Module
 
     This module hardens the Getty service, which provides login terminals on
-    virtual consoles. It implements strict filesystem isolation, blocks
-    all network access, and restricts system calls to ensure that the
-    console login interface is protected from exploitation.
+    virtual consoles. It restricts kernel access, blocks network traffic,
+    and filters system calls to protect the console login interface.
+
+    IMPORTANT — getty@ spawns login → user shell, all within the SAME
+    mount namespace. ProtectSystem="strict" and ProtectHome=true would
+    make the user's home directory inaccessible after login.
+    ProtectSystem="full" protects /usr, /boot, /efi, /etc while leaving
+    /home and /var writable for normal user sessions.
+
+    NoNewPrivileges and RestrictSUIDSGID MUST NOT be true — the user shell
+    needs to execute SUID binaries (sudo, doas) for privilege escalation.
+    Same logic as sshd.nix. Upstream getty has zero hardening.
   */
 
   systemd.services."getty@".serviceConfig = {
