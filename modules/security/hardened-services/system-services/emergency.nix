@@ -4,25 +4,19 @@
   /*
     Rampart Emergency Service Hardening Module
 
-    This module applies MINIMAL hardening to the emergency shell service.
-    emergency.service is a RECOVERY mechanism — its sole purpose is to give
-    the administrator a root shell to fix a broken system. Upstream systemd
-    intentionally applies ZERO hardening to this service.
+    This module completely DISABLES the emergency shell service.
+    The emergency shell is the absolute fallback for system repair (e.g.,
+    when critical filesystems fail to mount). However, it is a well-known
+    attack vector for gaining root access via physical console.
 
-    We apply only the lightest restrictions that do not impair recovery:
-    - LockPersonality: prevents changing execution domain (never needed)
-    - SystemCallArchitectures: blocks non-native syscall ABIs
+    By disabling both the target and the service, we ensure the system
+    fails closed rather than yielding an accessible root shell.
 
-    IMPORTANT — do NOT set any of these:
-    - ProtectSystem: administrator needs to edit /etc/fstab, /etc/nixos/*, etc.
-    - ProtectKernelTunables: may need to adjust sysctl for diagnosis
-    - ProtectControlGroups: may need to manipulate cgroups for service repair
-    - PrivateNetwork: may need network for downloading packages or SSH help
-    - PrivateTmp: unnecessary complexity in emergency environment
+    IMPORTANT: If the system encounters a critical failure during boot
+    (like a broken /etc/fstab or missing disk UUID), it will NOT provide
+    an emergency prompt. Recovery will strictly REQUIRE a NixOS Live USB.
   */
 
-  systemd.services.emergency.serviceConfig = {
-    LockPersonality = true;              # Prevent execution domain changes
-    SystemCallArchitectures = "native";  # Allow only native system calls
-  };
+  systemd.services.emergency.enable = lib.mkForce false;
+  systemd.targets.emergency.enable = lib.mkForce false;
 }
