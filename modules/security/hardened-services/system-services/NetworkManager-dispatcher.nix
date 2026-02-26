@@ -49,10 +49,6 @@
     ProcSubset = "pid";         # Only show the daemon's own PID
     RestrictAddressFamilies = [
        "AF_UNIX"     # Local communication
-       "AF_NETLINK"  # Kernel-user communication
-       "AF_INET"     # IPv4
-       "AF_INET6"    # IPv6
-       "AF_PACKET"   # Direct network access
     ];
 
     # Memory & System Call Filtering
