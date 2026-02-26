@@ -4,25 +4,19 @@
   /*
     Rampart Rescue Service Hardening Module
 
-    This module applies MINIMAL hardening to the rescue shell service.
-    rescue.service is a RECOVERY mechanism — its purpose is to give the
-    administrator a single-user root shell for system repair. Upstream
-    systemd intentionally applies ZERO hardening to this service.
+    This module completely DISABLES the rescue shell service.
+    While rescue.service is a recovery mechanism intended to give the
+    administrator a single-user root shell, it acts as a local privilege
+    escalation vector if physical access or bootloader access is compromised.
 
-    We apply only the lightest restrictions that do not impair recovery:
-    - LockPersonality: prevents changing execution domain (never needed)
-    - SystemCallArchitectures: blocks non-native syscall ABIs
+    By disabling both the target and the service, the system will refuse
+    to drop into a rescue shell, even if requested via kernel parameters.
 
-    IMPORTANT — do NOT set any of these:
-    - ProtectSystem: administrator needs to edit /etc/fstab, /etc/nixos/*, etc.
-    - ProtectKernelTunables: may need to adjust sysctl for diagnosis
-    - ProtectControlGroups: may need to manipulate cgroups for service repair
-    - PrivateNetwork: may need network for downloading packages or SSH help
-    - PrivateTmp: unnecessary complexity in rescue environment
+    IMPORTANT: Any system failure that would normally trigger rescue mode
+    will now result in a halt or hang. Recovery will strictly REQUIRE
+    booting from a NixOS Live USB or other external media.
   */
 
-  systemd.services.rescue.serviceConfig = {
-    LockPersonality = true;              # Prevent execution domain changes
-    SystemCallArchitectures = "native";  # Allow only native system calls
-  };
+  systemd.services.rescue.enable = lib.mkForce false;
+  systemd.targets.rescue.enable = lib.mkForce false;
 }
