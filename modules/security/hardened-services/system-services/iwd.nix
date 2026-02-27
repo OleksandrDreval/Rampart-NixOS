@@ -31,13 +31,14 @@
     PrivateMounts = true;      # Private mount namespace
 
     # Kernel & Hardware Protection
-    ProtectKernelModules = true;  # Prevents loading/unloading kernel modules
-    ProtectKernelLogs = true;     # Prevents reading kernel logs
-    ProtectControlGroups = true;  # Makes cgroups read-only
-    ProtectClock = true;          # Prevents changing system clock
-    ProtectHostname = true;       # Prevents changing hostname
-    LockPersonality = true;       # Prevent personality changes (emulation)
-    KeyringMode = "private";      # Isolated kernel keyring
+    ProtectKernelTunables = true;  # iwd uses nl80211 netlink, not sysfs writes
+    ProtectKernelModules = true;   # Prevents loading/unloading kernel modules
+    ProtectKernelLogs = true;      # Prevents reading kernel logs
+    ProtectControlGroups = true;   # Makes cgroups read-only
+    ProtectClock = true;      # Prevents changing system clock
+    ProtectHostname = true;   # Prevents changing hostname
+    LockPersonality = true;   # Prevent personality changes (emulation)
+    KeyringMode = "private";  # Isolated kernel keyring
 
     # Network & Process Isolation
     ProtectProc = "invisible";  # Restrict access to /proc (other processes invisible)
