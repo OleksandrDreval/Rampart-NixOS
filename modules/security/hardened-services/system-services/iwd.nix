@@ -60,5 +60,7 @@
     # Other Security Settings
     DevicePolicy = "closed";         # Restrict device access to pseudo-devices
     DeviceAllow = "/dev/rfkill rw";  # Allow access to rfkill for Wi-Fi state management
+    PrivateIPC = true;  # Private IPC namespace
+    RemoveIPC = true;   # Clean up IPC objects on service stop
   };
 }
