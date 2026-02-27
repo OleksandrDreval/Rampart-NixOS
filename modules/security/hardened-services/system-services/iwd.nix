@@ -32,6 +32,7 @@
     ProtectClock = true;          # Prevents changing system clock
     ProtectHostname = true;       # Prevents changing hostname
     LockPersonality = true;       # Prevent personality changes (emulation)
+    KeyringMode = "private";      # Isolated kernel keyring
 
     # Network & Process Isolation
     ProtectProc = "invisible";  # Restrict access to /proc (other processes invisible)
