@@ -55,5 +55,9 @@
       "~@cpu-emulation"  # Block non-native CPU emulation
       "~@debug"          # Block debugging/tracing syscalls (ptrace, etc.)
     ];
+
+    # Other Security Settings
+    DevicePolicy = "closed";         # Restrict device access to pseudo-devices
+    DeviceAllow = "/dev/rfkill rw";  # Allow access to rfkill for Wi-Fi state management
   };
 }
