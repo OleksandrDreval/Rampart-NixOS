@@ -41,6 +41,7 @@
 
     # Network & Process Isolation
     ProtectProc = "invisible";  # Restrict access to /proc (other processes invisible)
+    ProcSubset = "pid";         # Only show the daemon's own PID
     RestrictNamespaces = true;  # Disable creation of new namespaces
     RestrictAddressFamilies = [
        "AF_ALG"      # Cryptographic operations
