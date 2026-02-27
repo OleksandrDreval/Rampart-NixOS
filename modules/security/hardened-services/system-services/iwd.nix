@@ -48,6 +48,8 @@
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
     SystemCallArchitectures = "native";  # Allow only native syscalls
+    # NOTE: @privileged is a superset of @chown, @clock, @module, @raw-io, @reboot, @swap.
+    # Only groups NOT included in @privileged are listed separately below.
     SystemCallFilter = [
       "~@privileged"     # Block privileged syscalls (includes @chown @clock @module @raw-io @reboot @swap)
       "~@mount"          # Block filesystem mounting
