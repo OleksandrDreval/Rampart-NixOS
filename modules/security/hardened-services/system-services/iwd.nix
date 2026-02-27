@@ -2,7 +2,7 @@
 
 {
   /*
-    Rampart iwd (Intel Wireless Daemon) Hardening Module
+    Rampart iwd (iNet wireless daemon) Hardening Module
 
     This module hardens the iwd wireless daemon, the modern wireless backend
     used in Rampart. It restricts the process to essential wireless networking
