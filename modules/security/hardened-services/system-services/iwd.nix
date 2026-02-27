@@ -48,17 +48,12 @@
     MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
     SystemCallArchitectures = "native";  # Allow only native syscalls
     SystemCallFilter = [
-      "~@mount"          # Filesystem mounting
-      "~@raw-io"         # Raw I/O access
-      "~@privileged"     # Privileged calls
-      "~@keyring"        # Keyring access
-      "~@reboot"         # System reboot
-      "~@module"         # Kernel module operations
-      "~@swap"           # Swap management
-      "~@resources"      # Resource limit changes
-      "~@obsolete"       # Obsolete calls
-      "~@cpu-emulation"  # CPU emulation
-      "ptrace"           # Process tracing
+      "~@privileged"     # Block privileged syscalls (includes @chown @clock @module @raw-io @reboot @swap)
+      "~@mount"          # Block filesystem mounting
+      "~@resources"      # Block resource limit changes
+      "~@obsolete"       # Block deprecated system calls
+      "~@cpu-emulation"  # Block non-native CPU emulation
+      "~@debug"          # Block debugging/tracing syscalls (ptrace, etc.)
     ];
   };
 }
