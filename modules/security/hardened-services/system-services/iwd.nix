@@ -25,6 +25,7 @@
     # Filesystem Isolation
     ProtectSystem = "strict";  # Mount entire filesystem hierarchy read-only
     StateDirectory = "iwd";    # Writable /var/lib/iwd for network profiles
+    StateDirectoryMode = "0700";     # Restrictive permissions for state directory
     ConfigurationDirectory = "iwd";  # Writable /etc/iwd for main.conf and settings
     ProtectHome = true;    # Home directory isolation
     PrivateTmp = true;     # Isolated /tmp directory
