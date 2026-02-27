@@ -26,9 +26,10 @@
     ProtectSystem = "strict";  # Mount entire filesystem hierarchy read-only
     StateDirectory = "iwd";    # Writable /var/lib/iwd for network profiles
     ConfigurationDirectory = "iwd";  # Writable /etc/iwd for main.conf and settings
-    ProtectHome = true;        # Home directory isolation
-    PrivateTmp = true;         # Isolated /tmp directory
-    PrivateMounts = true;      # Private mount namespace
+    ProtectHome = true;    # Home directory isolation
+    PrivateTmp = true;     # Isolated /tmp directory
+    PrivateMounts = true;  # Private mount namespace
+    UMask = "0077";        # Restrictive file creation mask
 
     # Kernel & Hardware Protection
     ProtectKernelTunables = true;  # iwd uses nl80211 netlink, not sysfs writes
