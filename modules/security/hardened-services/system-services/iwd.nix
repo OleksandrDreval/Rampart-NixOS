@@ -13,7 +13,12 @@
   systemd.services.iwd.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
-    CapabilityBoundingSet = "CAP_NET_ADMIN CAP_NET_RAW";  # Limit root capabilities to networking
+    CapabilityBoundingSet = [
+      # Limit root capabilities to networking
+      "CAP_NET_ADMIN"
+      "CAP_NET_RAW"
+      "CAP_NET_BIND_SERVICE"
+    ];
     RestrictSUIDSGID = true;  # Disable SUID/SGID bits
     RestrictRealtime = true;  # Disable realtime scheduling
 
