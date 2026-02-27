@@ -43,6 +43,7 @@
     ProtectProc = "invisible";  # Restrict access to /proc (other processes invisible)
     RestrictNamespaces = true;  # Disable creation of new namespaces
     RestrictAddressFamilies = [
+       "AF_ALG"      # Cryptographic operations
        "AF_UNIX"     # Local communication
        "AF_NETLINK"  # Kernel-user communication
        "AF_INET"     # IPv4
