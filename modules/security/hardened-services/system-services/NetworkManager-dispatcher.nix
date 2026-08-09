@@ -21,13 +21,10 @@
 
   systemd.services.NetworkManager-dispatcher.serviceConfig = {
     # Privilege & Capability Restrictions
-    NoNewPrivileges = true;   # Disallow gaining new privileges
-    CapabilityBoundingSet = [
-    # Limit root capabilities to networking
-      "CAP_NET_ADMIN"
-      "CAP_NET_RAW"
-    ];
-    RestrictSUIDSGID = true;  # Disable SUID/SGID bits
+    # NoNewPrivileges and CapabilityBoundingSet are intentionally omitted
+    # because dispatcher scripts often execute external utilities that require
+    # broad privileges (like systemctl to restart services, or SUID helpers).
+    RestrictSUIDSGID = false; # Allow SUID/SGID bits for scripts to use helpers if needed
     RestrictRealtime = true;  # Dispatcher scripts do not need RT scheduling
 
     # Filesystem Isolation
@@ -37,39 +34,37 @@
     PrivateMounts = true;    # Private mount namespace
 
     # Kernel & Hardware Protection
-    ProtectKernelModules = true;  # Scripts do not load kernel modules
+    # Many protections are intentionally omitted to allow scripts to function:
+    # - ProtectKernelModules: Scripts may load modules.
+    # - ProtectHostname: Scripts often set hostname on events.
     ProtectKernelLogs = true;     # Scripts do not read dmesg
     ProtectControlGroups = true;  # Scripts do not modify cgroups
     ProtectClock = true;          # Scripts do not modify system clock
-    ProtectHostname = true;       # Prevents changing hostname
     LockPersonality = true;       # Prevent personality changes
 
     # Network & Process Isolation
-    ProtectProc = "invisible";  # Hide other users' processes
-    ProcSubset = "pid";         # Only show the daemon's own PID
-    RestrictAddressFamilies = [
-       "AF_UNIX"     # Local communication
-    ];
+    # RestrictAddressFamilies is intentionally omitted because scripts often
+    # need IPv4/IPv6 access (e.g., dynamic DNS updates, cloud metadata APIs).
+    # ProtectProc and ProcSubset omitted: dispatcher scripts frequently use
+    # `pgrep`, `pidof`, or `ps` to check if other services (like VPNs or SSH)
+    # are running. Hiding other processes breaks these scripts.
 
     # Memory & System Call Filtering
+    # SystemCallFilter is minimal because scripts might call privileged
+    # operations (chroot, sethostname, mount).
     MemoryDenyWriteExecute = true;       # Shell scripts do not use JIT
     SystemCallArchitectures = "native";  # Allow only native syscalls
     SystemCallErrorNumber = "EPERM";     # Return EPERM for blocked syscalls
     SystemCallFilter = [
-      "~@mount"          # Scripts do not mount filesystems
-      "~@module"         # Scripts do not load kernel modules
-      "~@swap"           # Scripts do not manage swap
       "~@obsolete"       # Block deprecated calls
       "~@cpu-emulation"  # Block CPU emulation
       "~@debug"          # Block debugging calls
-      "~@raw-io"         # Block raw I/O operations
-      "~@reboot"         # Block system reboot
-      "~@keyring"        # Block kernel keyring access
     ];
 
     # Other Security Settings
     KeyringMode = "private";  # Isolated kernel keyring
     PrivateIPC = true;        # Private IPC namespace
-    UMask = "0077";           # Restrictive file creation mask
+    # UMask = "0077" omitted: If a dispatcher script updates /etc/resolv.conf or
+    # other shared config files, it will make them unreadable by normal users.
   };
 }
