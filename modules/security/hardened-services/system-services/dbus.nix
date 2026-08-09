@@ -14,7 +14,7 @@
   systemd.services.dbus.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;      # Disallow gaining new privileges via setuid/setgid
-    CapabilityBoundingSet = "";  # All root capabilities dropped
+    # CapabilityBoundingSet omitted: dbus-daemon requires CAP_SETUID/CAP_SETGID to internally drop privileges to 'messagebus'
     RestrictSUIDSGID = true;     # Disable SUID/SGID bits within the service
     RestrictRealtime = true;     # Prevent abuse of real-time scheduling
 
@@ -35,8 +35,14 @@
     LockPersonality = true;        # Prevent execution domain changes
 
     # Network Isolation
-    # Limit allowed network address families (local IPC only)
-    RestrictAddressFamilies = [ "AF_UNIX" ];
+    # Limit allowed network address families (local IPC and Audit)
+    RestrictAddressFamilies = [ "AF_UNIX" "AF_NETLINK" ];
+    IPAddressDeny = "any";      # Explicitly deny all IP traffic (system bus uses UNIX sockets)
+
+    # Process Isolation
+    RestrictNamespaces = true;  # Prohibit creation of any new namespaces
+    # Note: ProtectProc="invisible" is intentionally omitted. dbus-daemon MUST read
+    # /proc/[pid] of connecting clients to verify credentials and cgroups for PolicyKit.
 
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
@@ -57,6 +63,6 @@
     DevicePolicy = "closed";  # Allow access only to /dev/null, /dev/zero, etc.
     KeyringMode = "private";  # Isolated kernel keyring
     PrivateIPC = true;        # Private IPC namespace
-    UMask = "0077";           # Ensure files created are private
+    # UMask omitted to prevent creation of srwx------ system bus socket, which would block all users
   };
 }
