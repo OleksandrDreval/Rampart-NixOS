@@ -15,8 +15,8 @@
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
     # Allow only port binding; no root-level system access
-    CapabilityBoundingSet = "CAP_NET_BIND_SERVICE";
-    AmbientCapabilities = "CAP_NET_BIND_SERVICE";
+    CapabilityBoundingSet = [ "CAP_NET_BIND_SERVICE" ];
+    AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
     RestrictSUIDSGID = true;  # Disable SUID/SGID bits
     RestrictRealtime = true;  # Prevent abuse of real-time scheduling
 
@@ -25,6 +25,7 @@
     StateDirectory = "blocky";  # Writable /var/lib/blocky for persistent data
     ProtectHome = true;         # Make /home and /root completely inaccessible
     ProtectProc = "invisible";  # Hidden processes of other users in /proc
+    ProcSubset = "pid";         # Only show the daemon's own PID
     PrivateTmp = true;          # Use a private and isolated /tmp directory
     PrivateMounts = true;       # Use a private file system namespace
     PrivateDevices = true;      # Deny access to hardware devices
@@ -43,22 +44,29 @@
     # Blocky needs network access to serve DNS queries
     RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" ];
     RestrictNamespaces = true;  # Prohibit creation of any new namespaces
+    RemoveIPC = true;           # Clean up IPC objects on service stop
 
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
     SystemCallArchitectures = "native";  # Use only native system calls
+    SystemCallErrorNumber = "EPERM";     # Return EPERM for blocked syscalls
+    # NOTE: upstream NixOS explicitly requires @chown in SystemCallFilter.
+    # Therefore, we block specific privileged groups individually rather than using ~@privileged.
     SystemCallFilter = [
-      "~@mount"          # Block filesystem mounting
-      "~@raw-io"         # Block raw I/O access
-      "~@privileged"     # Block most privileged system calls
-      "~@keyring"        # Block kernel keyring access
-      "~@reboot"         # Block system reboot
-      "~@clock"          # Block direct clock manipulation
-      "~@cpu-emulation"  # Block non-native CPU emulation
+      "~@clock"          # Block clock configuration
       "~@module"         # Block kernel module operations
+      "~@raw-io"         # Block raw I/O operations
+      "~@reboot"         # Block system reboot
       "~@swap"           # Block swap management
+      "~@mount"          # Block filesystem mounting
+      "~@keyring"        # Block kernel keyring access
+      "~@cpu-emulation"  # Block non-native CPU emulation
       "~@obsolete"       # Block deprecated system calls
-      "ptrace"           # Explicitly block process tracing
+      "~@debug"          # Block debugging/tracing syscalls (ptrace, etc.)
     ];
+
+    # Other Security Settings
+    KeyringMode = "private";  # Isolated kernel keyring
+    PrivateIPC = true;         # Private IPC namespace
   };
 }
