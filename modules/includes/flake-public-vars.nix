@@ -19,5 +19,5 @@
   # NixOS release version
   # This value determines the NixOS release from which the default settings
   # for stateful data were taken. Don't change unless you know what you're doing.
-  stateVersion = "25.11";
+  stateVersion = "26.05";
 }

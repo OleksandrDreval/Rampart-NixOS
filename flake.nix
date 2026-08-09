@@ -3,10 +3,10 @@
 
   # Inputs - all external dependencies
   inputs = {
-    # Main nixpkgs - unstable for latest packages
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # Main nixpkgs - latest stable version
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
 
-    # Alternatively, pin a stable version:
+    # Alternatively, pin an older stable version:
     # nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
 
     # nix-bwrapper for X11 isolation

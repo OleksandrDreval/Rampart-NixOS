@@ -24,6 +24,7 @@
       
       # Networking
       ../modules/networking/networking.nix
+      
       # DNS (choose one):
       ../modules/networking/dns/resolved.nix
       # ../modules/networking/dns/dnsmasq.nix
