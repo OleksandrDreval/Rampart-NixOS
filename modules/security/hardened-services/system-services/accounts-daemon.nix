@@ -24,7 +24,7 @@
     RestrictRealtime = true;  # Prevent abuse of real-time scheduling
 
     # Filesystem Isolation
-    ProtectSystem = "strict";            # Mount entire filesystem read-only
+    ProtectSystem = "yes";               # Protect /usr and /boot (not strict - needs /etc for passwords)
     StateDirectory = "AccountsService";  # Allow write access to /var/lib/AccountsService
     ProtectHome = "read-only";           # Allow reading avatars from home, but no writes
     PrivateTmp = true;                   # Use isolated /tmp directory
@@ -68,18 +68,10 @@
       "~@keyring"        # Block kernel keyring access
     ];
 
-    # Explicit paths needed for adduser/usermod operations — narrow vs upstream /etc
-    ReadWritePaths = [
-      "/etc/passwd"
-      "/etc/shadow"
-      "/etc/group"
-      "/etc/gshadow"
-      "/var/log/lastlog"
-      "/var/log/tallylog"
-      "/var/mail/"
-      "/var/lib/AccountsService/users/"  # covered by StateDirectory but explicit for clarity
-      "/var/lib/AccountsService/icons/"
-    ];
+    # Explicit ReadWritePaths are intentionally omitted here.
+    # We use ProtectSystem="yes", meaning /etc and /var are already writable.
+    # Adding file-level ReadWritePaths (like /etc/passwd) creates bind mounts
+    # that break the atomic file replacement (rename) used by useradd/usermod!
 
     ReadOnlyPaths = [
       "${config.system.path}/share/accountsservice/interfaces/"
