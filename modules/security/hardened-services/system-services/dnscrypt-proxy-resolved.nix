@@ -19,7 +19,7 @@
     NoNewPrivileges = true;                          # Disallow gaining new privileges
     RestrictSUIDSGID = true;                         # Disable SUID/SGID bits
     RestrictRealtime = true;                         # Prevent abuse of real-time scheduling
-    CapabilityBoundingSet = "CAP_NET_BIND_SERVICE";  # Only bind to port 53
+    CapabilityBoundingSet = [ "CAP_NET_BIND_SERVICE" ]; # Only bind to port 53
 
     # Filesystem Isolation
     ProtectSystem = "strict";  # Mount entire filesystem hierarchy read-only
@@ -39,11 +39,13 @@
 
     # Network & Process Isolation
     ProtectProc = "invisible";  # Hide processes of other users in /proc
+    ProcSubset = "pid";         # Only show the daemon's own PID
     RestrictNamespaces = true;  # Prohibit creation of any new namespaces
     RestrictAddressFamilies = [
-      "AF_UNIX"   # Local communication
-      "AF_INET"   # IPv4 outbound DNS-over-HTTPS/TLS
-      "AF_INET6"  # IPv6 outbound DNS-over-HTTPS/TLS
+      "AF_UNIX"    # Local communication
+      "AF_NETLINK" # Required by Go's net package for interface/routing lookup
+      "AF_INET"    # IPv4 outbound DNS-over-HTTPS/TLS
+      "AF_INET6"   # IPv6 outbound DNS-over-HTTPS/TLS
     ];
 
     # Memory & System Call Filtering
@@ -62,8 +64,14 @@
       "~@swap"           # Block swap management
       # NOTE: ~@resources intentionally NOT blocked — Go runtime calls
       # setrlimit(RLIMIT_NOFILE) at startup which is in @resources group
+      "~@keyring"        # Block kernel keyring access
     ];
 
+    # Other Security Settings
     DevicePolicy = "closed";  # Allow access only to pseudo-devices
+    KeyringMode = "private";  # Isolated kernel keyring
+    PrivateIPC = true;         # Private IPC namespace
+    RemoveIPC = true;         # Clean up IPC objects on service stop
+    UMask = "0077";           # Restrictive file creation mask
   };
 }
