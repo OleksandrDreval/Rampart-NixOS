@@ -22,14 +22,15 @@
     RestrictSUIDSGID = true;  # Disable SUID/SGID bits
     RestrictRealtime = true;  # Prevent abuse of real-time scheduling
     CapabilityBoundingSet = [
-      "CAP_SYS_ADMIN"     # securityfs access for loading profiles
+      "CAP_SYS_ADMIN"      # securityfs access for loading profiles
       "CAP_MAC_ADMIN"      # MAC policy management
       "CAP_DAC_OVERRIDE"   # Read profiles from restricted paths
+      "CAP_DAC_READ_SEARCH" # Traverse directories
     ];
 
     # Filesystem Isolation
-    ProtectSystem = "full";        # Protect /usr, /boot, /etc (not strict — needs sysfs)
-    StateDirectory = "apparmor";   # Writable /var/lib/apparmor for compiled profile cache
+    ProtectSystem = "strict";      # Mount entire filesystem hierarchy read-only
+    CacheDirectory = [ "apparmor" "apparmor/logprof" ]; # Writable /var/cache/apparmor (NixOS default)
     ProtectHome = true;            # Make /home and /root completely inaccessible
     PrivateTmp = true;             # Use a private and isolated /tmp directory
     PrivateDevices = true;         # No device access needed
@@ -38,6 +39,7 @@
     ReadWritePaths = [ "/sys/kernel/security/apparmor" ];
 
     # Kernel & Hardware Protection
+    ProtectKernelTunables = true;  # Protect /proc/sys, /sys/class, /sys/module, etc.
     ProtectKernelModules = true;   # Does not load kernel modules
     ProtectKernelLogs = true;      # Does not read kernel logs
     ProtectControlGroups = true;   # Mount cgroups hierarchy as read-only
@@ -47,7 +49,9 @@
 
     # Network & Process Isolation
     PrivateNetwork = true;      # Zero network access needed
+    IPAddressDeny = "any";      # Defense-in-depth: deny all IP traffic
     ProtectProc = "invisible";  # Hide processes of other users in /proc
+    ProcSubset = "pid";         # Only show the daemon's own PID
     RestrictNamespaces = true;  # Prohibit creation of any new namespaces
     RestrictAddressFamilies = [ "AF_UNIX" ];  # Only local communication
 
@@ -63,6 +67,16 @@
       "~@reboot"         # Block system reboot
       "~@swap"           # Block swap management
       "~@raw-io"         # Block raw I/O operations
+      "~@keyring"        # Block kernel keyring access
+      "~@mount"          # Block filesystem mounting
+      "~@module"         # Block kernel module operations
     ];
+
+    # Other Security Settings
+    DevicePolicy = "closed";  # Allow access only to pseudo-devices
+    KeyringMode = "private";  # Isolated kernel keyring
+    PrivateIPC = true;        # Private IPC namespace
+    RemoveIPC = true;         # Clean up IPC objects on service stop (oneshot defense-in-depth)
+    UMask = "0077";           # Restrictive file creation mask
   };
 }
