@@ -39,9 +39,8 @@
       "~CAP_WAKE_ALARM"       # No wake alarms
       "~CAP_BLOCK_SUSPEND"    # No block suspend
       "~CAP_SYS_TTY_CONFIG"   # No TTY configuration
-      "~CAP_MAC_ADMIN"        # No MAC policy management
-      "~CAP_MAC_OVERRIDE"     # No MAC override
-      "~CAP_BPF"              # No BPF program loading
+      # MAC and BPF intentionally NOT blocked: libvirtd requires CAP_MAC_ADMIN/OVERRIDE
+      # for sVirt (AppArmor/SELinux) VM labeling, and CAP_BPF for cgroup device access control.
     ];
 
     # Filesystem Isolation
@@ -50,31 +49,30 @@
     LogsDirectory = "libvirt";     # Writable /var/log/libvirt for VM logs
     RuntimeDirectory = "libvirt";  # Writable /run/libvirt for runtime data
     CacheDirectory = "libvirt";    # Writable /var/cache/libvirt for cache
-    ProtectHome = true;            # VMs should not access user home directories
+    # ProtectHome intentionally NOT set — users frequently store ISOs and
+    # QEMU disk images in their home directories (e.g. ~/Downloads or ~/VMs).
 
     # Kernel & Hardware Protection
-    ProtectKernelModules = true;  # Does not load kernel modules
+    # ProtectKernelModules omitted: libvirtd often invokes modprobe for vhost_net, macvlan, kvm, etc.
     ProtectKernelLogs = true;     # Does not read kernel logs (dmesg)
     ProtectClock = true;          # Does not modify system clock
     ProtectHostname = true;       # Does not change system hostname
-    LockPersonality = true;       # Prevent execution domain changes
+    # LockPersonality omitted: Breaks QEMU user-mode emulation (e.g., qemu-arm running 32-bit payloads)
 
     # Network & Process Isolation
     ProtectProc = "invisible";  # Hide processes of other users in /proc
-    RestrictAddressFamilies = [
-      "AF_UNIX"     # Local communication, D-Bus
-      "AF_NETLINK"  # Kernel-user network communication
-      "AF_INET"     # IPv4 (VM networking, DHCP)
-      "AF_INET6"    # IPv6 (VM networking)
-      "AF_PACKET"   # Raw packet access (VM bridge networking)
-    ];
+    # ProcSubset intentionally NOT set — libvirtd reads /proc/meminfo,
+    # /proc/cpuinfo, /proc/stat for VM resource calculations
+    # RestrictAddressFamilies omitted: QEMU requires highly dynamic socket access (e.g., AF_VSOCK for virtio-fs,
+    # AF_ALG for hardware-accelerated crypto, AF_PACKET for macvtap). Restricting this breaks VMs.
 
-    # System Call Filtering — minimal, only truly irrelevant syscalls
-    SystemCallArchitectures = "native";
-    SystemCallFilter = [
-      "~@obsolete"       # Block deprecated system calls
-      "~@cpu-emulation"  # Block non-native CPU emulation
-      "~@reboot"         # Block host reboot
-    ];
+    # System Call Filtering
+    # SystemCallFilter and SystemCallArchitectures omitted: QEMU is a CPU emulator and hypervisor. It has its
+    # own highly tuned seccomp sandbox (`sandbox on` in libvirt). Systemd's filters unconditionally cascade to QEMU,
+    # blocking legitimate virtualization syscalls (like emulation quirks) and breaking the VM.
+
+    # Other Security Settings
+    # UMask = "0077" omitted: Creates libvirt-sock and VM directories with root-only access,
+    # completely breaking `virsh` for non-root users and QEMU's ability to access its own files.
   };
 }
