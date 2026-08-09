@@ -37,7 +37,7 @@
     ];
 
     # Filesystem Isolation
-    ProtectSystem = "strict";           # Mount entire filesystem read-only
+    ProtectSystem = "yes";              # Protect /usr and /boot (matches upstream)
     StateDirectory = "ModemManager";    # Writable /var/lib/ModemManager for device state
     RuntimeDirectory = "ModemManager";  # Writable /run/ModemManager for runtime data
     ProtectHome = true;                 # MM does not access home directories
