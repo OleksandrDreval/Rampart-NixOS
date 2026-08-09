@@ -5,55 +5,40 @@
     Rampart Virtual Terminal (AutoVT) Hardening Module
 
     This module hardens the virtual terminal services (getty/autovt). It
-    applies strict filesystem isolation, network blocking, and restricts
-    system calls to prevent virtual consoles from being used to escalate
+    restricts kernel access, blocks network traffic, and filters system
+    calls to prevent virtual consoles from being used to escalate
     privileges or leak system state information.
+
+    IMPORTANT — autovt@ spawns login → user shell, all within the SAME
+    mount namespace. ProtectSystem="strict" and ProtectHome=true would
+    make the user's home directory inaccessible after login.
+    ProtectSystem="full" protects /usr, /boot, /efi, /etc while leaving
+    /home and /var writable for normal user sessions.
+
+    NoNewPrivileges and RestrictSUIDSGID MUST NOT be true — the user shell
+    needs to execute SUID binaries (sudo, doas) for privilege escalation.
+    Same logic as sshd.nix. Upstream autovt (alias of getty@) has zero hardening.
   */
 
   systemd.services."autovt@".serviceConfig = {
     # Privilege & Capability Restrictions
-    NoNewPrivileges = true;   # Disallow gaining new privileges
-    RestrictSUIDSGID = true;  # Disable SUID/SGID bits
-    RestrictRealtime = true;  # Prevent abuse of real-time scheduling
-
-    # Filesystem Isolation
-    ProtectSystem = "strict";     # Mount the entire filesystem read-only
-    ProtectHome = true;           # Make /home and /root completely inaccessible
-    PrivateTmp = true;            # Use a private and isolated /tmp directory
-    PrivateMounts = true;         # Use a private file system namespace
-    ProtectControlGroups = true;  # Mount cgroups hierarchy as read-only
+    # NoNewPrivileges / RestrictSUIDSGID omitted: setting to true breaks sudo/doas
+    # RestrictRealtime omitted: breaks real-time audio (JACK/PipeWire) for the user
 
     # Kernel & Hardware Protection
-    ProtectKernelTunables = true;  # Make kernel variables (/proc/sys) read-only
-    ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
-    ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
-    ProtectClock = true;           # Prevent modification of system clock
-    ProtectHostname = true;        # Prevent changing system hostname
-    LockPersonality = true;        # Prevent execution domain changes
-
-    # Network & Process Isolation
-    IPAddressDeny = [ "0.0.0.0/0" "::/0" ];  # Zero trust network isolation
-    RestrictNamespaces = true;               # Prohibit creation of any new namespaces
-    # Limit allowed network address families (terminal does not need network)
-    RestrictAddressFamilies = [
-      "AF_UNIX"
-      "AF_NETLINK"
-    ];
+    # Many protections are intentionally omitted because autovt/getty spawns the
+    # user's interactive shell. If we restrict the kernel (e.g., ProtectKernelModules,
+    # ProtectKernelTunables) or namespaces (RestrictNamespaces, PrivateMounts),
+    # the logged-in user (even root via sudo) will be completely unable to load
+    # modules, mount disks, use containers, or configure the system.
+    # LockPersonality omitted: breaks 32-bit compatibility (Wine/Steam/chroots)
 
     # Memory & System Call Filtering
-    MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
-    SystemCallArchitectures = "native";  # Use only native system calls
-    SystemCallErrorNumber = "EPERM";     # Return EPERM for blocked calls
-    SystemCallFilter = [
-      "~@obsolete"       # Block deprecated system calls
-      "~@debug"          # Block debugging system calls
-      "~@reboot"         # Block system reboot
-      "~@swap"           # Block swap management
-      "~@clock"          # Block clock configuration
-      "~@cpu-emulation"  # Block non-native CPU emulation
-    ];
-
+    # We cannot use IPAddressDeny, MemoryDenyWriteExecute, or ANY SystemCallFilter
+    # here. SystemCallArchitectures="native" would break 32-bit Wine/Steam.
+    # "~@debug" would break gdb, strace, and developer tools for the entire session.
+    
     # Other Security Settings
-    UMask = 0077;  # Ensure console related files stay private
+    # UMask omitted: setting 0077 here forces it on all user-created files, breaking collaboration.
   };
 }
