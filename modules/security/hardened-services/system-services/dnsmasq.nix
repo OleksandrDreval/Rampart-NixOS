@@ -26,13 +26,13 @@
     ];
 
     # Filesystem Isolation
-    ProtectSystem = "full";       # Protect /usr, /boot, /etc read-only (not strict — NixOS preStart with resolveLocalQueries writes to /etc)
-    StateDirectory = "dnsmasq";   # Writable /var/lib/dnsmasq for lease files
-    RuntimeDirectory = "dnsmasq"; # Writable /run/dnsmasq for PID file
-    ProtectHome = true;           # Make /home and /root completely inaccessible
-    PrivateTmp = true;            # Use a private and isolated /tmp directory
-    PrivateDevices = true;        # No device access needed
-    PrivateMounts = true;         # Private mount namespace
+    ProtectSystem = true;          # NixOS upstream: only /usr, /boot read-only (dnsmasq preStart writes to /etc)
+    StateDirectory = "dnsmasq";    # Writable /var/lib/dnsmasq for lease files
+    RuntimeDirectory = "dnsmasq";  # Writable /run/dnsmasq for PID file
+    ProtectHome = true;            # Make /home and /root completely inaccessible
+    PrivateTmp = true;             # Use a private and isolated /tmp directory
+    PrivateDevices = true;         # No device access needed
+    PrivateMounts = true;          # Private mount namespace
 
     # Kernel & Hardware Protection
     ProtectKernelTunables = true;  # Make kernel variables (/proc/sys) read-only
@@ -45,6 +45,7 @@
 
     # Network & Process Isolation
     ProtectProc = "invisible";  # Hide processes of other users in /proc
+    ProcSubset = "pid";         # Only show the daemon's own PID
     RestrictNamespaces = true;  # Prohibit creation of any new namespaces
     RestrictAddressFamilies = [
       "AF_UNIX"     # Local communication
@@ -67,6 +68,14 @@
       "~@raw-io"         # Block raw I/O operations
       "~@reboot"         # Block system reboot
       "~@swap"           # Block swap management
+      "~@keyring"        # Block kernel keyring access
     ];
+
+    # Other Security Settings
+    DevicePolicy = "closed";  # Allow access only to pseudo-devices
+    KeyringMode = "private";  # Isolated kernel keyring
+    PrivateIPC = true;         # Private IPC namespace
+    RemoveIPC = true;         # Clean up IPC objects on service stop
+    UMask = "0077";           # Restrictive file creation mask
   };
 }
