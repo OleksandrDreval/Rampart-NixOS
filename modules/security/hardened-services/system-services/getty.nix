@@ -21,30 +21,23 @@
 
   systemd.services."getty@".serviceConfig = {
     # Privilege & Capability Restrictions
-    RestrictRealtime = true;  # Prevent abuse of real-time scheduling
-
-    # Filesystem Isolation
-    PrivateMounts = true;         # Use a private file system namespace
+    # RestrictRealtime omitted: breaks real-time audio (JACK/PipeWire) for the user
 
     # Kernel & Hardware Protection
-    ProtectKernelTunables = true;  # Make kernel variables (/proc/sys) read-only
-    ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
-    ProtectClock = true;           # Prevent modification of system clock
-    ProtectHostname = true;        # Prevent changing system hostname
-    LockPersonality = true;        # Prevent execution domain changes
+    # Many protections are intentionally omitted because getty spawns the
+    # user's interactive shell. If we restrict the kernel (e.g., ProtectKernelModules,
+    # ProtectKernelTunables) or namespaces (RestrictNamespaces, PrivateMounts),
+    # the logged-in user (even root via sudo) will be completely unable to load
+    # modules, mount disks, use containers, or configure the system.
+    # LockPersonality omitted: breaks 32-bit compatibility (Wine/Steam/chroots)
 
     # Memory & System Call Filtering
-    SystemCallArchitectures = "native";  # Use only native system calls
-    SystemCallErrorNumber = "EPERM";     # Return EPERM for blocked calls
-    SystemCallFilter = [
-      "~@obsolete"       # Block deprecated system calls
-      "~@debug"          # Block debugging system calls
-      "~@swap"           # Block swap management
-      "~@clock"          # Block clock configuration
-      "~@cpu-emulation"  # Block non-native CPU emulation
-    ];
+    # We cannot use aggressive SystemCallFilter here, because they would apply
+    # to all user applications run from this terminal.
+    # SystemCallArchitectures="native" would break 32-bit Wine/Steam.
+    # "~@debug" would break gdb, strace, and developer tools for the entire session.
 
     # Other Security Settings
-    UMask = "0022";  # Ensure console related files stay private
+    # UMask omitted: let PAM handle the user's UMask (e.g., via /etc/login.defs)
   };
 }
