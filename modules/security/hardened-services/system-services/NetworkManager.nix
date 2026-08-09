@@ -40,7 +40,7 @@
     ];
 
     # Filesystem Isolation — matches upstream levels
-    ProtectSystem = "strict";                   # Mount entire filesystem hierarchy read-only
+    ProtectSystem = "yes";                      # Protect /usr and /boot (upstream uses true)
     StateDirectory = "NetworkManager";          # Writable /var/lib/NetworkManager for persistent state
     RuntimeDirectory = "NetworkManager";        # Writable /run/NetworkManager for runtime data
     ConfigurationDirectory = "NetworkManager";  # Writable /etc/NetworkManager for connection profiles
@@ -72,7 +72,7 @@
     SystemCallArchitectures = "native";  # Allow only native syscalls
     SystemCallErrorNumber = "EPERM";     # Return EPERM for blocked syscalls
     SystemCallFilter = [
-      "~@mount"          # NM does not mount filesystems
+      # ~@mount intentionally NOT set: NM needs to mount/unmount network namespaces (e.g. for WireGuard)
       "~@swap"           # NM does not manage swap
       "~@obsolete"       # Block deprecated calls
       "~@cpu-emulation"  # Block CPU emulation
@@ -85,6 +85,7 @@
     # Other Security Settings
     KeyringMode = "private";  # NM does not use user keyrings
     PrivateIPC = true;         # NM does not use System V IPC
-    UMask = "0077";           # Restrictive file creation mask
+    # UMask = "0077" omitted: If NM manages /etc/resolv.conf, a 0077 mask creates it
+    # with 600 permissions, completely breaking DNS resolution for all non-root users.
   };
 }
