@@ -59,15 +59,17 @@
     MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
     SystemCallArchitectures = "native";  # Allow only native syscalls
     SystemCallErrorNumber = "EPERM";     # Return EPERM for blocked syscalls
-    # NOTE: @privileged is a superset of @chown, @clock, @module, @raw-io, @reboot, @swap.
-    # Only groups NOT included in @privileged are listed separately below.
     SystemCallFilter = [
-      "~@privileged"     # Block privileged syscalls (includes @chown @clock @module @raw-io @reboot @swap)
       "~@mount"          # Block filesystem mounting
+      "~@module"         # Block kernel module loading
+      "~@reboot"         # Block system reboot
+      "~@swap"           # Block swap management
+      "~@clock"          # Block clock configuration
       "~@resources"      # Block resource limit changes
       "~@obsolete"       # Block deprecated system calls
       "~@cpu-emulation"  # Block non-native CPU emulation
       "~@debug"          # Block debugging/tracing syscalls (ptrace, etc.)
+      "~@raw-io"         # Block raw I/O
     ];
 
     # Other Security Settings
