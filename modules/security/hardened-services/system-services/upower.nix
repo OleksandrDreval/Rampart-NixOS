@@ -49,10 +49,7 @@
     # socket" (upstream UPower comment). UPower needs AF_NETLINK for battery
     # hotplug, power supply state changes, and lid switch events.
     IPAddressDeny = "any";      # Deny all IP traffic as defense-in-depth
-    ProtectProc = "invisible";  # Hide processes of other users in /proc
-    ProcSubset = "pid";         # Only show the daemon's own PID
     RestrictNamespaces = true;  # Prohibit creation of any new namespaces
-    PrivateUsers = true;        # User namespace isolation (upstream uses this)
     RestrictAddressFamilies = [
       "AF_UNIX"     # Local D-Bus communication
       "AF_NETLINK"  # Udev events for battery hotplug
