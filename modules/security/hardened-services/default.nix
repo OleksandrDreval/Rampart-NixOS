@@ -29,6 +29,7 @@
     ./system-services/getty.nix
     ./system-services/iwd.nix
     ./system-services/libvirtd.nix
+    ./system-services/ModemManager.nix
     ./system-services/NetworkManager.nix
     ./system-services/NetworkManager-dispatcher.nix
     ./system-services/nix-daemon.nix
