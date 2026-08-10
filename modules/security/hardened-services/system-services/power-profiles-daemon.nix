@@ -41,6 +41,7 @@
     # Network & Process Isolation
     PrivateNetwork = true;      # Zero network access needed (D-Bus uses AF_UNIX)
     ProtectProc = "invisible";  # Hide processes of other users in /proc
+    ProcSubset = "pid";         # Only show the daemon's own PID
     RestrictNamespaces = true;  # Prohibit creation of any new namespaces
     RestrictAddressFamilies = [
       "AF_UNIX"     # Local D-Bus communication
@@ -62,8 +63,15 @@
       "~@debug"          # Block debugging syscalls
       "~@raw-io"         # Block raw I/O operations
       "~@clock"          # Block clock configuration
+      "~@keyring"        # Block kernel keyring access
     ];
 
     StateDirectory = "power-profiles-daemon";  # Writable state directory
+
+    # Other Security Settings
+    KeyringMode = "private";  # Isolated kernel keyring
+    PrivateIPC = true;         # Private IPC namespace
+    RemoveIPC = true;         # Clean up IPC objects on service stop
+    UMask = "0077";           # Restrictive file creation mask
   };
 }
