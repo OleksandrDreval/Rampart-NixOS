@@ -40,7 +40,6 @@
     # Kernel & Hardware Protection (seccomp-based only — no mount namespaces)
     ProtectKernelLogs = true;  # Does not read kernel logs (dmesg)
     ProtectClock = true;       # Prevent modification of system clock
-    ProtectHostname = true;    # Prevent changing system hostname
     LockPersonality = true;    # Prevent execution domain changes
 
     # Network & Process Isolation (seccomp/BPF-based — no mount namespaces)
@@ -56,7 +55,6 @@
     SystemCallErrorNumber = "EPERM";     # Return EPERM for blocked syscalls
     SystemCallFilter = [
       "~@reboot"         # Block system reboot
-      "~@swap"           # Block swap management
       "~@obsolete"       # Block deprecated system calls
       "~@cpu-emulation"  # Block non-native CPU emulation
       "~@debug"          # Block debugging syscalls
