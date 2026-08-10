@@ -4,53 +4,66 @@
   /*
     Rampart systemd-rfkill Hardening Module
 
-    This module hardens the systemd-rfkill service, which is responsible for
-    storing and restoring the radio transmitter (WiFi, Bluetooth, etc.)
-    state across reboots. It applies extreme sandboxing, including network
-    isolation, private user namespaces, and restricted system call filters,
-    while ensuring state persistence using a dedicated StateDirectory.
+    This module adds extra hardening on top of upstream systemd-rfkill.
+    Upstream rfkill has minimal hardening: only NoNewPrivileges=yes and
+    StateDirectory=systemd/rfkill. rfkill is a simple service that saves
+    and restores radio transmitter (WiFi, Bluetooth, etc.) state.
+
+    IMPORTANT — do NOT set:
+    - PrivateUsers: creates UID mapping that may cause permission issues
+      with rfkill state file persistence in /var/lib/systemd/rfkill/
   */
 
   systemd.services.systemd-rfkill.serviceConfig = {
-    # Privilege & Capability Restrictions
-    NoNewPrivileges = true;   # Disallow gaining new privileges via setuid/setgid
-    RestrictSUIDSGID = true;  # Disable SUID/SGID bits within the service
-    RestrictRealtime = true;  # Prevent abuse of real-time scheduling
-    # Restrict root capabilities to the bare minimum
-    CapabilityBoundingSet = [
-      "~CAP_SYS_PTRACE"
-      "~CAP_SYS_PACCT"
-    ];
+    # Privilege & Capability Restrictions (upstream only has NoNewPrivileges)
+    RestrictSUIDSGID = true;     # Disable SUID/SGID bits
+    RestrictRealtime = true;     # Prevent abuse of real-time scheduling
+    CapabilityBoundingSet = "";  # Drop ALL capabilities — rfkill needs none
 
     # Filesystem Isolation
-    ProtectSystem = "strict";  # Mount the entire filesystem read-only
-    ProtectHome = true;        # Make /home and /root completely inaccessible
-    StateDirectory = "systemd/rfkill";  # Allow persistent storage in /var/lib/systemd/rfkill
-    PrivateTmp = true;         # Use a private and isolated /tmp directory
+    ProtectSystem = "strict";          # Mount the entire filesystem read-only
+    ProtectHome = true;                # Make /home and /root completely inaccessible
+    PrivateTmp = true;                 # Use a private and isolated /tmp directory
+    PrivateMounts = true;              # Private mount namespace
 
     # Kernel & Hardware Protection
-    ProtectKernelLogs = true;     # Prevent reading kernel messages from dmesg
-    ProtectControlGroups = true;  # Mount cgroups hierarchy as read-only
-    ProtectClock = true;          # Prevent modification of system clock or RTC
-    ProtectHostname = true;       # Prevent changing system hostname
-    LockPersonality = true;       # Prevent execution domain changes (personalities)
+    ProtectKernelTunables = true;  # Does not write to sysfs
+    ProtectKernelModules = true;   # Does not load kernel modules
+    ProtectKernelLogs = true;      # Does not read kernel logs
+    ProtectControlGroups = true;   # Does not modify cgroups
+    ProtectClock = true;           # Does not modify system clock
+    ProtectHostname = true;        # Does not change hostname
+    LockPersonality = true;        # Prevent execution domain changes
 
     # Network & Process Isolation
-    PrivateNetwork = true;      # Completely isolate the service from the network
-    PrivateUsers = true;        # Map service UID/GID to a private user namespace
-    ProtectProc = "invisible";  # Hide processes of other users in /proc
-    RestrictNamespaces = true;  # Prohibit creation of any new namespaces
-    # Limit allowed network address families (local IPC only)
-    RestrictAddressFamilies = [ "AF_UNIX" ];
+    PrivateNetwork = true;      # Zero network access needed
+    IPAddressDeny = "any";      # Defense-in-depth: deny all IP traffic
+    ProtectProc = "invisible";  # Hide processes of other users
+    ProcSubset = "pid";         # Only show the daemon's own PID
+    RestrictNamespaces = true;  # Does not create namespaces
+    RestrictAddressFamilies = [ "AF_UNIX" ];  # Only local IPC
 
     # Memory & System Call Filtering
-    MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
-    SystemCallArchitectures = "native";  # Use only native system calls
+    MemoryDenyWriteExecute = true;       # Simple C daemon, no JIT
+    SystemCallArchitectures = "native";  # Allow only native system calls
+    SystemCallErrorNumber = "EPERM";     # Return EPERM for blocked syscalls
+    # NOTE: @privileged is a superset of @chown, @clock, @module, @raw-io, @reboot, @swap.
+    # Only groups NOT included in @privileged are listed separately below.
     SystemCallFilter = [
-      "~@swap"           # Block swap management
+      "~@privileged"     # Block privileged syscalls (includes @chown @clock @module @raw-io @reboot @swap)
+      "~@mount"          # Block filesystem mounting
+      "~@keyring"        # Block kernel keyring access
       "~@obsolete"       # Block deprecated system calls
       "~@cpu-emulation"  # Block non-native CPU emulation
-      "~@privileged"     # Block general privileged system calls
+      "~@debug"          # Block debugging syscalls
     ];
+
+    # Other Security Settings
+    DevicePolicy = "closed";  # Restrict device access to pseudo-devices
+    DeviceAllow = "/dev/rfkill rw";  # Allow access to rfkill for radio state management
+    KeyringMode = "private";  # Isolated kernel keyring
+    PrivateIPC = true;         # Private IPC namespace
+    RemoveIPC = true;         # Clean up IPC objects on service stop
+    UMask = "0077";           # Restrictive file creation mask
   };
 }
