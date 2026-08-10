@@ -14,7 +14,9 @@
   systemd.services.systemd-ask-password-console.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;      # Disallow gaining new privileges
-    CapabilityBoundingSet = "";  # All root capabilities dropped
+    # Note: CapabilityBoundingSet="" is intentionally omitted here because
+    # systemd-ask-password-console needs CAP_SYS_TTY_CONFIG to call vhangup()
+    # on the terminal for secure password entry.
     RestrictSUIDSGID = true;     # Disable SUID/SGID bits
     RestrictRealtime = true;     # Prevent abuse of real-time scheduling
 
@@ -27,35 +29,39 @@
     PrivateMounts = true;       # Use a private file system namespace
     PrivateDevices = false;     # Needs access to terminal devices
     PrivateNetwork = true;      # No network access needed for console prompts
+    IPAddressDeny = "any";      # Defense-in-depth: deny all IP traffic
 
     # Kernel & Hardware Protection
     ProtectKernelTunables = true;  # Protect /proc/sys, /sys, etc.
     ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
     ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
+    KeyringMode = "private";       # Allow isolated kernel keyring for password agent
     ProtectControlGroups = true;   # Mount cgroups hierarchy as read-only
     ProtectClock = true;           # Prevent changing system clock
     ProtectHostname = true;        # Prevent changing system hostname
     LockPersonality = true;        # Prevent execution domain changes
 
     # Network & Process Isolation
-    RestrictAddressFamilies = "none";  # No socket access required
+    RestrictAddressFamilies = [ "AF_UNIX" ];  # Only local IPC for password responses
     RestrictNamespaces = true;         # Prohibit creation of any new namespaces
+    ProcSubset = "pid";                # Only show the daemon's own PID
 
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
     SystemCallArchitectures = "native";  # Use only native system calls
+    SystemCallErrorNumber = "EPERM";     # Return EPERM for blocked syscalls
+    # NOTE: @privileged is a superset of @chown, @clock, @module, @raw-io, @reboot, @swap.
+    # Only groups NOT included in @privileged are listed separately below.
     SystemCallFilter = [
+      "~@privileged"     # Block privileged syscalls (includes @chown @clock @module @raw-io @reboot @swap)
       "~@mount"          # Block filesystem mounting
-      "~@raw-io"         # Block raw I/O access
-      "~@privileged"     # Block most privileged system calls
-      "~@keyring"        # Block kernel keyring access
-      "~@reboot"         # Block system reboot
-      "~@clock"          # Block direct clock manipulation
       "~@cpu-emulation"  # Block non-native CPU emulation
-      "~@module"         # Block kernel module operations
-      "~@swap"           # Block swap management
       "~@obsolete"       # Block deprecated system calls
-      "ptrace"           # Explicitly block process tracing
+      "~@debug"          # Block debugging/tracing syscalls (ptrace, etc.)
     ];
+
+    # Other Security Settings
+    RemoveIPC = true;  # Clean up IPC objects on service stop
+    UMask = "0077";    # Restrictive file creation mask
   };
 }
