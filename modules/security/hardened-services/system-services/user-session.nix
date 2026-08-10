@@ -12,36 +12,34 @@
 
   systemd.services."user@".serviceConfig = {
     # Kernel & Hardware Protection
-    ProtectClock = true;           # Prevent user from changing system clock
-    ProtectHostname = true;        # Prevent user from changing hostname
-    ProtectKernelTunables = true;  # Make kernel variables (/proc/sys) read-only
-    ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
-    ProtectKernelLogs = true;      # Prevent reading kernel logs (dmesg)
+    # Many protections are intentionally omitted here. Restricting the user session manager
+    # (user@.service) applies those restrictions to the ENTIRE desktop session (GNOME, KDE)
+    # and all interactive terminals. Setting ProtectKernelModules, ProtectClock, or
+    # SystemCallFilter would completely break legitimate administrative tasks (sudo modprobe,
+    # sudo reboot, etc.) for admin users on their desktop.
+    # KeyringMode is left as default ("inherit") so that PAM, ssh-agent, and gnome-keyring
+    # can share the user keyring across the session.
 
     # Process & File System Isolation
-    ProtectSystem = "full";     # Mount /usr, /boot, and /etc read-only
-    ProtectProc = "invisible";  # Hide processes of other users
-    PrivateTmp = true;          # Use isolated /tmp for each user session
+    # ProtectSystem="full" and PrivateTmp=true are NOT used. PrivateTmp would break
+    # X11 socket access (/tmp/.X11-unix). ProtectProc="invisible" would break tools
+    # like htop, hiding system processes from the user.
+    # LockPersonality is omitted to allow 32-bit execution (Steam, Wine).
 
     # Network & IPC isolation
-    RestrictAddressFamilies = [
-      "AF_UNIX"     # Local IPC (Wayland/X11/DBus)
-      "AF_NETLINK"  # Network status updates
-      "AF_INET"     # IPv4 access
-      "AF_INET6"    # IPv6 access
-    ];
+    # Cannot restrict AddressFamilies, as users legitimately use IPv4/IPv6, Netlink,
+    # and other sockets for daily applications (browsers, development tools).
 
     # Privilege & Capability Restrictions
-    RestrictRealtime = true;  # Prevent abuse of real-time scheduling
-    RestrictSUIDSGID = true;  # Disable SUID/SGID bits in the session
+    # RestrictRealtime is intentionally omitted. Even though PipeWire delegates RT
+    # scheduling to rtkit, systemd's restriction on the user session cgroup prevents
+    # rtkit from successfully elevating priority, leading to audio stutter.
 
     # Memory & System Call Filtering
-    SystemCallArchitectures = "native";  # Allow only native syscalls (prevents 32-bit exploitation)
+    # SystemCallArchitectures="native" is omitted to allow 32-bit syscalls for Steam/Wine.
+    SystemCallErrorNumber = "EPERM";     # Return EPERM for blocked syscalls
     SystemCallFilter = [
-      "~@swap"           # Block swap management
-      "~@module"         # Block kernel module calls
       "~@obsolete"       # Block deprecated/legacy syscalls
-      "~@cpu-emulation"  # Block non-native CPU emulation
     ];
   };
 }
