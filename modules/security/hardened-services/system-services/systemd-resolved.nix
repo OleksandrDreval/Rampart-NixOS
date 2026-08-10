@@ -12,7 +12,7 @@
   */
 
   systemd.services.systemd-resolved.serviceConfig = {
-    # Network & Process Isolation — upstream omits ProtectProc
-    ProtectProc = "invisible";  # Hide processes of other users in /proc
+    # Filesystem Isolation — upstream omits PrivateMounts
+    PrivateMounts = true;  # Private mount namespace
   };
 }
