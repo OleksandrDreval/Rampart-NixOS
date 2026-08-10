@@ -40,7 +40,9 @@
 
     # Network & Process Isolation
     PrivateNetwork = true;      # Zero network access needed
+    IPAddressDeny = "any";      # Explicitly deny all IP traffic
     ProtectProc = "invisible";  # Hide processes of other users in /proc
+    ProcSubset = "pid";         # Only show the daemon's own PID
     RestrictNamespaces = true;  # Prohibit creation of any new namespaces
     RestrictAddressFamilies = [ "AF_UNIX" ];  # Only local socket communication
 
@@ -48,22 +50,23 @@
     MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
     SystemCallArchitectures = "native";  # Allow only native system calls
     SystemCallErrorNumber = "EPERM";     # Return EPERM for blocked syscalls
+    # NOTE: @privileged is a superset of @chown, @clock, @module, @raw-io, @reboot, @swap.
+    # Only groups NOT included in @privileged are listed separately below.
     SystemCallFilter = [
-      "~@clock"          # Block clock configuration
+      "~@privileged"     # Block privileged syscalls (includes @chown @clock @module @raw-io @reboot @swap)
+      "~@mount"          # Block filesystem mounting
+      "~@keyring"        # Block kernel keyring access
+      "~@obsolete"       # Block deprecated system calls
       "~@cpu-emulation"  # Block non-native CPU emulation
       "~@debug"          # Block debugging syscalls
-      "~@module"         # Block kernel module operations
-      "~@mount"          # Block filesystem mounting
-      "~@obsolete"       # Block deprecated system calls
-      "~@raw-io"         # Block raw I/O operations
-      "~@reboot"         # Block system reboot
-      "~@swap"           # Block swap management
-      "~@privileged"     # Block privilege escalation syscalls
       # NOTE: ~@resources intentionally NOT blocked — libnuma constructor
       # calls set_mempolicy() at startup which is in @resources group
     ];
 
     DevicePolicy = "closed";  # Allow access only to pseudo-devices
+    KeyringMode = "private";  # Isolated kernel keyring
+    PrivateIPC = true;         # Private IPC namespace
+    RemoveIPC = true;         # Clean up IPC objects on service stop
     UMask = "0077";           # Restrictive file creation mask
   };
 }
