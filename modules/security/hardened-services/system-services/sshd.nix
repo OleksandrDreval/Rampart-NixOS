@@ -15,40 +15,24 @@
     NoNewPrivileges = false;  # Allow sudo/doas/run0
 
     # System resource isolation
-    ProtectSystem = "strict";   # Mount entire filesystem hierarchy read-only
+    # ProtectSystem="strict" is intentionally omitted. If set, it would be inherited
+    # by the user's login shell, preventing the user (even root via sudo) from writing
+    # to /etc, /var, or /usr/local during administrative tasks over SSH.
     RuntimeDirectory = "sshd";  # Writable /run/sshd for privilege separation
-    ProtectHome = false;        # Allow users to write to Home (otherwise SSH is useless)
 
-    # Deny access to deep kernel structures
-    ProtectClock = true;           # Prevent changing system clock
-    ProtectHostname = true;        # Prevent changing system hostname
-    ProtectKernelTunables = true;  # Mount kernel tunables (/proc/sys, ...) read-only
-    ProtectKernelModules = true;   # Prevent loading/unloading kernel modules
-    ProtectKernelLogs = true;      # Prevent access to kernel logs
-    ProtectControlGroups = true;   # Make cgroups hierarchy read-only
-    ProtectProc = "invisible";     # Hide processes not owned by the service
+    # Kernel & Hardware Protection
+    # Many protections are intentionally omitted because sshd spawns the user's
+    # interactive shell. Restricting the kernel (ProtectKernelModules, ProtectClock)
+    # or namespaces (RestrictNamespaces, PrivateMounts) would completely prevent
+    # the logged-in user from loading modules, mounting disks, or using containers.
+    # LockPersonality is also intentionally omitted: it would break `setarch` and 
+    # the execution of 32-bit environments (like pkgsi686Linux or steam-run) over SSH.
 
-    # Private namespace for /tmp and mounts/devices
-    PrivateTmp = true;     # Use a private /tmp directory
-    PrivateMounts = true;  # Use a private file system namespace
-
-    # System call restrictions
-    SystemCallFilter = [
-      "~@module"         # Block loading kernel modules
-      "~@obsolete"       # Block obsolete/insecure syscalls
-      "~@cpu-emulation"  # Block CPU emulation syscalls
-      "~@clock"          # Block changing system time
-      "~@keyring"        # Block kernel keyring access
-      "~@swap"           # Block swap manipulations
-    ];
-
-    SystemCallArchitectures = "native";  # Allow only native syscalls
-
-    # Other restrictions
-    RestrictRealtime = true;        # Prevent realtime scheduling
-    RestrictSUIDSGID = false;       # Needed for sudo/doas to work correctly
-    LockPersonality = true;         # Prevent changing execution domain
-    MemoryDenyWriteExecute = true;  # Prevent creating W+X memory regions
-    DevicePolicy = "closed";        # Allow access only to standard pseudo-devices
+    # Memory & System Call Filtering
+    # We cannot use aggressive SystemCallFilter, MemoryDenyWriteExecute, or
+    # DevicePolicy here, because they would apply to all user applications run
+    # from this SSH session (compilers, containers, X11 apps, etc).
+    # SystemCallArchitectures="native" is explicitly omitted because it completely
+    # breaks the execution of any 32-bit binaries by the user.
   };
 }
