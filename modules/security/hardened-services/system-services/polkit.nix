@@ -40,7 +40,8 @@
 
     # Network & Process Isolation
     PrivateNetwork = true;      # Zero network access needed (D-Bus uses AF_UNIX)
-    ProtectProc = "invisible";  # Hide processes of other users in /proc
+    # Note: ProtectProc and ProcSubset MUST NOT be used here. polkitd needs to
+    # read /proc/[pid] of connecting clients to verify their session and credentials.
     RestrictNamespaces = true;  # Prohibit creation of any new namespaces
     RestrictAddressFamilies = [ "AF_UNIX" ];  # Only local D-Bus communication
     IPAddressDeny = "any";      # Deny all IP traffic as defense-in-depth
@@ -61,7 +62,9 @@
       "~@resources"      # Block resource limit changes
     ];
 
-    DevicePolicy = "strict";  # Match upstream polkit — only explicitly allowed devices
+    DevicePolicy = "closed";  # Allow only pseudo-devices (/dev/null, /dev/urandom, etc.)
+    KeyringMode = "private";  # Isolated kernel keyring per service
+    PrivateIPC = true;        # Private IPC namespace
     RemoveIPC = true;         # Remove SysV IPC objects on service stop
     UMask = "0077";           # Restrictive file creation mask
   };
