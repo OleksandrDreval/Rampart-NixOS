@@ -16,5 +16,13 @@
   systemd.services.systemd-timesyncd.serviceConfig = {
     # Filesystem Isolation — upstream omits PrivateMounts
     PrivateMounts = true;  # Private mount namespace
+
+    # Kernel & Hardware Protection — document and reinforce upstream settings
+    ProtectKernelLogs = true;     # Does not read kernel logs (dmesg)
+    ProtectKernelModules = true;  # Does not load kernel modules
+    ProtectHostname = true;       # Does not change system hostname
+
+    # Process & Identity Isolation
+    ProtectProc = "invisible";  # Hide processes of other users in /proc
   };
 }
