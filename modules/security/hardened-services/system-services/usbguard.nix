@@ -9,9 +9,9 @@
     devices based on a policy ruleset. It needs write access to USB sysfs
     attributes for authorization and access to udev netlink events.
 
-    NOTE: ProtectSystem is "full" (not "strict") because USBGuard needs
-    write access to /sys/bus/usb/devices/.../authorized sysfs attributes.
-    ProtectKernelTunables is NOT set because it makes /sys/ read-only.
+    NOTE: ProtectSystem = "strict" explicitly excludes API filesystems like /sys.
+    ProtectKernelTunables is NOT set because it makes /sys/ read-only, which
+    would prevent USBGuard from writing to /sys/bus/usb/.../authorized.
 
     IMPORTANT — do NOT set:
     - PrivateNetwork: USBGuard monitors USB via kernel netlink uevent
@@ -24,7 +24,8 @@
     NoNewPrivileges = true;   # Disallow gaining new privileges
     RestrictSUIDSGID = true;  # Disable SUID/SGID bits
     RestrictRealtime = true;  # Prevent abuse of real-time scheduling
-    CapabilityBoundingSet = [
+    # lib.mkForce required: NixOS upstream uses space-separated string — type mismatch with list
+    CapabilityBoundingSet = lib.mkForce [
       "CAP_CHOWN"             # Manage rule file ownership
       "CAP_FOWNER"            # Rule file management
       "CAP_DAC_OVERRIDE"      # Access restricted rule files
@@ -33,7 +34,8 @@
     ];
 
     # Filesystem Isolation
-    ProtectSystem = "full";          # Protect /usr, /boot, /etc (not strict — needs sysfs)
+    # lib.mkForce required: NixOS upstream uses bool true — type mismatch with string
+    ProtectSystem = lib.mkForce "strict";  # Mount entire filesystem hierarchy read-only (excludes /sys, /dev, /proc)
     StateDirectory = "usbguard";     # Writable /var/lib/usbguard for rules and audit
     RuntimeDirectory = "usbguard";   # Writable /run/usbguard for IPC socket
     ProtectHome = true;              # Make /home and /root completely inaccessible
@@ -46,12 +48,9 @@
       "/dev/bus/usb"   # USB device nodes
     ];
 
-    # Device policy
-    DevicePolicy = "strict";
-    DeviceAllow = [
-      "/dev/null rw"
-      "/dev/urandom r"
-    ];
+    # Device policy — "closed" auto-allows pseudo-devices (/dev/null, /dev/zero,
+    # /dev/urandom, etc.) without needing explicit DeviceAllow entries
+    DevicePolicy = "closed";
 
     # Kernel & Hardware Protection
     ProtectKernelModules = true;   # Does not load kernel modules
@@ -86,9 +85,11 @@
       "~@raw-io"         # Block raw I/O operations
       "~@reboot"         # Block system reboot
       "~@swap"           # Block swap management
+      "~@keyring"        # Block kernel keyring access
     ];
 
-    OOMScoreAdjust = -1000;  # Critical security service — never OOM-kill
-    UMask = "0077";          # Restrictive file creation mask
+    OOMScoreAdjust = -1000;   # Critical security service — never OOM-kill
+    KeyringMode = "private";  # Isolated kernel keyring
+    PrivateIPC = true;        # Private IPC namespace
   };
 }
