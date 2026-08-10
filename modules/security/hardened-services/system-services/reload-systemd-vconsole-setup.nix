@@ -14,7 +14,9 @@
   systemd.services.reload-systemd-vconsole-setup.serviceConfig = {
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;      # Disallow gaining new privileges
-    CapabilityBoundingSet = "";  # All root capabilities dropped
+    # Note: CapabilityBoundingSet="" is intentionally omitted here because
+    # systemd-vconsole-setup needs CAP_SYS_TTY_CONFIG to configure the
+    # virtual console.
     RestrictSUIDSGID = true;     # Disable SUID/SGID bits
     RestrictRealtime = true;     # Prevent abuse of real-time scheduling
 
@@ -25,7 +27,9 @@
     PrivateTmp = true;          # Use a private and isolated /tmp directory
     PrivateMounts = true;       # Use a private file system namespace
     PrivateNetwork = true;      # No network access required
-    DevicePolicy = "closed";    # Deny access to most devices
+    IPAddressDeny = "any";      # Defense-in-depth: deny all IP traffic
+    # DevicePolicy = "closed" omitted: vconsole-setup must access /dev/tty*, /dev/vcs*, 
+    # and /dev/console to configure fonts and keymaps. "closed" would block this access.
 
     # Kernel & Hardware Protection
     ProtectKernelTunables = true;  # Protect /proc/sys, /sys, etc.
@@ -37,24 +41,29 @@
     LockPersonality = true;        # Prevent execution domain changes
 
     # Network & Process Isolation
-    RestrictAddressFamilies = "none";  # No socket access required
+    RestrictAddressFamilies = [ "AF_UNIX" ];  # Only local IPC for systemd communication
     RestrictNamespaces = true;         # Prohibit creation of any new namespaces
+    ProcSubset = "pid";                # Only show the daemon's own PID
 
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
     SystemCallArchitectures = "native";  # Use only native system calls
+    SystemCallErrorNumber = "EPERM";     # Return EPERM for blocked syscalls
+    # NOTE: @privileged is a superset of @chown, @clock, @module, @raw-io, @reboot, @swap.
+    # Only groups NOT included in @privileged are listed separately below.
     SystemCallFilter = [
+      "~@privileged"     # Block privileged syscalls (includes @chown @clock @module @raw-io @reboot @swap)
       "~@mount"          # Block filesystem mounting
-      "~@raw-io"         # Block raw I/O access
-      "~@privileged"     # Block most privileged system calls
       "~@keyring"        # Block kernel keyring access
-      "~@reboot"         # Block system reboot
-      "~@clock"          # Block direct clock manipulation
       "~@cpu-emulation"  # Block non-native CPU emulation
-      "~@module"         # Block kernel module operations
-      "~@swap"           # Block swap management
       "~@obsolete"       # Block deprecated system calls
-      "ptrace"           # Explicitly block process tracing
+      "~@debug"          # Block debugging/tracing syscalls (ptrace, etc.)
     ];
+
+    # Other Security Settings
+    KeyringMode = "private";  # Isolated kernel keyring
+    PrivateIPC = true;         # Private IPC namespace
+    RemoveIPC = true;         # Clean up IPC objects on service stop
+    UMask = "0077";           # Restrictive file creation mask
   };
 }
