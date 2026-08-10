@@ -22,5 +22,9 @@
   systemd.services.systemd-networkd.serviceConfig = {
     # Filesystem Isolation — upstream omits PrivateMounts
     PrivateMounts = true;  # Private mount namespace
+
+    # Kernel & Hardware Protection — document upstream settings for persistence
+    ProtectKernelLogs = true;     # Does not read kernel logs (dmesg)
+    ProtectKernelModules = true;  # Does not load kernel modules
   };
 }
