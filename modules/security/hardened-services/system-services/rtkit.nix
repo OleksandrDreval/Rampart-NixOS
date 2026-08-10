@@ -22,15 +22,18 @@
       # Minimal required capabilities
       "CAP_SYS_NICE"         # Needed for obvious reasons (rtkit-daemon.c)
       "CAP_DAC_READ_SEARCH"  # Needed so that we can verify resource limits (rtkit-daemon.c)
+      "CAP_SYS_CHROOT"       # Needed by rtkit to chroot() into a sandbox
+      "CAP_SETUID"           # Needed by rtkit to drop privileges internally
+      "CAP_SETGID"           # Needed by rtkit to drop privileges internally
     ];
 
     # Filesystem Isolation
     ProtectSystem = "strict";     # Mount the entire filesystem read-only
     ProtectHome = true;           # Make /home and /root completely inaccessible
-    PrivateTmp = "disconnected";  # NixOS upstream: enhanced isolation without mount propagation
+    PrivateTmp = true;            # Use an isolated /tmp directory
     PrivateMounts = true;         # Use a private file system namespace
     PrivateDevices = true;        # Make /dev inaccessible (except standard ones)
-    PrivateUsers = true;          # NixOS upstream: user/group ID mapping isolation
+    PrivateUsers = false;         # NixOS upstream explicitly sets this to false: rtkit needs to verify the user of the processes
 
     # Kernel & Hardware Protection
     ProtectClock = true;              # Prevent modification of system clock
@@ -38,7 +41,7 @@
     ProtectKernelTunables = true;     # Make kernel variables (/proc/sys) read-only
     ProtectKernelModules = true;      # Prevent loading/unloading kernel modules
     ProtectKernelLogs = true;         # Prevent reading kernel logs (dmesg)
-    ProtectControlGroups = "strict";  # NixOS upstream: stricter than bool true
+    ProtectControlGroups = true;      # Mount cgroups hierarchy as read-only
     LockPersonality = true;           # Prevent execution domain changes
 
     # Network & Process Isolation
