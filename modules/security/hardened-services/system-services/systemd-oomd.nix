@@ -18,6 +18,12 @@
     # Filesystem Isolation — upstream omits PrivateMounts
     PrivateMounts = true;  # Private mount namespace
 
+    # Kernel & Hardware Protection
+    ProtectKernelLogs = true;     # Does not read kernel logs (dmesg)
+    ProtectKernelModules = true;  # Does not load kernel modules
+    ProtectHostname = true;       # Does not change system hostname
+    ProtectClock = true;          # Does not modify system clock
+
     # Network & Process Isolation — upstream omits PrivateNetwork
     PrivateNetwork = true;  # Zero network access needed (AF_UNIX only via socket activation)
   };
