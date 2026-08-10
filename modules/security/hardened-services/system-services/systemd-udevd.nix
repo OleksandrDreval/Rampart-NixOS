@@ -4,31 +4,31 @@
   /*
     Rampart systemd-udevd Hardening Module
 
-    This module applies security hardening to the systemd-udevd service, which
-    manages device events and nodes in /dev. It implements a strict filesystem
-    sandbox, restricts access to kernel logs, and limits process visibility
-    and kernel capabilities to minimize the risk of privilege escalation.
+    This module adds extra hardening on top of upstream systemd-udevd.
+    Upstream already provides comprehensive sandboxing including:
+    CapabilityBoundingSet=~CAP_SYS_TIME CAP_WAKE_ALARM, PrivateMounts,
+    ProtectHostname, MemoryDenyWriteExecute, RestrictAddressFamilies
+    (AF_UNIX AF_NETLINK AF_INET AF_INET6), RestrictRealtime,
+    RestrictSUIDSGID, SystemCallFilter=@system-service @module @raw-io bpf
+    ~@clock, SystemCallErrorNumber=EPERM, SystemCallArchitectures=native,
+    LockPersonality, IPAddressDeny=any.
+
+    IMPORTANT — do NOT set any of these:
+    - ProtectSystem: udev rules execute via RUN+= and may write anywhere
+    - ProtectHome: creates mount namespace (see above)
+    - NoNewPrivileges: udev rules may execute SUID helpers
+    - RestrictNamespaces: upstream intentionally omits this
+    - ProtectProc: udev rules may need to inspect processes
+    - ProtectKernelTunables: udev rules may write to sysfs tunables
+    - ProtectKernelModules: upstream allows @module syscall group for udevd
+    - ProtectControlGroups: upstream uses Delegate=pids + DelegateSubgroup
   */
 
   systemd.services.systemd-udevd.serviceConfig = {
-    # Privilege & Capability Restrictions
-    NoNewPrivileges = true;   # Disallow gaining new privileges via setuid/setgid
-    # Block specific capabilities while allowing others for device management
-    CapabilityBoundingSet = "~CAP_SYS_PTRACE ~CAP_SYS_PACCT";
-
-    # Filesystem Isolation
-    ProtectSystem = "strict";   # Mount entire filesystem hierarchy read-only
-    RuntimeDirectory = "udev";  # Writable /run/udev for device database and runtime state
-    ProtectHome = true;         # Make /home and /root completely inaccessible
-
-    # Kernel & Hardware Protection
-    ProtectKernelLogs = true;  # Prevent reading kernel messages from dmesg
-    ProtectClock = true;       # Prevent modification of system clock or RTC
-    # NOTE: ProtectControlGroups intentionally omitted — upstream udevd uses
-    # Delegate=pids + DelegateSubgroup=udev for worker cgroup management
-
-    # Process & Identity Isolation
-    ProtectProc = "invisible";   # Hidden processes of other users in /proc
-    RestrictNamespaces = true;   # Prohibit creation of any new namespaces
+    # Extra hardening beyond upstream
+    ProtectKernelLogs = true;  # Does not need to read kernel logs (dmesg)
+    ProtectClock = true;       # Prevent clock modification (defense-in-depth over upstream cap restriction)
+    KeyringMode = "private";   # Isolated kernel keyring
+    PrivateTmp = true;         # Prevent access to global /tmp to thwart symlink attacks
   };
 }
