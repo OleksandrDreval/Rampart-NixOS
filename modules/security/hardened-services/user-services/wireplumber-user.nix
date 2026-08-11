@@ -17,17 +17,21 @@
     RestrictRealtime = true;  # WirePlumber does not need RT scheduling
 
     # Kernel Protection (seccomp-based)
-    ProtectHostname = true;  # Prevent changing system hostname
-    ProtectClock = true;     # Prevent modification of system clock
-    LockPersonality = true;  # Prevent execution domain changes
+    ProtectHostname = true;   # Prevent changing system hostname
+    ProtectClock = true;      # Prevent modification of system clock
+    LockPersonality = true;   # Prevent execution domain changes
+    KeyringMode = "private";  # Allow isolated kernel keyring for session manager
 
     # Namespace Restrictions
     RestrictNamespaces = true;  # Prohibit creation of any new namespaces
 
     # Network Restrictions (seccomp-based)
     RestrictAddressFamilies = [
-      "AF_UNIX"     # D-Bus, PipeWire socket
-      "AF_NETLINK"  # Device discovery via udev
+      "AF_UNIX"       # D-Bus, PipeWire socket
+      "AF_NETLINK"    # Device discovery via udev
+      "AF_INET"       # Network audio management
+      "AF_INET6"      # IPv6 network audio management
+      "AF_BLUETOOTH"  # Bluetooth audio devices management
     ];
 
     # Memory & System Call Filtering
@@ -43,6 +47,8 @@
       "~@module"         # Block kernel module operations
       "~@debug"          # Block debugging syscalls
       "~@raw-io"         # Block raw I/O operations
+      "~@clock"          # Block clock configuration
+      # allow use of an isolated kernel keyring for session secrets
     ];
 
     UMask = "0077";  # Restrictive file creation mask
