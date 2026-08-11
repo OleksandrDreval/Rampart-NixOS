@@ -2,25 +2,19 @@
 
 {
   /*
-    Rampart PipeWire User Service Hardening Module
+    Rampart PipeWire PulseAudio Compatibility Layer Hardening Module
 
-    This module hardens the PipeWire audio/video server and its companions
-    (pipewire-pulse PulseAudio compatibility layer). These are user services
-    running as the logged-in user, so most mount-namespace-based directives
-    (ProtectSystem, ProtectHome, PrivateDevices, etc.) are silently ignored
-    by systemd. We focus on seccomp-based restrictions that work reliably
-    in user service context.
-
-    IMPORTANT — do NOT set:
-    - RestrictRealtime: PipeWire REQUIRES real-time scheduling for
-      low-latency audio processing (SCHED_FIFO/SCHED_RR)
+    This module hardens pipewire-pulse, the PulseAudio compatibility layer.
+    As a user service running as the logged-in user, most mount-namespace-based 
+    directives are silently ignored by systemd. We focus on seccomp-based 
+    restrictions that work reliably in user service context.
   */
 
-  systemd.user.services.pipewire.serviceConfig = {
+  systemd.user.services.pipewire-pulse.serviceConfig = {
     # Privilege Restrictions
     NoNewPrivileges = true;   # Disallow privilege escalation
     RestrictSUIDSGID = true;  # Disable SUID/SGID bits
-    # RestrictRealtime intentionally NOT set — PipeWire needs RT scheduling
+    # RestrictRealtime intentionally NOT set — Pulse bridge needs RT scheduling for low latency
 
     # Kernel Protection (seccomp-based)
     ProtectHostname = true;   # Prevent changing system hostname
@@ -41,7 +35,7 @@
     ];
 
     # Memory & System Call Filtering
-    MemoryDenyWriteExecute = true;       # PipeWire uses no JIT engine
+    MemoryDenyWriteExecute = true;       # No JIT engine in PulseAudio bridge
     SystemCallArchitectures = "native";  # Allow only native system calls
     SystemCallErrorNumber = "EPERM";     # Return EPERM for blocked syscalls
     SystemCallFilter = [
