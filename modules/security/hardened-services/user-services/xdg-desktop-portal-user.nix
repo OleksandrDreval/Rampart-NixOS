@@ -22,9 +22,10 @@
     RestrictRealtime = true;  # Does not need real-time scheduling
 
     # Kernel Protection (seccomp-based)
-    ProtectHostname = true;  # Prevent changing system hostname
-    ProtectClock = true;     # Prevent modification of system clock
-    LockPersonality = true;  # Prevent execution domain changes
+    ProtectHostname = true;   # Prevent changing system hostname
+    ProtectClock = true;      # Prevent modification of system clock
+    LockPersonality = true;   # Prevent execution domain changes
+    KeyringMode = "private";  # Allow isolated kernel keyring for portal processes
 
     # Namespace Restrictions
     RestrictNamespaces = true;  # Prohibit creation of any new namespaces
@@ -50,6 +51,8 @@
       "~@module"         # Block kernel module operations
       "~@debug"          # Block debugging syscalls
       "~@raw-io"         # Block raw I/O operations
+      "~@clock"          # Block clock configuration
+      # allow use of an isolated kernel keyring for session secrets
     ];
 
     UMask = "0077";  # Restrictive file creation mask
@@ -63,9 +66,10 @@
     RestrictRealtime = true;  # Does not need real-time scheduling
 
     # Kernel Protection (seccomp-based)
-    ProtectHostname = true;  # Prevent changing system hostname
-    ProtectClock = true;     # Prevent modification of system clock
-    LockPersonality = true;  # Prevent execution domain changes
+    ProtectHostname = true;   # Prevent changing system hostname
+    ProtectClock = true;      # Prevent modification of system clock
+    LockPersonality = true;   # Prevent execution domain changes
+    KeyringMode = "private";  # Allow isolated kernel keyring for portal processes
 
     # Namespace Restrictions
     RestrictNamespaces = true;  # Prohibit creation of any new namespaces
@@ -91,6 +95,9 @@
       "~@cpu-emulation"  # Block non-native CPU emulation
       "~@module"         # Block kernel module operations
       "~@debug"          # Block debugging syscalls
+      "~@raw-io"         # Block raw I/O operations
+      "~@clock"          # Block clock configuration
+      # allow use of an isolated kernel keyring for session secrets
     ];
 
     UMask = "0077";  # Restrictive file creation mask
@@ -104,9 +111,10 @@
     RestrictRealtime = true;  # Does not need real-time scheduling
 
     # Kernel Protection (seccomp-based)
-    ProtectHostname = true;  # Prevent changing system hostname
-    ProtectClock = true;     # Prevent modification of system clock
-    LockPersonality = true;  # Prevent execution domain changes
+    ProtectHostname = true;   # Prevent changing system hostname
+    ProtectClock = true;      # Prevent modification of system clock
+    LockPersonality = true;   # Prevent execution domain changes
+    KeyringMode = "private";  # Allow isolated kernel keyring for portal processes
 
     # Namespace Restrictions
     RestrictNamespaces = true;  # Prohibit creation of any new namespaces
@@ -132,6 +140,8 @@
       "~@module"         # Block kernel module operations
       "~@debug"          # Block debugging syscalls
       "~@raw-io"         # Block raw I/O operations
+      "~@clock"          # Block clock configuration
+      # allow use of an isolated kernel keyring for session secrets
     ];
 
     UMask = "0077";  # Restrictive file creation mask
