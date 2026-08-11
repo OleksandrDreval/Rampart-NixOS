@@ -16,15 +16,15 @@
     # Privilege & Capability Restrictions
     NoNewPrivileges = true;   # Disallow gaining new privileges
     # Limit root capabilities to only those strictly required for wireless networking
-    CapabilityBoundingSet = "CAP_NET_ADMIN CAP_NET_RAW";
+    # CAP_CHOWN is required to set the group ownership of the control socket (for wpa_cli access)
+    CapabilityBoundingSet = [ "CAP_NET_ADMIN" "CAP_NET_RAW" "CAP_CHOWN" ];
     RestrictSUIDSGID = true;  # Disable SUID/SGID bits
     RestrictRealtime = true;  # Prevent abuse of real-time scheduling
 
-    # Filesystem & Process Isolation
+    # Filesystem
     ProtectSystem = "strict";             # Mount entire filesystem hierarchy read-only
     RuntimeDirectory = "wpa_supplicant";  # Writable /run/wpa_supplicant for control socket
     ProtectHome = true;                   # Make /home and /root completely inaccessible
-    ProtectProc = "invisible";  # Hidden processes of other users in /proc
     PrivateTmp = true;          # Use a private and isolated /tmp directory
     PrivateMounts = true;       # Use a private file system namespace
 
@@ -37,6 +37,8 @@
     LockPersonality = true;       # Prevent execution domain changes
 
     # Network & Process Isolation
+    ProtectProc = "invisible";  # Hidden processes of other users in /proc
+    ProcSubset = "pid";         # Only show the daemon's own PID
     RestrictAddressFamilies = [
       "AF_UNIX"     # Local IPC communication
       "AF_NETLINK"  # Kernel-user communication
@@ -49,18 +51,27 @@
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;       # Prevent W^X memory regions
     SystemCallArchitectures = "native";  # Use only native system calls
+    SystemCallErrorNumber = "EPERM";     # Return EPERM for blocked syscalls
     SystemCallFilter = [
       "~@mount"          # Block filesystem mounting
-      "~@raw-io"         # Block raw I/O access
-      "~@privileged"     # Block most privileged system calls
-      "~@keyring"        # Block kernel keyring access
+      "~@module"         # Block kernel module loading
       "~@reboot"         # Block system reboot
-      "~@module"         # Block kernel module operations
       "~@swap"           # Block swap management
+      "~@clock"          # Block clock configuration
+      "~@keyring"        # Block kernel keyring access
       "~@resources"      # Block resource limit changes
       "~@obsolete"       # Block deprecated system calls
       "~@cpu-emulation"  # Block non-native CPU emulation
-      "ptrace"           # Explicitly block process tracing
+      "~@debug"          # Block debugging/tracing syscalls (ptrace, etc.)
+      "~@raw-io"         # Block raw I/O
     ];
+
+    # Other Security Settings
+    DevicePolicy = "closed";  # Restrict device access to pseudo-devices
+    DeviceAllow = "/dev/rfkill rw";  # Allow access to rfkill for Wi-Fi state management
+    KeyringMode = "private";  # Isolated kernel keyring
+    PrivateIPC = true;        # Private IPC namespace
+    RemoveIPC = true;         # Clean up IPC objects on service stop
+    UMask = "0077";           # Restrictive file creation mask
   };
 }
