@@ -28,6 +28,7 @@
     LockPersonality = true;              # Prevent execution domain changes
     ProtectHostname = true;              # Prevent changing system hostname
     ProtectClock = true;                 # Prevent modification of system clock
+    SystemCallErrorNumber = "EPERM";     # Return EPERM for blocked syscalls
     SystemCallFilter = [
       "~@obsolete"       # Block deprecated system calls
       "~@cpu-emulation"  # Block non-native CPU emulation
@@ -54,15 +55,17 @@
 
     # Network Restrictions (seccomp-based)
     RestrictAddressFamilies = [
-      "AF_UNIX"     # D-Bus communication
-      "AF_INET"     # Network-dependent plugins
-      "AF_INET6"    # Network-dependent plugins
-      "AF_NETLINK"  # Device and network information
+      "AF_UNIX"       # D-Bus communication
+      "AF_INET"       # Network-dependent plugins
+      "AF_INET6"      # Network-dependent plugins
+      "AF_NETLINK"    # Device and network information
+      "AF_BLUETOOTH"  # KDE bluedevil Bluetooth integration
     ];
 
     # Memory & System Call Filtering
     # MDWE disabled — kded6 plugins may use QtWebEngine (V8 JIT)
     MemoryDenyWriteExecute = false;
+    SystemCallErrorNumber = "EPERM";  # Return EPERM for blocked syscalls
     SystemCallFilter = [
       "~@obsolete"       # Block deprecated system calls
       "~@cpu-emulation"  # Block non-native CPU emulation
@@ -88,6 +91,7 @@
     # MDWE disabled — plasmashell uses QtWebEngine (V8 JIT)
     # RestrictAddressFamilies not set — needs full network for widgets
     # RestrictNamespaces not set — may create namespaces for sandboxing
+    SystemCallErrorNumber = "EPERM";  # Return EPERM for blocked syscalls
     SystemCallFilter = [
       "~@obsolete"       # Block deprecated system calls
       "~@cpu-emulation"  # Block non-native CPU emulation
@@ -116,6 +120,7 @@
 
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;  # Simple daemon, no JIT
+    SystemCallErrorNumber = "EPERM";  # Return EPERM for blocked syscalls
     SystemCallFilter = [
       "~@mount"          # Block filesystem mounting
       "~@reboot"         # Block system reboot
@@ -125,6 +130,8 @@
       "~@module"         # Block kernel module operations
       "~@debug"          # Block debugging syscalls
       "~@raw-io"         # Block raw I/O operations
+      "~@clock"          # Block clock configuration
+      "~@keyring"        # Block kernel keyring access
     ];
 
     UMask = "0077";  # Restrictive file creation mask
@@ -151,6 +158,7 @@
 
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;  # SQLite-based daemon, no JIT
+    SystemCallErrorNumber = "EPERM";  # Return EPERM for blocked syscalls
     SystemCallFilter = [
       "~@mount"          # Block filesystem mounting
       "~@reboot"         # Block system reboot
@@ -160,6 +168,8 @@
       "~@module"         # Block kernel module operations
       "~@debug"          # Block debugging syscalls
       "~@raw-io"         # Block raw I/O operations
+      "~@clock"          # Block clock configuration
+      "~@keyring"        # Block kernel keyring access
     ];
 
     UMask = "0077";  # Restrictive file creation mask
@@ -189,12 +199,17 @@
 
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = false;  # May use Qt components with JIT
+    SystemCallErrorNumber = "EPERM";  # Return EPERM for blocked syscalls
     SystemCallFilter = [
       "~@obsolete"       # Block deprecated system calls
       "~@cpu-emulation"  # Block non-native CPU emulation
       "~@module"         # Block kernel module operations
       "~@swap"           # Block swap management
       "~@reboot"         # Block system reboot
+      "~@debug"          # Block debugging syscalls
+      "~@raw-io"         # Block raw I/O operations
+      "~@clock"          # Block clock configuration
+      "~@keyring"        # Block kernel keyring access
     ];
 
     UMask = "0077";  # Restrictive file creation mask
@@ -221,6 +236,7 @@
 
     # Memory & System Call Filtering
     MemoryDenyWriteExecute = true;  # Simple proxy, no JIT
+    SystemCallErrorNumber = "EPERM";  # Return EPERM for blocked syscalls
     SystemCallFilter = [
       "~@mount"          # Block filesystem mounting
       "~@reboot"         # Block system reboot
@@ -230,6 +246,8 @@
       "~@module"         # Block kernel module operations
       "~@debug"          # Block debugging syscalls
       "~@raw-io"         # Block raw I/O operations
+      "~@clock"          # Block clock configuration
+      "~@keyring"        # Block kernel keyring access
     ];
 
     UMask = "0077";  # Restrictive file creation mask
@@ -255,7 +273,9 @@
     RestrictAddressFamilies = [ "AF_UNIX" ];  # D-Bus only
 
     # Memory & System Call Filtering
-    MemoryDenyWriteExecute = false;  # Qt UI — may load Qt components with JIT
+    MemoryDenyWriteExecute = false;   # Qt UI — may load Qt components with JIT
+    KeyringMode = "private";          # Allow isolated kernel keyring for auth UI agent
+    SystemCallErrorNumber = "EPERM";  # Return EPERM for blocked syscalls
     SystemCallFilter = [
       "~@mount"          # Block filesystem mounting
       "~@reboot"         # Block system reboot
@@ -265,6 +285,46 @@
       "~@module"         # Block kernel module operations
       "~@debug"          # Block debugging syscalls
       "~@raw-io"         # Block raw I/O operations
+      "~@clock"          # Block clock configuration
+      # allow use of an isolated kernel keyring for policy/auth interactions
+    ];
+
+    UMask = "0077";  # Restrictive file creation mask
+  };
+
+  # kde-baloo — File indexer
+  systemd.user.services.kde-baloo.serviceConfig = {
+    # Privilege Restrictions
+    NoNewPrivileges = true;   # Disallow privilege escalation
+    RestrictSUIDSGID = true;  # Disable SUID/SGID bits
+    RestrictRealtime = true;  # Indexer does not need real-time scheduling
+
+    # Kernel Protection (seccomp-based)
+    ProtectHostname = true;              # Prevent changing system hostname
+    ProtectClock = true;                 # Prevent modification of system clock
+    LockPersonality = true;              # Prevent execution domain changes
+    SystemCallArchitectures = "native";  # Allow only native system calls
+
+    # Namespace Restrictions
+    RestrictNamespaces = true;  # Prohibit creation of any new namespaces
+
+    # Network Restrictions (seccomp-based)
+    RestrictAddressFamilies = [ "AF_UNIX" ];  # D-Bus communication only
+
+    # Memory & System Call Filtering
+    MemoryDenyWriteExecute = true;    # Pure C++ indexer, no JIT required
+    SystemCallErrorNumber = "EPERM";  # Return EPERM for blocked syscalls
+    SystemCallFilter = [
+      "~@mount"          # Block filesystem mounting
+      "~@reboot"         # Block system reboot
+      "~@swap"           # Block swap management
+      "~@obsolete"       # Block deprecated system calls
+      "~@cpu-emulation"  # Block non-native CPU emulation
+      "~@module"         # Block kernel module operations
+      "~@debug"          # Block debugging syscalls
+      "~@raw-io"         # Block raw I/O operations
+      "~@clock"          # Block clock configuration
+      "~@keyring"        # Block kernel keyring access
     ];
 
     UMask = "0077";  # Restrictive file creation mask
