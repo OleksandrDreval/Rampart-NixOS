@@ -57,9 +57,16 @@
     ./system-services/user-session.nix
     ./system-services/virtlogd.nix
     ./system-services/wpa_supplicant.nix
+    ./system-services/avahi-daemon.nix
+    ./system-services/chronyd.nix
+    ./system-services/firewall.nix
+    ./system-services/fwupd.nix
+    ./system-services/pcscd.nix
+    ./system-services/save-hwclock.nix
 
     # User service hardening (seccomp-based)
     ./user-services/pipewire-user.nix
+    ./user-services/pipewire-pulse-user.nix
     ./user-services/plasma-desktop-user.nix
     ./user-services/wireplumber-user.nix
     ./user-services/xdg-desktop-portal-user.nix
